@@ -49,6 +49,51 @@ footer img {
     width: 340px;
 }
 
+/* Forma */
+.FormaSection {
+    margin-top: 150px;
+    margin-bottom: 150px;
+}
+.Forma {
+    background-color: #6785ff;
+    padding: 40px;
+    border-radius: 10px;
+}
+.Forma h1 {
+    color: #e6fda3 !important;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+form label {
+    color:  #ffffff !important;
+}
+.req {
+    color: rgb(209, 24, 25);
+}
+.dugme {
+    background-color: #e6fda3 !important;
+    color:  #6785ff !important;
+}
+
+/* Error */
+.error {
+    color: rgb(209, 24, 25);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 9px;
+}
+::-webkit-scrollbar-track {
+    background-color: white;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #2A2C35;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #1f2027;
+}
+
 /* Manji ekrani */
 @media only screen and (max-width: 992px) {
     .navBtn {
