@@ -4,6 +4,7 @@ require('dotenv').config();
 const router = express.Router();
 const connection = require("../controller/config");
 const bcrypt = require("bcrypt");
+const Korisnik = require("../models/Korisnik");
 
 router.use(session({
     secret: process.env.SESSION_SECRET,  
@@ -52,8 +53,7 @@ router.post("/login", (req, res) => {
             const validPassword = await bcrypt.compare(lozinka, results[0].lozinka);
             if (validPassword) {
                 req.session.user = {
-                    id: results[0].KorisnikID,
-                    username: results[0].nickname
+                    username: results[0].nickname 
                 };
                 return res.redirect("/");
             }
@@ -61,6 +61,7 @@ router.post("/login", (req, res) => {
         res.render("login", { error: "Invalid username or password" });
     });
 });
+
 
 
 router.get("/logout", (req, res) => {
@@ -72,5 +73,46 @@ router.get("/logout", (req, res) => {
         res.redirect("/login");
     });
 });
+
+router.get("/register", (req, res) => {
+    if (req.session.user) {
+        return res.redirect("/");
+    }
+    res.render("register"); // Pretpostavljamo da postoji odgovarajuća view datoteka
+});
+
+// POST: Obrada podataka za registraciju
+router.post("/register", async (req, res) => {
+    const { ime, prezime, nickname, email, lozinka, datumRodjenja } = req.body;
+
+    try {
+        const checkQuery = "SELECT * FROM Korisnik WHERE email = ? OR nickname = ?";
+        const [existingUser] = await new Promise((resolve, reject) => {
+            connection.query(checkQuery, [email, nickname], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        });
+
+        if (existingUser) {
+            return res.status(400).render("register", { error: "Email ili korisničko ime već postoje!" });
+        }
+
+        const hashedPassword = await bcrypt.hash(lozinka, 10);
+
+        const newUser = new Korisnik(ime, prezime, nickname, email, hashedPassword, datumRodjenja);
+        await newUser.save();
+
+        req.session.user = {
+            username: newUser.nickname
+        };
+
+        res.redirect("/");
+    } catch (error) {
+        console.error("Error during registration:", error);
+        res.status(500).render("register", { error: "Došlo je do greške. Pokušajte ponovo." });
+    }
+});
+
 
 module.exports = router;
