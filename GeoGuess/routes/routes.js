@@ -31,6 +31,7 @@ const isAuthenticated = (req, res, next) =>
 
 
 router.get("/", isAuthenticated, (req, res) => {
+    console.log(req.session.user);
     res.render("index", { title: "Home", user: req.session.user });
 });
 
@@ -102,7 +103,7 @@ router.post("/register", async (req, res) => {
         });
 
         if (existingUser) {
-            return res.status(400).render("register", { error: "Email ili korisničko ime već postoje!" });
+            return res.status(400).render("register", { error: "Email ili korisničko ime već postoje!", title: "" });
         }
 
         const hashedPassword = await bcrypt.hash(lozinka, 10);
@@ -120,7 +121,7 @@ router.post("/register", async (req, res) => {
         });
     } catch (error) {
         console.error("Error during registration:", error);
-        res.status(500).render("register", { error: "Došlo je do greške. Pokušajte ponovo." });
+        res.status(500).render("register", { error: "Došlo je do greške. Pokušajte ponovo.", title: "Register" });
     }
 });
 
