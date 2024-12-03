@@ -4,7 +4,8 @@
     <%- include("./partials/head.ejs") %>
 
 <body>
-    <%- include("./partials/nav.ejs") %> 
+    <%- include("./partials/nav.ejs") %>
+    <div style="margin-top: 100px; margin-bottom: 100px;">
     <h1>Registracija</h1>
     <form action="/register" method="POST">
         <input type="text" name="ime" placeholder="Ime" required>
@@ -18,6 +19,7 @@
     <% if (error) { %>
         <p style="color: red;"><%= error %></p>
     <% } %>
+    </div>
     <%- include("./partials/footer.ejs") %>
 </body>
 </html>

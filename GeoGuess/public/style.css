@@ -8,13 +8,18 @@ nav {
     box-shadow: 0 8px 18px rgba(103, 133, 255, 0.5);
 }
 
+.navLogo {
+    width: 164px;
+    height: auto;
+}
+
 .navLink {
     color: white !important;
 }
 
-.navLogo {
-    width: 164px;
-    height: auto;
+.username {
+    color: white !important;
+    margin-right: 15px;
 }
 
 .navBtn {
@@ -26,12 +31,27 @@ nav {
     background-color: #dafc77 !important;
 }
 
+/* Footer */
+footer {
+    background-color: #6785ff;
+}
+footer p {
+    color: white;
+    font-size: 18px;
+    margin: 0;
+}
+footer img {
+    width: 340px;
+}
+
 /* Manji ekrani */
 @media only screen and (max-width: 992px) {
     .navBtn {
         width: 100%;
     }
-    .nav-item {
-        margin-bottom: 5px;
+    .username {
+        margin-right: 0px;
+        margin-top: 8px;
+        margin-bottom: 12px;
     }
 }
