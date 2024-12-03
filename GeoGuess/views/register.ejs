@@ -2,17 +2,17 @@
 <html lang="en">
 
     <%- include("./partials/head.ejs") %>
-
+    <script src="/registerValidation.js"></script>
 <body>
     <%- include("./partials/nav.ejs") %> 
     <h1>Registracija</h1>
     <form action="/register" method="POST">
-        <input type="text" name="ime" placeholder="Ime" required><span id=""></span>
-        <input type="text" name="prezime" placeholder="Prezime" required>
-        <input type="text" name="nickname" placeholder="Korisničko ime" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="lozinka" placeholder="Lozinka" required>
-        <input type="date" name="datumRodjenja" placeholder="Datum rođenja" required>
+        <input type="text" name="ime" placeholder="Ime">
+        <input type="text" name="prezime" placeholder="Prezime">
+        <input type="text" name="nickname" placeholder="Korisničko ime">
+        <input type="email" name="email" placeholder="Email">
+        <input type="password" name="lozinka" placeholder="Lozinka">
+        <input type="date" name="datumRodjenja" placeholder="Datum rođenja">
         <button type="submit">Registruj se</button>
     </form>
     <% if (error) { %>
