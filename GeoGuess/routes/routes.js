@@ -9,12 +9,13 @@ const Korisnik = require("../models/Korisnik");
 Korisnik.setConnection(connection);
 
 router.use(session({
-    secret: process.env.SESSION_SECRET,  
-    resave: false,
-    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET || "defaultsecret", // Proveri da li postoji vrednost u .env
+    resave: false, // Nemoj ponovo snimati sesiju ako se ne menja
+    saveUninitialized: false, // Nemoj čuvati prazne sesije
     cookie: {
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000 * 60 * 60 * 24 * 7
+        maxAge: 1000 * 60 * 60 * 24 * 7, // Kolačić traje 7 dana
+        secure: false, // Postavi na true ako koristiš HTTPS
+        sameSite: "lax" // Poboljšava sigurnost sesije
     }
 }));
 
@@ -35,9 +36,8 @@ router.get("/", isAuthenticated, (req, res) => {
 
 
 router.get("/login", (req, res) => {
-    console.log(req.session.cookie);
     if (req.session.user) {
-        return res.redirect("/"); 
+        return res.redirect("/");
     }
     res.render("login");
 });
@@ -55,24 +55,28 @@ router.post("/login", (req, res) => {
         if (results.length > 0) {
             const validPassword = await bcrypt.compare(lozinka, results[0].lozinka);
             if (validPassword) {
-                req.session.user = {
-                    username: results[0].nickname 
-                };
-                return res.redirect("/");
+                req.session.user = { username: results[0].nickname };
+                req.session.save((saveErr) => { // Eksplicitno sačuvaj sesiju
+                    if (saveErr) {
+                        console.error("Error saving session:", saveErr);
+                        return res.status(500).send("Error saving session");
+                    }
+                    return res.redirect("/");
+                });
+                return; // Završava funkciju nakon redirect-a
             }
         }
         res.render("login", { error: "Invalid username or password" });
     });
 });
 
-
-
 router.get("/logout", (req, res) => {
     req.session.destroy((err) => {
         if (err) {
+            console.error("Error destroying session:", err);
             return res.status(500).send("Unable to log out");
         }
-        res.clearCookie("connect.sid");
+        res.clearCookie("connect.sid", { path: "/" }); // Postavi tačan path ako je drugačiji
         res.redirect("/login");
     });
 });
@@ -106,16 +110,20 @@ router.post("/register", async (req, res) => {
         const newUser = new Korisnik(ime, prezime, nickname, email, hashedPassword, datumRodjenja);
         await newUser.save();
 
-        req.session.user = {
-            username: newUser.nickname
-        };
-
-        res.redirect("/");
+        req.session.user = { username: newUser.nickname };
+        req.session.save((err) => { // Sačuvaj sesiju
+            if (err) {
+                console.error("Error saving session:", err);
+                return res.status(500).send("Error saving session");
+            }
+            res.redirect("/");
+        });
     } catch (error) {
         console.error("Error during registration:", error);
         res.status(500).render("register", { error: "Došlo je do greške. Pokušajte ponovo." });
     }
 });
+
 
 
 module.exports = router;
