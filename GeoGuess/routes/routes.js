@@ -68,7 +68,7 @@ router.post("/login", (req, res) => {
                 return; // Završava funkciju nakon redirect-a
             }
         }
-        res.render("login", { error: "Invalid username or password" });
+        res.render("login", { error: "Invalid username or password", title: "Login", user: "" });
     });
 });
 
