@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const routes = require("./routes/products_routes");
+const routes = require("./routes/routes");
 const dotenv = require("dotenv");
 dotenv.config();
 
