@@ -49,7 +49,41 @@ footer img {
     width: 340px;
 }
 
-/* Forma */
+/* Prijava */
+.PrijavaSection {
+    margin-top: 150px;
+    margin-bottom: 150px;
+}
+.Prijava {
+    background-color: #6785ff;
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.Prijava h1 {
+    color: #e6fda3 !important;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+.Prijava label {
+    color:  #ffffff !important;
+    margin-bottom: 0;
+}
+.Prijava input {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 326px;
+}
+.PrijavaRegistracija {
+    color: white;
+}
+.PrijavaRegistracija a {
+    color: #e6fda3;
+}
+
+/* Registracija */
 .FormaSection {
     margin-top: 150px;
     margin-bottom: 150px;
@@ -62,7 +96,7 @@ footer img {
 .Forma h1 {
     color: #e6fda3 !important;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 form label {
     color:  #ffffff !important;
