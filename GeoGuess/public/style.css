@@ -1,0 +1,37 @@
+* {
+    font-family: "Poppins", serif;
+}
+
+/* Navigacija */
+nav {
+    background-color: #6785ff;
+    box-shadow: 0 8px 18px rgba(103, 133, 255, 0.5);
+}
+
+.navLink {
+    color: white !important;
+}
+
+.navLogo {
+    width: 164px;
+    height: auto;
+}
+
+.navBtn {
+    background-color: #e6fda3 !important;
+    color:  #6785ff !important;
+}
+
+.navBtn:hover {
+    background-color: #dafc77 !important;
+}
+
+/* Manji ekrani */
+@media only screen and (max-width: 992px) {
+    .navBtn {
+        width: 100%;
+    }
+    .nav-item {
+        margin-bottom: 5px;
+    }
+}
