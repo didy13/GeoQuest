@@ -39,7 +39,7 @@ router.get("/login", (req, res) => {
     if (req.session.user) {
         return res.redirect("/");
     }
-    res.render("login");
+    res.render("login",{title: "Login"});
 });
 
 
@@ -85,7 +85,7 @@ router.get("/register", (req, res) => {
     if (req.session.user) {
         return res.redirect("/");
     }
-    res.render("register", { error: "" }); // Pretpostavljamo da postoji odgovarajuća view datoteka
+    res.render("register", { error: "",title: "Register" }); // Pretpostavljamo da postoji odgovarajuća view datoteka
 });
 
 // POST: Obrada podataka za registraciju
