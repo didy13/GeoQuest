@@ -22,6 +22,7 @@ router.use(session({
 
 const isAuthenticated = (req, res, next) =>
 {
+    console.log(req.session);
     if (req.session.user) {
         next(); 
     } else {
@@ -32,7 +33,7 @@ const isAuthenticated = (req, res, next) =>
 
 router.get("/", isAuthenticated, (req, res) => {
     console.log(req.session.user);
-    res.render("index", { title: "Home", user: req.session.user });
+    res.render("index", { title: "Home", user: req.session.user.username });
 });
 
 
@@ -40,7 +41,7 @@ router.get("/login", (req, res) => {
     if (req.session.user) {
         return res.redirect("/");
     }
-    res.render("login",{title: "Login"});
+    res.render("login",{title: "Login", user: ""});
 });
 
 
@@ -86,7 +87,7 @@ router.get("/register", (req, res) => {
     if (req.session.user) {
         return res.redirect("/");
     }
-    res.render("register", { error: "",title: "Register" }); // Pretpostavljamo da postoji odgovarajuća view datoteka
+    res.render("register", { error: "",title: "Register", user: "" }); // Pretpostavljamo da postoji odgovarajuća view datoteka
 });
 
 // POST: Obrada podataka za registraciju
@@ -103,7 +104,7 @@ router.post("/register", async (req, res) => {
         });
 
         if (existingUser) {
-            return res.status(400).render("register", { error: "Email ili korisničko ime već postoje!", title: "" });
+            return res.status(400).render("register", { error: "Email ili korisničko ime već postoje!", title: "" , user: ""});
         }
 
         const hashedPassword = await bcrypt.hash(lozinka, 10);
@@ -121,7 +122,7 @@ router.post("/register", async (req, res) => {
         });
     } catch (error) {
         console.error("Error during registration:", error);
-        res.status(500).render("register", { error: "Došlo je do greške. Pokušajte ponovo.", title: "Register" });
+        res.status(500).render("register", { error: "Došlo je do greške. Pokušajte ponovo.", title: "Register", user: "" });
     }
 });
 
