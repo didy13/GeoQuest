@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <%- include("./partials/head.ejs") %>
+
+<body>
+    <%- include("./partials/nav.ejs") %> 
+    <h1>Registracija</h1>
+    <form action="/register" method="POST">
+        <input type="text" name="ime" placeholder="Ime" required>
+        <input type="text" name="prezime" placeholder="Prezime" required>
+        <input type="text" name="nickname" placeholder="Korisničko ime" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="lozinka" placeholder="Lozinka" required>
+        <input type="date" name="datumRodjenja" placeholder="Datum rođenja" required>
+        <button type="submit">Registruj se</button>
+    </form>
+    <% if (error) { %>
+        <p style="color: red;"><%= error %></p>
+    <% } %>
+    <%- include("./partials/footer.ejs") %>
+</body>
+</html>
