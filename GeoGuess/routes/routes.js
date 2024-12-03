@@ -5,6 +5,8 @@ const router = express.Router();
 const connection = require("../controller/config");
 const bcrypt = require("bcrypt");
 const Korisnik = require("../models/Korisnik");
+const registerValidation = require("../public/registerValidation");
+const { validationResult } = require('express-validator');
 
 Korisnik.setConnection(connection);
 
@@ -91,8 +93,17 @@ router.get("/register", (req, res) => {
 });
 
 // POST: Obrada podataka za registraciju
-router.post("/register", async (req, res) => {
-    const { ime, prezime, nickname, email, lozinka, datumRodjenja } = req.body;
+router.post('/register', [
+    // your validation rules here
+], async (req, res) => {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        // Return validation errors to the 'register' view
+        return res.status(400).render('register', { errors: errors.array() });
+    }
+
+    const { ime, prezime, nickname, email, lozinka, date } = req.body;
 
     try {
         const checkQuery = "SELECT * FROM Korisnik WHERE email = ? OR nickname = ?";
@@ -109,7 +120,7 @@ router.post("/register", async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(lozinka, 10);
 
-        const newUser = new Korisnik(ime, prezime, nickname, email, hashedPassword, datumRodjenja);
+        const newUser = new Korisnik(ime, prezime, nickname, email, hashedPassword, date);
         await newUser.save();
 
         req.session.user = { username: newUser.nickname };
