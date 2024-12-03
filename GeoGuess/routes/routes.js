@@ -38,18 +38,18 @@ router.get("/login", (req, res) => {
 
 
 router.post("/login", (req, res) => {
-    const { username, password } = req.body;
+    const { nickname, lozinka } = req.body;
     const query = "SELECT * FROM Korisnik WHERE nickname = ? AND lozinka = ?";
 
-    connection.query(query, [username, password], (err, results) => {
+    connection.query(query, [nickname, lozinka], (err, results) => {
         if (err) {
             return res.status(500).send("Internal Server Error");
         }
 
         if (results.length > 0) {
             req.session.user = {
-                id: results[0].id,
-                username: results[0].username
+                id: results[0].KorisnikID,
+                username: results[0].nickname
             };
             res.redirect("/");
         } else {
