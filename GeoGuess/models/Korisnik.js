@@ -12,7 +12,8 @@ class Korisnik {
     {
         connection = conn;
     }
-    save() {
+    save() 
+    {
         const query = 'INSERT INTO Korisnik (ime, prezime, nickname, email, lozinka, datumRodjenja) VALUES (?, ?, ?, ?, ?, ?)';
         const values = [this.ime, this.prezime, this.nickname, this.email, this.lozinka, this.datumRodjenja];
     
@@ -24,7 +25,20 @@ class Korisnik {
             resolve(results);
           });
         });
-      }
+    }
+    delete() {
+      const query = 'DELETE FROM Korisnik WHERE email = ?';
+      const values = [this.email]; 
+  
+      return new Promise((resolve, reject) => {
+          connection.query(query, values, (error, results) => {
+              if (error) {
+                  return reject(error);
+              }
+              resolve(results);
+          });
+      });
+  }
 
     
 }
