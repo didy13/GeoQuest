@@ -1,16 +1,18 @@
 const express = require("express");
 const session = require("express-session");
+require('dotenv').config();
 const router = express.Router();
 const connection = require("../controller/config");
+const bcrypt = require("bcrypt");
 
-const crypto = require('crypto');
-
-const secretKey = crypto.randomBytes(64).toString('hex');
 router.use(session({
-    secret: secretKey,  
+    secret: process.env.SESSION_SECRET,  
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }  
+    cookie: {
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
 }));
 
 
@@ -39,22 +41,24 @@ router.get("/login", (req, res) => {
 
 router.post("/login", (req, res) => {
     const { nickname, lozinka } = req.body;
-    const query = "SELECT * FROM Korisnik WHERE nickname = ? AND lozinka = ?";
+    const query = "SELECT * FROM Korisnik WHERE nickname = ?";
 
-    connection.query(query, [nickname, lozinka], (err, results) => {
+    connection.query(query, [nickname], async (err, results) => {
         if (err) {
             return res.status(500).send("Internal Server Error");
         }
 
         if (results.length > 0) {
-            req.session.user = {
-                id: results[0].KorisnikID,
-                username: results[0].nickname
-            };
-            res.redirect("/");
-        } else {
-            res.render("login", { error: "Invalid username or password" });
+            const validPassword = await bcrypt.compare(lozinka, results[0].lozinka);
+            if (validPassword) {
+                req.session.user = {
+                    id: results[0].KorisnikID,
+                    username: results[0].nickname
+                };
+                return res.redirect("/");
+            }
         }
+        res.render("login", { error: "Invalid username or password" });
     });
 });
 
@@ -64,6 +68,7 @@ router.get("/logout", (req, res) => {
         if (err) {
             return res.status(500).send("Unable to log out");
         }
+        res.clearCookie("connect.sid");
         res.redirect("/login");
     });
 });
