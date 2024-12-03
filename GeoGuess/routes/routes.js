@@ -6,6 +6,8 @@ const connection = require("../controller/config");
 const bcrypt = require("bcrypt");
 const Korisnik = require("../models/Korisnik");
 
+Korisnik.setConnection(connection);
+
 router.use(session({
     secret: process.env.SESSION_SECRET,  
     resave: false,
