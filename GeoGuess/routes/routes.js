@@ -35,6 +35,7 @@ router.get("/", isAuthenticated, (req, res) => {
 
 
 router.get("/login", (req, res) => {
+    console.log(req.session.cookie);
     if (req.session.user) {
         return res.redirect("/"); 
     }
