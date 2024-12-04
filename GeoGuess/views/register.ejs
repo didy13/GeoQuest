@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
     <%- include("./partials/head.ejs") %>
-    <script src="/registerValidation.js"></script>
 <body>
-    <%- include("./partials/nav.ejs") %>
-
+    <header>
+        <%- include("./partials/nav.ejs") %>
+    </header>
     <section class="FormaSection container">
         <div class="Forma">
             <h1>Registracija</h1>
@@ -42,6 +41,9 @@
                 </div>
                 <button type="submit" class="btn dugme mt-2">Napravi nalog</button>
             </form>
+            <div class="PrijavaRegistracija mt-5">
+                <p>Imaš nalog? <a href="/login">Prijavi se</a></p>
+            </div>
         </div>
         <% if (error) { %>
             <div class="text-cetner mt-3">
