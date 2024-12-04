@@ -48,6 +48,12 @@ router.get("/kviz", (req, res) => {
     }
     res.render("kviz",{title: "kviz", user: req.session.user.username});
 });
+router.get("/admin", (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/");
+    }
+    res.render("admin",{title: "admin", user: req.session.user.username});
+});
 router.get("/login", (req, res) => {
     if (req.session.user) {
         return res.redirect("/");
@@ -197,8 +203,163 @@ router.post('/register', registerValidation, async (req, res) => {
 });
 
 
+router.post('/adminDeleteUser', async (req, res) => {
+    const { username } = req.body;
 
+    if (!username) {
+        return res.status(400).render('admin', {
+            errors: [{ msg: 'Korisničko ime je obavezno!' }], // Validation error
+            formData: req.body,
+            title: 'Delete User',
+            user: req.session.user || '',
+        });
+    }
 
+    try {
+        // Check if the user exists
+        const checkQuery = "SELECT * FROM Korisnik WHERE nickname = ?";
+        const user = await new Promise((resolve, reject) => {
+            connection.query(checkQuery, [username], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        });
+
+        if (user.length === 0) {
+            // User not found
+            return res.status(404).render('admin', {
+                errors: [{ msg: 'Korisnik sa datim korisničkim imenom ne postoji!' }], 
+                formData: req.body,
+                title: 'Delete User',
+                user: req.session.user || '',
+            });
+        }
+
+        // Delete the user
+        const deleteQuery = "DELETE FROM Korisnik WHERE nickname = ?";
+        await new Promise((resolve, reject) => {
+            connection.query(deleteQuery, [username], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+            
+        });
+        if(req.session.user === username){
+
+        }
+        
+        // Redirect to a success page or display a success message
+        res.render('admin', {
+            success: `Korisnik "${username}" je uspešno obrisan.`,
+            formData: {}, // Clear the form data
+            title: 'Delete User',
+            user: req.session.user.username || '',
+        });
+        res.redirect("/admin");
+    } catch (error) {
+        console.error('Error during user deletion:', error);
+
+        // Render the deletion page with a general error message
+        res.status(500).render('admin', {
+            errors: [{ msg: 'Došlo je do greške. Pokušajte ponovo.' }],
+            formData: req.body,
+            title: 'Delete User',
+            user: req.session.user || '',
+        });
+    }
+});
+
+router.post('/adminUpdateQuestion', async (req, res) => {
+    const { tekstPitanja, tezina, tacanOdgovor, imeDrzave, tipPitanja } = req.body;
+
+    if (!imeDrzave && !tipPitanja) {
+        return res.status(400).render('adminQuestion', {
+            errors: [{ msg: 'Morate uneti ime države i tip pitanja!' }],
+            formData: req.body,
+            title: 'Update Question',
+            user: req.session.user || '',
+        });
+    }
+
+    try {
+        let updateQuery = '';
+        let updateValues = [];
+
+        // Update the question text if provided
+        if (tekstPitanja) {
+            updateQuery = `
+                UPDATE Pitanje AS p
+                JOIN Drzava AS d ON p.DrzavaID = d.DrzavaID
+                SET tekstPitanja = ?
+                WHERE d.naziv = ? AND p.tipPitanja = ?
+            `;
+            updateValues = [tekstPitanja, imeDrzave, tipPitanja];
+            await executeUpdateQuery(updateQuery, updateValues);
+        }
+
+        // Update the difficulty if provided
+        if (tezina) {
+            updateQuery = `
+                UPDATE Pitanje AS p
+                JOIN Drzava AS d ON p.DrzavaID = d.DrzavaID
+                SET tezina = ?
+                WHERE d.naziv = ? AND p.tipPitanja = ?
+            `;
+            updateValues = [tezina, imeDrzave, tipPitanja];
+            await executeUpdateQuery(updateQuery, updateValues);
+        }
+
+        // Update the correct answer if provided
+        if (tacanOdgovor) {
+            updateQuery = `
+                UPDATE Pitanje AS p
+                JOIN Drzava AS d ON p.DrzavaID = d.DrzavaID
+                SET tacanOdgovor = ?
+                WHERE d.naziv = ? AND p.tipPitanja = ?
+            `;
+            updateValues = [tacanOdgovor, imeDrzave, tipPitanja];
+            await executeUpdateQuery(updateQuery, updateValues);
+        }
+
+        // If nothing is updated
+        if (!tekstPitanja && !tezina && !tacanOdgovor) {
+            return res.status(400).render('adminUpdateQuestion', {
+                errors: [{ msg: 'Morate uneti bar jednu vrednost za ažuriranje!' }],
+                formData: req.body,
+                title: 'Update Question',
+                user: req.session.user || '',
+            });
+        }
+
+        // Render success message
+        res.render('admin', {
+            success: 'Pitanje je uspešno ažurirano.',
+            formData: {}, // Clear the form data
+            title: 'Update Question',
+            user: req.session.user || '',
+        });
+    } catch (error) {
+        console.error('Error during question update:', error);
+
+        // Render the page with a general error message
+        res.status(500).render('adminUpdateQuestion', {
+            errors: [{ msg: 'Došlo je do greške. Pokušajte ponovo.' }],
+            formData: req.body,
+            title: 'Update Question',
+            user: req.session.user || '',
+        });
+    }
+});
+
+// Helper function to execute queries
+async function executeUpdateQuery(query, values) {
+    return new Promise((resolve, reject) => {
+        connection.query(query, values, (err, results) => {
+            if (err) return reject(err);
+            resolve(results);
+        });
+    });
+}
 
 
 router.get('/kvizLaka', (req, res) => {
