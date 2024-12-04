@@ -274,3 +274,15 @@ form label {
 .container {
     padding: 20px;
 }
+.table {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f0f8ff;
+}

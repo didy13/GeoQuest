@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("./partials/head.ejs") %>
+<body>
+    <header>
+        <%- include("./partials/nav.ejs") %> 
+    </header>
+
+    <div class="container mt-5">
+        <h1 class="text-center" style="color: #6785ff;">Rang lista</h1>
+        <div class="table-responsive mt-4">
+            <table class="table table-bordered table-hover">
+                <thead class="table-primary">
+                    <tr>
+                        <th>#</th>
+                        <th>Korisničko ime</th>
+                        <th>Broj tačnih odgovora</th>
+                        <th>Vreme završetka</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (rezultati.length > 0) { %>
+                        <% rezultati.forEach((rezultat, index) => { %>
+                            <tr>
+                                <td><%= index + 1 %></td>
+                                <td><%= rezultat.nickname %></td>
+                                <td><%= rezultat.bodovi %></td>
+                                <td><%= rezultat.datum %></td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4" class="text-center">Nema rezultata za prikaz.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <%- include("./partials/footer.ejs") %>
+</body>
+</html>
