@@ -1,216 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
     <%- include("./partials/head.ejs") %>
-    <body>
-        <header>
-            <%- include("./partials/nav.ejs") %>
-        </header>
-
-        <!-- Dugme za početak kviza -->
-        <div class="container mt-5 text-center" id="start-container">
-            <button id="start-button" class="btn btn-primary btn-lg" onclick="startQuiz()">Kreni kviz</button>
+<body>
+    <header>
+        <%- include("./partials/nav.ejs") %>
+    </header>
+    <section class="pocetakKviza container">
+        <div id="start-container">
+            <div>
+                <h1>Dobrodošli u GeoGuess Kviz! 🌍</h1>
+                <p>Spremite se da testirate svoje znanje o geografiji i osvajate bodove!</p>
+                
+                <h2>Pravila kviza:</h2>
+                <ul style="text-align: left; margin: 20px auto; line-height: 1.6;">
+                    <li><strong>Vreme za igru:</strong> Imate tačno <strong>15 minuta</strong> da završite kviz. Ako ne završite na vreme, vaš rezultat će se automatski predati.</li>
+                    <li>
+                        <strong>Pitanja:</strong>
+                        <ul>
+                            <li>Kviz se sastoji od <strong>30 pitanja</strong>, podeljenih u tri težine:</li>
+                            <ul>
+                                <li>10 lakih pitanja</li>
+                                <li>10 srednjih pitanja</li>
+                                <li>10 teških pitanja</li>
+                            </ul>
+                        </ul>
+                    </li>
+                    <li><strong>Bodovanje:</strong> Što brže odgovorite na pitanje, više bodova osvajate. Pazite na vreme, jer svaki sekund se računa!</li>
+                    <li><strong>Teme pitanja:</strong> Možete očekivati pitanja o:
+                        <ul>
+                            <li>Prepoznavanju zastava</li>
+                            <li>Glavnim gradovima</li>
+                            <li>Broju stanovnika</li>
+                            <li>Kontinentima i još mnogo toga!</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <button id="start-button" class="btn dugme kvizDugme" onclick="startQuiz()">Kreni kviz</button>
         </div>
+    </section>
 
-        <!-- Glavni sadržaj kviza -->
-        <div class="container mt-5 d-none" id="quiz-container">
-            <!-- Brojač pitanja i tajmer -->
-            <div class="row mb-3">
-                <div class="col-6 text-start">
-                    <div id="question-count" class="font-weight-bold fs-5">
-                        <span id="current-question">1</span> / <span id="total-questions">3</span>
-                    </div>
-                </div>
-                <div class="col-6 text-end">
-                    <div id="timer" class="fs-5">00:00</div>
+    <div class="container mt-5 d-none" id="quiz-container">
+        <div class="row mb-3">
+            <div class="col-6 text-start">
+                <div id="question-count" class="font-weight-bold fs-5">
+                    <span id="current-question">1</span> / <span id="total-questions">3</span>
                 </div>
             </div>
-
-            <!-- Kartice -->
-            <div class="d-flex justify-content-center position-relative overflow-hidden" id="card-container" style="height: 300px;">
-                <div class="card question-card active-card" id="card1">
-                    <div class="card-body">
-                        <h5 class="card-title">Pitanje 1:</h5>
-                        <p class="card-text">Koji je glavni grad Francuske?</p>
-                    </div>
-                </div>
-                <div class="card question-card hidden-right" id="card2">
-                    <div class="card-body">
-                        <h5 class="card-title">Pitanje 2:</h5>
-                        <p class="card-text">Koji je glavni grad Italije?</p>
-                    </div>
-                </div>
-                <div class="card question-card hidden-right" id="card3">
-                    <div class="card-body">
-                        <h5 class="card-title">Pitanje 3:</h5>
-                        <p class="card-text">Koji je glavni grad Španije?</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Navigacija i završetak -->
-            <div class="row mt-3">
-                <div class="col-6 text-start">
-                    <button id="prev-button" class="btn btn-secondary w-50" onclick="previousQuestion()" disabled>←</button>
-                </div>
-                <div class="col-6 text-end">
-                    <button id="next-button" class="btn btn-secondary w-50" onclick="nextQuestion()">→</button>
-                    <button id="finish-button" class="btn btn-success w-50 d-none" onclick="finishQuiz()">Završi kviz</button>
-                </div>
+            <div class="col-6 text-end">
+                <div id="timer" class="fs-5">00:00</div>
             </div>
         </div>
 
-        <!-- Modal za statistiku -->
-        <div id="stats-modal" class="d-none">
-            <div id="modal-backdrop" class="backdrop"></div>
-            <div class="stats-form">
-                <h3 class="text-center">Statistika kviza</h3>
-                <p class="fs-5">Ukupno vreme: <span id="total-time"></span></p>
-                <a href="/kviz"><button class="btn btn-primary w-100" onclick="closeStats()">Zatvori</button></a>
+        <div class="d-flex justify-content-center position-relative overflow-hidden" id="card-container" style="height: 300px;">
+            <div class="card question-card active-card" id="card1">
+                <div class="card-body">
+                    <h5 class="card-title">Pitanje 1:</h5>
+                    <p class="card-text">Koji je glavni grad Francuske?</p>
+                </div>
+            </div>
+            <div class="card question-card hidden-right" id="card2">
+                <div class="card-body">
+                    <h5 class="card-title">Pitanje 2:</h5>
+                    <p class="card-text">Koji je glavni grad Italije?</p>
+                </div>
+            </div>
+            <div class="card question-card hidden-right" id="card3">
+                <div class="card-body">
+                    <h5 class="card-title">Pitanje 3:</h5>
+                    <p class="card-text">Koji je glavni grad Španije?</p>
+                </div>
             </div>
         </div>
 
-        <!-- Stilovi -->
-        <style>
-            .question-card {
-                width: 300px;
-                height: 200px;
-                position: absolute;
-                transition: transform 0.5s ease, opacity 0.5s ease;
-                opacity: 0;
-            }
+        <div class="row mt-3">
+            <div class="col-6 text-start">
+                <button id="prev-button" class="btn btn-secondary w-50" onclick="previousQuestion()" disabled>←</button>
+            </div>
+            <div class="col-6 text-end">
+                <button id="next-button" class="btn btn-secondary w-50" onclick="nextQuestion()">→</button>
+                <button id="finish-button" class="btn btn-success w-50 d-none" onclick="finishQuiz()">Završi kviz</button>
+            </div>
+        </div>
+    </div>
 
-            .hidden-left {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
+    <div id="stats-modal" class="d-none">
+        <div id="modal-backdrop" class="backdrop"></div>
+        <div class="stats-form Statistika">
+            <h3 class="text-center mb-3">Statistika kviza</h3>
+            <p class="text-center">Ukupno vreme: <span id="total-time"></span></p>
+            <a href="/kviz"><button class="btn w-100 dugme" onclick="closeStats()">Zatvori</button></a>
+        </div>
+    </div>
 
-            .hidden-right {
-                transform: translateX(100%);
-                opacity: 0;
-            }
+    <%- include("./partials/footer.ejs") %>
 
-            .active-card {
-                transform: translateX(0);
-                opacity: 1;
-            }
+    <script>
+        let currentCardIndex = 0;
+        const totalQuestions = 3;
+        let timerInterval;
+        let secondsElapsed = 0;
 
-            /* Modal stilovi */
-            .backdrop {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.7);
-                z-index: 1000;
-            }
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                const minutes = Math.floor(secondsElapsed / 60);
+                const seconds = secondsElapsed % 60;
+                document.getElementById("timer").textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
 
-            .stats-form {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: white;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-                z-index: 1010;
-                width: 300px;
-            }
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
 
-            /* Sakriva ostatak stranice kad je modal aktivan */
-            body.modal-open {
-                overflow: hidden;
-            }
-        </style>
+        function startQuiz() {
+            document.getElementById("start-container").classList.add("d-none");
+            document.getElementById("quiz-container").classList.remove("d-none");
+            startTimer();
+            updateCards();
+        }
 
-        <!-- JavaScript -->
-        <script>
-            let currentCardIndex = 0;
-            const totalQuestions = 3;
-            let timerInterval;
-            let secondsElapsed = 0;
+        function updateCards() {
+            const cards = document.querySelectorAll(".question-card");
+            cards.forEach((card, index) => {
+                if (index < currentCardIndex) {
+                    card.classList.add("hidden-left");
+                    card.classList.remove("hidden-right", "active-card");
+                } else if (index > currentCardIndex) {
+                    card.classList.add("hidden-right");
+                    card.classList.remove("hidden-left", "active-card");
+                } else {
+                    card.classList.add("active-card");
+                    card.classList.remove("hidden-left", "hidden-right");
+                }
+            });
 
-            // Pokreće tajmer
-            function startTimer() {
-                timerInterval = setInterval(() => {
-                    secondsElapsed++;
-                    const minutes = Math.floor(secondsElapsed / 60);
-                    const seconds = secondsElapsed % 60;
-                    document.getElementById("timer").textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                }, 1000);
-            }
+            document.getElementById("prev-button").disabled = currentCardIndex === 0;
+            document.getElementById("next-button").classList.toggle("d-none", currentCardIndex === totalQuestions - 1);
+            document.getElementById("finish-button").classList.toggle("d-none", currentCardIndex !== totalQuestions - 1);
 
-            // Zaustavlja tajmer
-            function stopTimer() {
-                clearInterval(timerInterval);
-            }
+            document.getElementById("current-question").textContent = currentCardIndex + 1;
+        }
 
-            // Počinje kviz
-            function startQuiz() {
-                document.getElementById("start-container").classList.add("d-none");
-                document.getElementById("quiz-container").classList.remove("d-none");
-                startTimer();
+        function nextQuestion() {
+            if (currentCardIndex < totalQuestions - 1) {
+                currentCardIndex++;
                 updateCards();
             }
+        }
 
-            // Ažurira prikaz kartica
-            function updateCards() {
-                const cards = document.querySelectorAll(".question-card");
-                cards.forEach((card, index) => {
-                    if (index < currentCardIndex) {
-                        card.classList.add("hidden-left");
-                        card.classList.remove("hidden-right", "active-card");
-                    } else if (index > currentCardIndex) {
-                        card.classList.add("hidden-right");
-                        card.classList.remove("hidden-left", "active-card");
-                    } else {
-                        card.classList.add("active-card");
-                        card.classList.remove("hidden-left", "hidden-right");
-                    }
-                });
-
-                // Ažuriranje dugmadi
-                document.getElementById("prev-button").disabled = currentCardIndex === 0;
-                document.getElementById("next-button").classList.toggle("d-none", currentCardIndex === totalQuestions - 1);
-                document.getElementById("finish-button").classList.toggle("d-none", currentCardIndex !== totalQuestions - 1);
-
-                // Ažuriranje broja pitanja
-                document.getElementById("current-question").textContent = currentCardIndex + 1;
+        function previousQuestion() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateCards();
             }
+        }
 
-            // Sledeće pitanje
-            function nextQuestion() {
-                if (currentCardIndex < totalQuestions - 1) {
-                    currentCardIndex++;
-                    updateCards();
-                }
-            }
+        function finishQuiz() {
+            stopTimer();
+            document.getElementById("total-time").textContent = document.getElementById("timer").textContent;
+            document.body.classList.add("modal-open");
+            document.getElementById("stats-modal").classList.remove("d-none");
+        }
 
-            // Prethodno pitanje
-            function previousQuestion() {
-                if (currentCardIndex > 0) {
-                    currentCardIndex--;
-                    updateCards();
-                }
-            }
+        function closeStats() {
+            document.body.classList.remove("modal-open");
+            document.getElementById("stats-modal").classList.add("d-none");
+        }
 
-            // Završava kviz i prikazuje modal
-            function finishQuiz() {
-                stopTimer();
-                document.getElementById("total-time").textContent = document.getElementById("timer").textContent;
-                document.body.classList.add("modal-open");
-                document.getElementById("stats-modal").classList.remove("d-none");
-            }
-
-            // Zatvara modal
-            function closeStats() {
-                document.body.classList.remove("modal-open");
-                document.getElementById("stats-modal").classList.add("d-none");
-            }
-
-            // Inicijalizacija
-            updateCards();
-        </script>
-    </body>
+        updateCards();
+    </script>
+</body>
 </html>

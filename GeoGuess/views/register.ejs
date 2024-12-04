@@ -5,6 +5,7 @@
     <header>
         <%- include("./partials/nav.ejs") %>
     </header>
+    
     <section class="FormaSection container">
         <div class="Forma">
             <h1>Registracija</h1>
@@ -42,7 +43,7 @@
                 <div class="row">
                     <div class="col-sm-6 col-12 mb-3">
                         <label for="Nickname">Korisničko ime <span class="req">*</span></label>
-                        <input type="text" name="nickname" placeholder="Unestie korisničko ime" class="form-control mb-1">
+                        <input type="text" name="nickname" placeholder="Unesite korisničko ime" class="form-control mb-1">
                         <% if (errors && errors.length > 0) { %>
                             <div class="error-messages">
                                 <%  errors.forEach(function(error) { %>
