@@ -69,7 +69,7 @@ LIMIT 10;
     });
 });
 router.get("/admin", (req, res) => {
-    if (!req.session.user) {
+    if (!req.session.user.admin) {
         return res.redirect("/");
     }
     res.render("admin",{title: "admin", user: req.session.user.username});
@@ -280,6 +280,72 @@ router.post('/adminDeleteUser', async (req, res) => {
             });
             return;
         }
+        res.redirect("/admin");
+        // Redirect to a success page or display a success message
+        res.render('admin', {
+            success: `Korisnik "${username}" je uspešno obrisan.`,
+            formData: {}, // Clear the form data
+            title: 'Delete User',
+            user: req.session.user.username || '',
+        });
+        
+    } catch (error) {
+        console.error('Error during user deletion:', error);
+
+        // Render the deletion page with a general error message
+        res.status(500).render('admin', {
+            errors: [{ msg: 'Došlo je do greške. Pokušajte ponovo.' }],
+            formData: req.body,
+            title: 'Delete User',
+            user: req.session.user || '',
+        });
+    }
+});
+
+router.post('/adminUpdateUser', async (req, res) => {
+    const { username } = req.body;
+
+    if (!username) {
+        return res.status(400).render('admin', {
+            errors: [{ msg: 'Korisničko ime je obavezno!' }], // Validation error
+            formData: req.body,
+            title: 'Update User',
+            user: req.session.user || '',
+        });
+    }
+
+    try {
+        // Check if the user exists
+        const checkQuery = "SELECT * FROM Korisnik WHERE nickname = ?";
+        const user = await new Promise((resolve, reject) => {
+            connection.query(checkQuery, [username], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        });
+
+        if (user.length === 0) {
+            // User not found
+            return res.status(404).render('admin', {
+                errors: [{ msg: 'Korisnik sa datim korisničkim imenom ne postoji!' }], 
+                formData: req.body,
+                title: 'Delete User',
+                user: req.session.user || '',
+            });
+        }
+
+        // Delete the user
+        const deleteQuery = "UPDATE Korisnik SET admin = 1 Korisnik WHERE nickname = ?";
+        await new Promise((resolve, reject) => {
+            connection.query(deleteQuery, [username], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+            
+        });
+        
+            
+        
         res.redirect("/admin");
         // Redirect to a success page or display a success message
         res.render('admin', {
