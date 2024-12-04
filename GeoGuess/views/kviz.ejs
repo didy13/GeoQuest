@@ -62,12 +62,6 @@
                     </div>
                 <% }); %>
             </div>
-            <div class="card question-card hidden-right" id="card3">
-                <div class="card-body">
-                    <h5 class="card-title">Pitanje 3:</h5>
-                    <p class="card-text">Koji je glavni grad Španije?</p>
-                </div>
-            </div>
         </div>
 
         <div class="row mt-3">
@@ -118,7 +112,7 @@
                 startTimer();
                 updateCards();
             }
-        }
+        
 
             function updateCards() {
                 const cards = document.querySelectorAll(".question-card");
@@ -141,7 +135,7 @@
 
                 document.getElementById("current-question").textContent = currentCardIndex + 1;
             }
-        }
+        
 
             function nextQuestion() {
                 if (currentCardIndex < totalQuestions - 1) {

@@ -50,7 +50,6 @@ router.get("/kviz", (req, res) => {
        SELECT Pitanje.tekstPitanja, 
        Pitanje.tipPitanja, 
        Pitanje.tezina, 
-       Pitanje.tacanOdgovor, 
        Drzava.naziv AS drzavaNaziv
 FROM Pitanje
 JOIN Drzava ON Pitanje.DrzavaID = Drzava.DrzavaID
@@ -218,53 +217,6 @@ router.post('/register', registerValidation, async (req, res) => {
 });
 
 
-
-
-
-
-router.get('/kvizLaka', (req, res) => {
-    getRandomEasyQuestion((err, question) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Internal Server Error');
-        }
-        if (question) {
-            return res.render('question', { question });
-        } else {
-            return res.send('No questions available.');
-        }
-    });
-});
-
-// Route for fetching a medium difficulty question
-router.get('/kvizSrednja', (req, res) => {
-    getRandomMediumQuestion((err, question) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Internal Server Error');
-        }
-        if (question) {
-            return res.render('question', { question });
-        } else {
-            return res.send('No questions available.');
-        }
-    });
-});
-
-// Route for fetching a hard question
-router.get('/kvizTeska', (req, res) => {
-    getRandomHardQuestion((err, question) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Internal Server Error');
-        }
-        if (question) {
-            return res.render('question', { question });
-        } else {
-            return res.send('No questions available.');
-        }
-    });
-});
 
 /*router.post('/register', registerValidation, (req, res) => {
     // Check for validation errors
