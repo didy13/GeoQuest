@@ -46,26 +46,79 @@ router.get("/kviz", (req, res) => {
     if (!req.session.user) {
         return res.redirect("/");
     }
-    const query = `
-       SELECT Pitanje.tekstPitanja, 
-       Pitanje.tipPitanja, 
-       Pitanje.tezina, 
-       Drzava.naziv AS drzavaNaziv
-FROM Pitanje
-JOIN Drzava ON Pitanje.DrzavaID = Drzava.DrzavaID
-WHERE Pitanje.tezina IN ('Lako', 'Srednje', 'Teško')
-ORDER BY RAND()
-LIMIT 10;
 
+    const query = `
+        SELECT 
+            Pitanje.PitanjeID, 
+            Pitanje.tekstPitanja, 
+            Pitanje.tipPitanja, 
+            Pitanje.tezina, 
+            Drzava.naziv AS drzavaNaziv, 
+            CASE 
+                WHEN Pitanje.tipPitanja = 'Glavni grad' THEN Drzava.glavniGrad
+                WHEN Pitanje.tipPitanja = 'Populacija' THEN Drzava.brojStanovnika
+                WHEN Pitanje.tipPitanja = 'Zastava' THEN Drzava.zastava
+                WHEN Pitanje.tipPitanja = 'Kontinent' THEN Drzava.kontinent
+            END AS tacanOdgovor
+        FROM 
+            Pitanje
+        JOIN 
+            Drzava ON Pitanje.DrzavaID = Drzava.DrzavaID
+        WHERE 
+            Pitanje.tezina IN ('Lako', 'Srednje', 'Teško')
+        ORDER BY 
+            RAND()
+        LIMIT 10;
     `;
 
     connection.query(query, (err, results) => {
         if (err) {
             console.error("Error fetching questions:", err);
-            // Osiguraj da se odgovor šalje samo jednom
             return res.status(500).send("Server Error");
         }
-    res.render("kviz",{title: "kviz", user: req.session.user, questions: results});
+
+        // Uzmi 3 nasumična netačna odgovora za svako pitanje
+        const questionsWithAnswers = [];
+
+        results.forEach((question, index) => {
+            const incorrectQuery = `
+                SELECT 
+                    Drzava.naziv AS netacanOdgovor
+                FROM 
+                    Drzava
+                WHERE 
+                    Drzava.DrzavaID != (SELECT DrzavaID FROM Pitanje WHERE PitanjeID = ?)
+                ORDER BY 
+                    RAND()
+                LIMIT 3;
+            `;
+
+            connection.query(incorrectQuery, [question.PitanjeID], (err, incorrectResults) => {
+                if (err) {
+                    console.error("Error fetching incorrect answers:", err);
+                    return res.status(500).send("Server Error");
+                }
+
+                // Kombinuj tačan odgovor sa netačnim
+                const answers = [question.tacanOdgovor, ...incorrectResults.map(r => r.netacanOdgovor)];
+                // Randomizuj odgovore
+                const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
+
+                questionsWithAnswers.push({
+                    ...question,
+                    answers: shuffledAnswers
+                });
+
+                // Kada se svi odgovori dodaju, renderuj kviz
+                if (questionsWithAnswers.length === results.length) {
+                    res.render("kviz", {
+                        title: "GeoGuess Kviz",
+                        user: req.session.user,
+                        questions: questionsWithAnswers
+                    });
+                }
+            });
+        });
     });
 });
 router.get("/admin", (req, res) => {

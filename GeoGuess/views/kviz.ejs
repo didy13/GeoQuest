@@ -8,41 +8,38 @@
     <section class="pocetakKviza container">
         <div id="start-container">
             <div>
-                <h1>Dobrodošli u GeoGuess Kviz! 🌍</h1>
-                <p>Spremite se da testirate svoje znanje o geografiji i osvajate bodove!</p>
+                <div class="mb-4">
+                    <h1>Dobrodošli u GeoGuess Kviz! 🌍</h1>
+                    <p>Spremite se da testirate svoje znanje o geografiji i osvajate bodove!</p>
+                </div>
                 
-                <h2>Pravila kviza:</h2>
-                <ul style="text-align: left; margin: 20px auto; line-height: 1.6;">
-                    <li><strong>Vreme za igru:</strong> Imate tačno <strong>15 minuta</strong> da završite kviz. Ako ne završite na vreme, vaš rezultat će se automatski predati.</li>
-                    <li>
-                        <strong>Pitanja:</strong>
-                        <ul>
-                            <li>Kviz se sastoji od <strong>30 pitanja</strong>, podeljenih u tri težine:</li>
-                            <ul>
-                                <li>10 lakih pitanja</li>
-                                <li>10 srednjih pitanja</li>
-                                <li>10 teških pitanja</li>
-                            </ul>
-                        </ul>
-                    </li>
-                    <li><strong>Bodovanje:</strong> Što brže odgovorite na pitanje, više bodova osvajate. Pazite na vreme, jer svaki sekund se računa!</li>
-                    <li><strong>Teme pitanja:</strong> Možete očekivati pitanja o:
-                        <ul>
-                            <li>Prepoznavanju zastava</li>
-                            <li>Glavnim gradovima</li>
-                            <li>Broju stanovnika</li>
-                            <li>Kontinentima i još mnogo toga!</li>
-                        </ul>
-                    </li>
-                </ul>
+                <div>
+                    <h2>Pravila kviza:</h2>
+                    <p class="mb-3"><strong>Vreme za igru:</strong> Imate tačno <strong>15 minuta</strong> da završite kviz. Ako ne završite na vreme, vaš rezultat će se automatski predati.</p>
+                    <p><strong>Pitanja:</strong> Kviz se sastoji od <strong>30 pitanja</strong>, podeljenih u tri težine:</p>
+                    <p class="mb-3">
+                        <strong>•</strong> 10 lakih pitanja<br>
+                        <strong>•</strong> 10 srednjih pitanja<br>
+                        <strong>•</strong> 10 teških pitanja
+                    </p>
+                    <p class="mb-3"><strong>Bodovanje:</strong> Što brže odgovorite na pitanje, više bodova osvajate. Pazite na vreme, jer svaki sekund se računa!</p>
+                    <p><strong>Teme pitanja:</strong> Možete očekivati pitanja o:</p>
+                    <p>
+                        <strong>•</strong> Prepoznavanju zastava<br>
+                        <strong>•</strong> Glavnim gradovima<br>
+                        <strong>•</strong> Broju stanovnika<br>
+                        <strong>•</strong> Kontinentima i još mnogo toga!
+                    </p>
+                </div>
             </div>
-            <button id="start-button" class="btn dugme kvizDugme" onclick="startQuiz()">Kreni kviz</button>
+            <button id="start-button" class="btn dugme mt-4 kvizDugme" onclick="startQuiz()">Kreni kviz</button>
         </div>
     </section>
-        <div class="container mt-5 d-none" id="quiz-container">
-            <div class="row mb-3">
+    <section class="kviz container">
+        <div class="mt-5 d-none" id="quiz-container">
+            <div class="row mb-4">
                 <div class="col-6 text-start">
-                    <div id="question-count" class="font-weight-bold fs-5">
+                    <div id="question-count">
                         <span id="current-question">1</span> / <span id="total-questions"><%= questions.length %></span>
                     </div>
                 </div>
@@ -50,11 +47,9 @@
                     <div id="timer" class="fs-5">00:00</div>
                 </div>
             </div>
-            <div class="d-flex justify-content-center position-relative overflow-hidden" id="card-container" style="height: 300px;">
+            <div class="d-flex justify-content-center position-relative overflow-hidden card-group" id="card-container" style="height: 300px;">
                 <% questions.forEach((question, index) => { %>
-                    <div 
-                        class="card question-card <%= index === 0 ? 'active-card' : 'hidden-right' %>" 
-                        id="card<%= index + 1 %>">
+                    <div class="card question-card <%= index === 0 ? 'active-card' : 'hidden-right' %>" id="card<%= index + 1 %>">
                         <div class="card-body">
                             <h5 class="card-title">Pitanje <%= index + 1 %>:</h5>
                             <p class="card-text"><%= question.tekstPitanja %></p>
@@ -63,18 +58,16 @@
                 <% }); %>
             </div>
         </div>
-
-        <div class="row mt-3">
+        <div class="row mt-4 d-none" id="nav-buttons">
             <div class="col-6 text-start">
-                <button id="prev-button" class="btn btn-secondary w-50" onclick="previousQuestion()" disabled>←</button>
+                <button id="prev-button" class="btn dugme dugmeTokomKviza" onclick="previousQuestion()" disabled>←</button>
             </div>
             <div class="col-6 text-end">
-                <button id="next-button" class="btn btn-secondary w-50" onclick="nextQuestion()">→</button>
-                <button id="finish-button" class="btn btn-success w-50 d-none" onclick="finishQuiz()">Završi kviz</button>
+                <button id="next-button" class="btn dugme dugmeTokomKviza" onclick="nextQuestion()">→</button>
+                <button id="finish-button" class="btn dugme d-none dugmeTokomKviza" onclick="finishQuiz()">Završi kviz</button>
             </div>
         </div>
-    </div>
-
+    </section>
     <div id="stats-modal" class="d-none">
         <div id="modal-backdrop" class="backdrop"></div>
         <div class="stats-form Statistika">
@@ -86,80 +79,81 @@
 
     <%- include("./partials/footer.ejs") %>
 
-        <script>
-            let currentCardIndex = 0;
+    <script>
+                let currentCardIndex = 0;
 
-            const totalQuestions = parseInt(`<%= questions.length %>`); // Ukupan broj pitanja
-            let timerInterval;
-            let secondsElapsed = 0;
+        const totalQuestions = parseInt(`<%= questions.length %>`); // Ukupan broj pitanja
+        let timerInterval;
+        let secondsElapsed = 0;
 
-            function startTimer() {
-                timerInterval = setInterval(() => {
-                    secondsElapsed++;
-                    const minutes = Math.floor(secondsElapsed / 60);
-                    const seconds = secondsElapsed % 60;
-                    document.getElementById("timer").textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                }, 1000);
-            }
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                const minutes = Math.floor(secondsElapsed / 60);
+                const seconds = secondsElapsed % 60;
+                document.getElementById("timer").textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
 
-            function stopTimer() {
-                clearInterval(timerInterval);
-            }
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
 
-            function startQuiz() {
-                document.getElementById("start-container").classList.add("d-none");
-                document.getElementById("quiz-container").classList.remove("d-none");
-                startTimer();
+        function startQuiz() {
+            document.getElementById("start-container").classList.add("d-none");
+            document.getElementById("quiz-container").classList.remove("d-none");
+            document.getElementById("nav-buttons").classList.remove("d-none");
+            startTimer();
+            updateCards();
+        }
+
+        function updateCards() {
+            const cards = document.querySelectorAll(".question-card");
+            cards.forEach((card, index) => {
+                if (index < currentCardIndex) {
+                    card.classList.add("hidden-left", "blurred");
+                    card.classList.remove("hidden-right", "active-card");
+                } else if (index > currentCardIndex) {
+                    card.classList.add("hidden-right", "blurred");
+                    card.classList.remove("hidden-left", "active-card");
+                } else {
+                    card.classList.add("active-card");
+                    card.classList.remove("hidden-left", "hidden-right", "blurred");
+                }
+            });
+
+            document.getElementById("prev-button").disabled = currentCardIndex === 0;
+            document.getElementById("next-button").classList.toggle("d-none", currentCardIndex === totalQuestions - 1);
+            document.getElementById("finish-button").classList.toggle("d-none", currentCardIndex !== totalQuestions - 1);
+
+            document.getElementById("current-question").textContent = currentCardIndex + 1;
+        }
+
+        function nextQuestion() {
+            if (currentCardIndex < totalQuestions - 1) {
+                currentCardIndex++;
                 updateCards();
             }
+        }
 
-            function updateCards() {
-                const cards = document.querySelectorAll(".question-card");
-                cards.forEach((card, index) => {
-                    if (index < currentCardIndex) {
-                        card.classList.add("hidden-left");
-                        card.classList.remove("hidden-right", "active-card");
-                    } else if (index > currentCardIndex) {
-                        card.classList.add("hidden-right");
-                        card.classList.remove("hidden-left", "active-card");
-                    } else {
-                        card.classList.add("active-card");
-                        card.classList.remove("hidden-left", "hidden-right");
-                    }
-                });
+        function previousQuestion() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateCards();
+            }  
+        }
 
-                document.getElementById("prev-button").disabled = currentCardIndex === 0;
-                document.getElementById("next-button").classList.toggle("d-none", currentCardIndex === totalQuestions - 1);
-                document.getElementById("finish-button").classList.toggle("d-none", currentCardIndex !== totalQuestions - 1);
+        function finishQuiz() {
+            stopTimer();
+            document.getElementById("total-time").textContent = document.getElementById("timer").textContent;
+            document.body.classList.add("modal-open");
+            document.getElementById("stats-modal").classList.remove("d-none");
+        }
 
-                document.getElementById("current-question").textContent = currentCardIndex + 1;
-            }
-
-            function nextQuestion() {
-                if (currentCardIndex < totalQuestions - 1) {
-                    currentCardIndex++;
-                    updateCards();
-                }
-            }
-
-            function previousQuestion() {
-                if (currentCardIndex > 0) {
-                    currentCardIndex--;
-                    updateCards();
-                }
-            }
-
-            function finishQuiz() {
-                stopTimer();
-                document.getElementById("total-time").textContent = document.getElementById("timer").textContent;
-                document.body.classList.add("modal-open");
-                document.getElementById("stats-modal").classList.remove("d-none");
-            }
-
-            function closeStats() {
-                document.body.classList.remove("modal-open");
-                document.getElementById("stats-modal").classList.add("d-none");
-            }
-        </script>
-    </body>
+        function closeStats() {
+            document.body.classList.remove("modal-open");
+            document.getElementById("stats-modal").classList.add("d-none");
+        }
+    </script>
+</body>
 </html>
