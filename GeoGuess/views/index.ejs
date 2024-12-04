@@ -1,15 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include("./partials/head.ejs") %>
-<body>
-    <header>
-        <%- include("./partials/nav.ejs") %> 
-    </header>
+<%- include("./partials/head.ejs") %>
 
-    <div class="text-center" style="margin-top: 150px; margin-bottom: 150px;">
-        <h1>OVO JE POČETNA STRANICA</h1>
-    </div>
+    <body>
 
-    <%- include("./partials/footer.ejs") %>
-</body>
+        <body>
+
+            <header>
+                <%- include("./partials/nav.ejs") %>
+            </header>
+
+            <main>
+                <section class="quiz-info">
+                    <div class="container">
+                        <h1>O Kvizu</h1>
+                        <p>Naš kviz je interaktivan alat dizajniran da testira tvoje znanje o različitim zemljama,
+                            glavnim gradovima, zastavama, populaciji i kontinentima. Kviz je jednostavan za korišćenje,
+                            sa pitanjima koja su podeljena po težini - lako, srednje i teško. Saznaj koliko dobro
+                            poznaješ svet!</p>
+                    </div>
+                </section>
+
+                <!-- Technologies Section -->
+                <section class="technologies">
+                    <div class="container">
+                        <h1>Tehnologije koje smo koristili</h1>
+                        <p>Naš kviz je razvijen koristeći moderne tehnologije koje omogućavaju brz i jednostavan rad sa
+                            podacima.</p>
+                        <ul>
+                            <li><strong>Node.js</strong> - Za server-side logiku i rad sa bazama podataka.</li>
+                            <li><strong>Express.js</strong> - Za efikasno upravljanje HTTP zahtevima.</li>
+                            <li><strong>React.js</strong> - Za dinamički interfejs i interaktivne funkcionalnosti.</li>
+                            <li><strong>MongoDB</strong> - Za skladištenje podataka kviza i korisnika.</li>
+                            <li><strong>CSS & HTML</strong> - Za čist i responzivan dizajn korisničkog interfejsa.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Team Section -->
+                <section class="team-info">
+                    <div class="container">
+                        <h1>Naš Tim</h1>
+                        <div class="team-members">
+                            <div class="team-member">
+                                <img src="member1.jpg" alt="Član Tima 1">
+                                <h3>Marko Petrović</h3>
+                                <p>Marko je glavna osoba za razvoj back-end sistema i bazu podataka.</p>
+                            </div>
+                            <div class="team-member">
+                                <img src="member2.jpg" alt="Član Tima 2">
+                                <h3>Ana Jovanović</h3>
+                                <p>Ana je front-end developer i odgovorna je za dizajn i UX/UI.</p>
+                            </div>
+                            <div class="team-member">
+                                <img src="member3.jpg" alt="Član Tima 3">
+                                <h3>Jovan Nikolić</h3>
+                                <p>Jovan se bavi implementacijom funkcionalnosti kviza i testiranjem.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Testimonials Section -->
+                <section class="testimonials">
+                    <div class="container">
+                        <h1>Šta kažu korisnici</h1>
+                        <div class="testimonials-slider">
+                            <div class="testimonial">
+                                <p>"Kviz je neverovatan! Izazovan, edukativan, i zabavan!"</p>
+                                <span>- Marko, korisnik</span>
+                            </div>
+                            <div class="testimonial">
+                                <p>"Odličan način da naučite više o svetu!"</p>
+                                <span>- Jelena, korisnik</span>
+                            </div>
+                            <div class="testimonial">
+                                <p>"Svima bih preporučio ovaj kviz. Zabavan je i pomaže da se prošire horizonti."</p>
+                                <span>- Luka, korisnik</span>
+                            </div>
+                            <div class="testimonial">
+                                <p>"Kviz je zabavan i poučan, sjajan način da testirate svoje znanje!"</p>
+                                <span>- Ivan, korisnik</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+                integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script>
+                $(document).ready(function () {
+                    // Animacija sekcija prilikom skrolovanja
+                    $(window).on('scroll', function () {
+                        $('.quiz-info, .technologies, .team-info, .testimonials').each(function () {
+                            var elementPosition = $(this).offset().top;
+                            var windowScrollPosition = $(window).scrollTop();
+                            var windowHeight = $(window).height();
+
+                            // Aktiviraj animaciju kada se sekcija pojavi u okviru ekrana
+                            if (windowScrollPosition + windowHeight > elementPosition) {
+                                $(this).addClass('animate');
+                            }
+                        });
+                    });
+
+                    // Start initial scroll animation if already in view
+                    $(window).trigger('scroll');
+                });
+
+
+            </script>
+            <footer>
+                <%- include("./partials/footer.ejs") %>
+            </footer>
+
+        </body>
+
 </html>
