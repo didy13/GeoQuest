@@ -244,10 +244,23 @@ router.post('/adminDeleteUser', async (req, res) => {
             });
             
         });
-        if(req.session.user === username){
-
+        if(req.session.user.username === username){
+            req.session.destroy((err) => {
+                if (err) {
+                    console.error('Error destroying session:', err);
+                    return res.status(500).render('admin', {
+                        errors: [{ msg: 'Došlo je do greške prilikom odjave korisnika.' }],
+                        formData: req.body,
+                        title: 'Delete User',
+                        user: req.session.user || '',
+                    });
+                }
+                res.clearCookie("connect.sid", { path: "/" });
+                return res.redirect('/logout');
+            });
+            return;
         }
-        
+        res.redirect("/admin");
         // Redirect to a success page or display a success message
         res.render('admin', {
             success: `Korisnik "${username}" je uspešno obrisan.`,
@@ -255,7 +268,7 @@ router.post('/adminDeleteUser', async (req, res) => {
             title: 'Delete User',
             user: req.session.user.username || '',
         });
-        res.redirect("/admin");
+        
     } catch (error) {
         console.error('Error during user deletion:', error);
 
@@ -269,8 +282,119 @@ router.post('/adminDeleteUser', async (req, res) => {
     }
 });
 
+router.post('/adminDeleteQuestion', async (req, res) => {
+    const { imeDrzave, tipPitanja } = req.body;
+
+    if (!imeDrzave && !tipPitanja) {
+        return res.status(400).render('admin', {
+            errors: [{ msg: 'Sva polja su obavezna!' }], // Validation error
+            formData: req.body,
+            title: 'Delete Question',
+            user: req.session.user || '',
+        });
+    }
+
+    try {
+        // Check if the user exists
+        const checkQuery = "SELECT * FROM Pitanje as p JOIN Drzava as d ON p.DrzavaID = d.DrzavaID WHERE  d.naziv = ? AND p.tipPitanja = ?";
+        const quest = await new Promise((resolve, reject) => {
+            connection.query(checkQuery, [imeDrzave, tipPitanja], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        });
+
+        if (quest.length === 0) {
+            // User not found
+            return res.status(404).render('admin', {
+                errors: [{ msg: 'Pitanje ne postoji!' }], 
+                formData: req.body,
+                title: 'Delete Question',
+                user: req.session.user.username || '',
+            });
+        }
+
+        // Delete the user
+        const deleteQuery = "DELETE p FROM Pitanje as p JOIN Drzava as d ON p.DrzavaID = d.DrzavaID WHERE d.naziv = ? AND p.tipPitanja = ?";
+        await new Promise((resolve, reject) => {
+            connection.query(deleteQuery, [imeDrzave, tipPitanja], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+            
+        });
+        res.redirect("/admin");
+        
+        // Redirect to a success page or display a success message
+        res.render('admin', {
+            success: `Pitanje o "${imeDrzave}" je uspešno obrisano.`,
+            formData: {}, // Clear the form data
+            title: 'Delete Question',
+            user: req.session.user.username || '',
+        });
+        
+    } catch (error) {
+        console.error('Error during user deletion:', error);
+
+        // Render the deletion page with a general error message
+        res.status(500).render('admin', {
+            errors: [{ msg: 'Došlo je do greške. Pokušajte ponovo.' }],
+            formData: req.body,
+            title: 'Delete User',
+            user: req.session.user || '',
+        });
+    }
+});
+
+router.post('/adminInsertQuestion', async (req, res) => {
+    const { tekstPitanja, tezina, imeDrzave, tipPitanja } = req.body;
+
+    if (!imeDrzave || !tipPitanja || !tekstPitanja || !tezina) {
+        return res.status(400).render('admin', {
+            errors: [{ msg: 'Sva polja su obavezna!' }], // Validation error
+            formData: req.body,
+            title: 'Insert Question',
+            user: req.session.user || '',
+        });
+    }
+
+    try {
+        
+
+        // Delete the user
+        const deleteQuery = "INSERT INTO Pitanje(tekstPitanja, tipPitanja, tezina, DrzavaID) VALUES (?,?,?,(SELECT DrzavaID FROM Drzava WHERE naziv like ? LIMIT 1))";
+        await new Promise((resolve, reject) => {
+            connection.query(deleteQuery, [tekstPitanja, tipPitanja, tezina, imeDrzave], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+            
+        });
+        res.redirect("/admin");
+        
+        // Redirect to a success page or display a success message
+        res.render('admin', {
+            success: `Pitanje za "${imeDrzave}" je uspešno dodato.`,
+            formData: {}, // Clear the form data
+            title: 'Insert Question',
+            user: req.session.user.username || '',
+        });
+        
+    } catch (error) {
+        console.error('Error during question insertion:', error);
+
+        // Render the deletion page with a general error message
+        res.status(500).render('admin', {
+            errors: [{ msg: 'Došlo je do greške. Pokušajte ponovo.' }],
+            formData: req.body,
+            title: 'Insert Question',
+            user: req.session.user || '',
+        });
+    }
+});
+
 router.post('/adminUpdateQuestion', async (req, res) => {
-    const { tekstPitanja, tezina, tacanOdgovor, imeDrzave, tipPitanja } = req.body;
+    const { tekstPitanja, tezina, imeDrzave, tipPitanja } = req.body;
 
     if (!imeDrzave && !tipPitanja) {
         return res.status(400).render('adminQuestion', {
@@ -310,16 +434,7 @@ router.post('/adminUpdateQuestion', async (req, res) => {
         }
 
         // Update the correct answer if provided
-        if (tacanOdgovor) {
-            updateQuery = `
-                UPDATE Pitanje AS p
-                JOIN Drzava AS d ON p.DrzavaID = d.DrzavaID
-                SET tacanOdgovor = ?
-                WHERE d.naziv = ? AND p.tipPitanja = ?
-            `;
-            updateValues = [tacanOdgovor, imeDrzave, tipPitanja];
-            await executeUpdateQuery(updateQuery, updateValues);
-        }
+        
 
         // If nothing is updated
         if (!tekstPitanja && !tezina && !tacanOdgovor) {

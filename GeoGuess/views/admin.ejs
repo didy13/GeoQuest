@@ -16,15 +16,41 @@
         <option value="Srednje"> Srednje</option>
         <option value="Teško">Teško</option>
     </select><br>
-    tacanOdgovor<input type="text" name="tacanOdgovor"><br>
     imeDrzave<input type="text" name="imeDrzave"><br>
     tipPitanja<input type="text" name="tipPitanja"><br>
     <input type="submit" name=""><br>
 </form><br>
+
+<h1>OBriši usera</h1>
 <form action="/adminDeleteUser" method="POST">
-    <input type="text" name="username">
+    <input type="text" name="username"><br>
     <input type="submit">
-</form>
+</form><br>
+
+<h1>Obriši pitanje</h1>
+<form action="/adminDeleteQuestion" method="POST">
+    imeDrzave<input type="text" name="imeDrzave"><br>
+    tipPitanja<input type="text" name="tipPitanja"><br>
+    <input type="submit" name=""><br>
+</form><br>
+
+<h1>Unesi pitanje</h1>
+<form action="/adminInsertQuestion" method="POST">
+    Tekst pitanja: <input type="text" name="tekstPitanja"><br>
+    <select name="tezina">
+        <option value="Lako">Lako</option>
+        <option value="Srednje"> Srednje</option>
+        <option value="Teško">Teško</option>
+    </select><br>
+    imeDrzave<input type="text" name="imeDrzave"><br>
+    tipPitanja <select name="tipPitanja">
+        <option value="Glavni grad">Glavni grad</option>
+        <option value="Zastava">Zastava</option>
+        <option value="Populacija">Populacija</option>
+        <option value="Kontinent">Kontinent</option>
+    </select>
+    <input type="submit" name=""><br>
+</form><br>
     <%- include("./partials/footer.ejs") %>
 </body>
 </html>
