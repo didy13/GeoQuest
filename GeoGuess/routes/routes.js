@@ -335,7 +335,7 @@ router.post('/adminUpdateUser', async (req, res) => {
         }
 
         // Delete the user
-        const deleteQuery = "UPDATE Korisnik SET admin = 1 Korisnik WHERE nickname = ?";
+        const deleteQuery = "UPDATE Korisnik SET admin = 1 WHERE nickname = ?";
         await new Promise((resolve, reject) => {
             connection.query(deleteQuery, [username], (err, results) => {
                 if (err) return reject(err);
