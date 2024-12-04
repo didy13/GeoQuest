@@ -95,10 +95,12 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/register", (req, res) => {
-    if (req.session.user) {
-        return res.redirect("/");
+    let username = "";
+    if(req.session.user)
+    {
+        username = req.session.user.username;
     }
-    res.render("register", { error: "",title: "Register", user: "" }); // Pretpostavljamo da postoji odgovarajuća view datoteka
+    res.render("register", { error: "",title: "Register", user: username }); // Pretpostavljamo da postoji odgovarajuća view datoteka
 });
 
 // POST: Obrada podataka za registraciju
@@ -190,5 +192,13 @@ router.get('/kvizTeska', (req, res) => {
     });
 });
 
+router.use((req,res) => {
+    let username = "";
+    if(req.session.user)
+    {
+        username = req.session.user.username;
+    }
+    res.status(404).render("404", {title: "404", user: username});
+})
 
 module.exports = router;
