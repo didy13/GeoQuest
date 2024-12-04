@@ -150,16 +150,18 @@ const registerValidation = [
   // Validation for date of birth
   body('date')
     .notEmpty().withMessage('Datum je obavezno polje')
-    .custom((value) => {
-        // Calculate the current date minus 13 years
-        const currentDate = new Date();
-        currentDate.setFullYear(currentDate.getFullYear() - 13);
-        const minAgeDate = currentDate.toISOString().split('T')[0]; // Get the date in YYYY-MM-DD format
-        if (value <= minAgeDate) {
-            throw new Error('Morate imati bar 13 godina kako biste se ulogovali');
-          }
-          return true;
-    }).withMessage('Morate imati bar 13 godina kako biste se ulogovali')
+    .isISO8601() // Validate input is in ISO 8601 format (e.g., YYYY-MM-DD)
+        .withMessage('Datum rođenja mora biti u formatu YYYY-MM-DD')
+        .custom((value) => {
+            const minAgeDate = new Date();
+            minAgeDate.setFullYear(minAgeDate.getFullYear() - 13);
+
+            if (new Date(value) > minAgeDate) {
+                throw new Error('Morate imati bar 13 godina kako biste se ulogovali');
+            }
+
+            return true;
+        })
 ];
 
 module.exports = registerValidation;

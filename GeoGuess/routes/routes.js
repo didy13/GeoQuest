@@ -94,23 +94,29 @@ router.get("/register", (req, res) => {
     if (req.session.user) {
         return res.redirect("/");
     }
-    res.render("register", { error: "",title: "Register", user: "" }); // Pretpostavljamo da postoji odgovarajuća view datoteka
+    res.render("register", { error: "",title: "Register", user: "", errors: [] }); // Pretpostavljamo da postoji odgovarajuća view datoteka
 });
 
 // POST: Obrada podataka za registraciju
-router.post('/register', [
-    // your validation rules here
-], async (req, res) => {
-    // Check for validation errors
+router.post('/register', registerValidation, async (req, res) => {
+    // Validate the form inputs
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
-        // Return validation errors to the 'register' view
-        return res.status(400).render('register', { errors: errors.array() });
+        // Validation errors detected
+        return res.status(400).render('register', {
+            errors: errors.array(), // Pass validation errors
+            formData: req.body, // Retain form input data
+            title: 'Register', // Page title
+            user: req.session.user || '', // Pass session user (if available)
+            error: null // No global error message
+        });
     }
 
     const { ime, prezime, nickname, email, lozinka, date } = req.body;
 
     try {
+        // Check if the user already exists (email or nickname)
         const checkQuery = "SELECT * FROM Korisnik WHERE email = ? OR nickname = ?";
         const [existingUser] = await new Promise((resolve, reject) => {
             connection.query(checkQuery, [email, nickname], (err, results) => {
@@ -119,28 +125,54 @@ router.post('/register', [
             });
         });
 
-        if (existingUser) {
-            return res.status(400).render("register", { error: "Email ili korisničko ime već postoje!", title: "" , user: ""});
+        if (existingUser.length > 0) {
+            // User with email or nickname already exists
+            return res.status(400).render('register', {
+                errors: [], // No validation errors
+                formData: req.body, // Retain form input data
+                title: 'Register', 
+                user: req.session.user || '',
+                error: 'Email ili korisničko ime već postoje!' // Global error message
+            });
         }
 
+        // Hash the password
         const hashedPassword = await bcrypt.hash(lozinka, 10);
 
+        // Create a new user instance
         const newUser = new Korisnik(ime, prezime, nickname, email, hashedPassword, date);
+
+        // Save the user to the database
         await newUser.save();
 
+        // Store the user in the session
         req.session.user = { username: newUser.nickname };
-        req.session.save((err) => { // Sačuvaj sesiju
+        req.session.save((err) => {
             if (err) {
-                console.error("Error saving session:", err);
-                return res.status(500).send("Error saving session");
+                console.error('Error saving session:', err);
+                return res.status(500).send('Error saving session');
             }
-            res.redirect("/");
+            // Redirect to the homepage after successful registration
+            res.redirect('/');
         });
     } catch (error) {
-        console.error("Error during registration:", error);
-        res.status(500).render("register", { error: "Došlo je do greške. Pokušajte ponovo.", title: "Register", user: "" });
+        console.error('Error during registration:', error);
+
+        // Render the registration page with an error message
+        res.status(500).render('register', {
+            errors: [], // No validation errors
+            formData: req.body, // Retain form input data
+            title: 'Register',
+            user: req.session.user || '',
+            error: 'Došlo je do greške. Pokušajte ponovo.' // General error message
+        });
     }
 });
+
+
+
+
+
 
 router.get('/kvizLaka', (req, res) => {
     getRandomEasyQuestion((err, question) => {
@@ -186,5 +218,22 @@ router.get('/kvizTeska', (req, res) => {
     });
 });
 
+/*router.post('/register', registerValidation, (req, res) => {
+    // Check for validation errors
+    const errors = validationResult(req);
+  
+    if (!errors.isEmpty()) {
+      // If there are validation errors, render the form again with the errors
+      return res.status(400).render('register', { 
+        title: 'Register',
+        errors: errors.array(),
+        formData: req.body  // Optionally send back the form data
+      });
+    }
+  
+    // Proceed with form submission if no errors
+    // Here you can insert the data into the database or perform other actions
+    res.send('Form is valid and data has been processed!');
+  });*/
 
 module.exports = router;
