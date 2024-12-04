@@ -23,12 +23,12 @@ nav {
 }
 
 .navBtn {
-    background-color: #e6fda3 !important;
+    background-color: #ccff34 !important;
     color: #6785ff !important;
 }
 
 .navBtn:hover {
-    background-color: #dafc77 !important;
+    background-color: #ccff34 !important;
 }
 
 .btnLogin {
@@ -67,7 +67,7 @@ footer img {
 }
 
 .Prijava h1 {
-    color: #e6fda3 !important;
+    color: #ccff34 !important;
     font-weight: 600;
     margin-bottom: 25px;
 }
@@ -88,7 +88,7 @@ footer img {
 }
 
 .PrijavaRegistracija a {
-    color: #e6fda3;
+    color: #ccff34;
 }
 
 /* Registracija */
@@ -104,7 +104,7 @@ footer img {
 }
 
 .Forma h1 {
-    color: #e6fda3 !important;
+    color: #ccff34 !important;
     font-weight: 600;
     margin-bottom: 25px;
 }
@@ -118,7 +118,7 @@ form label {
 }
 
 .dugme {
-    background-color: #e6fda3 !important;
+    background-color: #ccff34 !important;
     color: #6785ff !important;
 }
 
