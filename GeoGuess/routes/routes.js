@@ -46,7 +46,28 @@ router.get("/kviz", (req, res) => {
     if (!req.session.user) {
         return res.redirect("/");
     }
-    res.render("kviz",{title: "kviz", user: req.session.user.username});
+    const query = `
+       SELECT Pitanje.tekstPitanja, 
+       Pitanje.tipPitanja, 
+       Pitanje.tezina, 
+       Pitanje.tacanOdgovor, 
+       Drzava.naziv AS drzavaNaziv
+FROM Pitanje
+JOIN Drzava ON Pitanje.DrzavaID = Drzava.DrzavaID
+WHERE Pitanje.tezina IN ('Lako', 'Srednje', 'Teško')
+ORDER BY RAND()
+LIMIT 10;
+
+    `;
+
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error("Error fetching questions:", err);
+            // Osiguraj da se odgovor šalje samo jednom
+            return res.status(500).send("Server Error");
+        }
+    res.render("kviz",{title: "kviz", user: req.session.user.username, questions: results});
+    });
 });
 router.get("/login", (req, res) => {
     if (req.session.user) {
