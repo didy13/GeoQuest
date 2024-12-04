@@ -1,5 +1,11 @@
 * {
     font-family: "Poppins", serif;
+    font-size: 16px;
+    font-weight: 400;
+}
+.dugme {
+    background-color: #ccff34 !important;
+    color: #6785ff !important;
 }
 
 /* Navigacija */
@@ -7,30 +13,24 @@ nav {
     background-color: #6785ff;
     box-shadow: 0 8px 18px rgba(103, 133, 255, 0.5);
 }
-
 .navLogo {
     width: 164px;
     height: auto;
 }
-
 .navLink {
     color: white !important;
 }
-
 .username {
     color: white !important;
     margin-right: 15px;
 }
-
 .navBtn {
     background-color: #ccff34 !important;
     color: #6785ff !important;
 }
-
 .navBtn:hover {
     background-color: #ccff34 !important;
 }
-
 .btnLogin {
     text-decoration: none !important;
     color: #6785ff !important;
@@ -40,91 +40,76 @@ nav {
 footer {
     background-color: #6785ff;
 }
-
 footer p {
     color: white;
     font-size: 18px;
     margin: 0;
 }
-
 footer img {
     width: 340px;
 }
 
 /* Prijava */
 .PrijavaSection {
-    margin-top: 150px;
-    margin-bottom: 150px;
+    margin-top: 130px;
+    margin-bottom: 130px;
 }
-
 .Prijava {
     background-color: #6785ff;
     padding: 40px;
     border-radius: 10px;
-    max-width: 400px;
+    max-width: 410px;
     margin-left: auto;
     margin-right: auto;
 }
-
 .Prijava h1 {
     color: #ccff34 !important;
     font-weight: 600;
     margin-bottom: 25px;
 }
-
 .Prijava label {
     color: #ffffff !important;
     margin-bottom: 0;
 }
-
 .Prijava input {
     margin-left: auto;
     margin-right: auto;
     max-width: 326px;
 }
 
+/* Prijava & Registracija */
 .PrijavaRegistracija {
     color: white;
 }
-
 .PrijavaRegistracija a {
     color: #ccff34;
 }
 
 /* Registracija */
 .FormaSection {
-    margin-top: 150px;
-    margin-bottom: 150px;
+    margin-top: 130px;
+    margin-bottom: 130px;
 }
-
 .Forma {
     background-color: #6785ff;
     padding: 40px;
     border-radius: 10px;
 }
-
 .Forma h1 {
     color: #ccff34 !important;
     font-weight: 600;
     margin-bottom: 25px;
 }
-
 form label {
     color: #ffffff !important;
 }
-
 .req {
     color: rgb(209, 24, 25);
 }
 
-.dugme {
-    background-color: #ccff34 !important;
-    color: #6785ff !important;
-}
-
 /* Error */
 .error {
-    color: rgb(209, 24, 25);
+    color: rgb(209, 24, 25) !important;
 }
 
 /* Scrollbar */
