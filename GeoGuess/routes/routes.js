@@ -40,13 +40,13 @@ const isAuthenticated = (req, res, next) =>
 
 router.get("/", isAuthenticated, (req, res) => {
     console.log(req.session.user);
-    res.render("index", { title: "Home", user: req.session.user.username });
+    res.render("index", { title: "Home", user: req.session.user.username});
 });
 router.get("/kviz", (req, res) => {
-    if (req.session.user) {
+    if (!req.session.user) {
         return res.redirect("/");
     }
-    res.render("kviz",{title: "kviz", user: ""});
+    res.render("kviz",{title: "kviz", user: req.session.user.username});
 });
 router.get("/login", (req, res) => {
     if (req.session.user) {
