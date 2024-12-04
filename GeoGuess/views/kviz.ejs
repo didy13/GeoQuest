@@ -88,7 +88,7 @@
 
         <script>
             let currentCardIndex = 0;
-            
+
             const totalQuestions = parseInt(`<%= questions.length %>`); // Ukupan broj pitanja
             let timerInterval;
             let secondsElapsed = 0;
@@ -112,7 +112,6 @@
                 startTimer();
                 updateCards();
             }
-        
 
             function updateCards() {
                 const cards = document.querySelectorAll(".question-card");
@@ -135,7 +134,6 @@
 
                 document.getElementById("current-question").textContent = currentCardIndex + 1;
             }
-        
 
             function nextQuestion() {
                 if (currentCardIndex < totalQuestions - 1) {
