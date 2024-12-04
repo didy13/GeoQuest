@@ -40,10 +40,14 @@ const isAuthenticated = (req, res, next) =>
 
 router.get("/", isAuthenticated, (req, res) => {
     console.log(req.session.user);
-    res.render("index", { title: "Home", user: req.session.user.username });
+    res.render("index", { title: "Home", user: req.session.user.username});
 });
-
-
+router.get("/kviz", (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/");
+    }
+    res.render("kviz",{title: "kviz", user: req.session.user.username});
+});
 router.get("/login", (req, res) => {
     if (req.session.user) {
         return res.redirect("/");
@@ -91,10 +95,12 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/register", (req, res) => {
-    if (req.session.user) {
-        return res.redirect("/");
+    let username = "";
+    if(req.session.user)
+    {
+        username = req.session.user.username;
     }
-    res.render("register", { error: "",title: "Register", user: "", errors: [] }); // Pretpostavljamo da postoji odgovarajuća view datoteka
+    res.render("register", { error: "",title: "Register", user: username, errors: [] }); // Pretpostavljamo da postoji odgovarajuća view datoteka
 });
 
 // POST: Obrada podataka za registraciju
@@ -236,5 +242,13 @@ router.get('/kvizTeska', (req, res) => {
     // Here you can insert the data into the database or perform other actions
     res.send('Form is valid and data has been processed!');
   });*/
+router.use((req,res) => {
+    let username = "";
+    if(req.session.user)
+    {
+        username = req.session.user.username;
+    }
+    res.status(404).render("404", {title: "404", user: username});
+})
 
 module.exports = router;

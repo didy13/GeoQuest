@@ -24,7 +24,7 @@ nav {
 
 .navBtn {
     background-color: #e6fda3 !important;
-    color:  #6785ff !important;
+    color: #6785ff !important;
 }
 
 .navBtn:hover {
@@ -33,18 +33,20 @@ nav {
 
 .btnLogin {
     text-decoration: none !important;
-    color:  #6785ff !important;
+    color: #6785ff !important;
 }
 
 /* Footer */
 footer {
     background-color: #6785ff;
 }
+
 footer p {
     color: white;
     font-size: 18px;
     margin: 0;
 }
+
 footer img {
     width: 340px;
 }
@@ -54,6 +56,7 @@ footer img {
     margin-top: 150px;
     margin-bottom: 150px;
 }
+
 .Prijava {
     background-color: #6785ff;
     padding: 40px;
@@ -62,23 +65,28 @@ footer img {
     margin-left: auto;
     margin-right: auto;
 }
+
 .Prijava h1 {
     color: #e6fda3 !important;
     font-weight: 600;
     margin-bottom: 25px;
 }
+
 .Prijava label {
-    color:  #ffffff !important;
+    color: #ffffff !important;
     margin-bottom: 0;
 }
+
 .Prijava input {
     margin-left: auto;
     margin-right: auto;
     max-width: 326px;
 }
+
 .PrijavaRegistracija {
     color: white;
 }
+
 .PrijavaRegistracija a {
     color: #e6fda3;
 }
@@ -88,25 +96,30 @@ footer img {
     margin-top: 150px;
     margin-bottom: 150px;
 }
+
 .Forma {
     background-color: #6785ff;
     padding: 40px;
     border-radius: 10px;
 }
+
 .Forma h1 {
     color: #e6fda3 !important;
     font-weight: 600;
     margin-bottom: 25px;
 }
+
 form label {
-    color:  #ffffff !important;
+    color: #ffffff !important;
 }
+
 .req {
     color: rgb(209, 24, 25);
 }
+
 .dugme {
     background-color: #e6fda3 !important;
-    color:  #6785ff !important;
+    color: #6785ff !important;
 }
 
 /* Error */
@@ -118,12 +131,15 @@ form label {
 ::-webkit-scrollbar {
     width: 9px;
 }
+
 ::-webkit-scrollbar-track {
     background-color: white;
 }
+
 ::-webkit-scrollbar-thumb {
     background-color: #2A2C35;
 }
+
 ::-webkit-scrollbar-thumb:hover {
     background-color: #1f2027;
 }
@@ -133,12 +149,143 @@ form label {
     .navBtn {
         width: 100%;
     }
+
     .btnLogin {
         margin-top: 5px;
     }
+
     .username {
         margin-right: 0px;
         margin-top: 8px;
         margin-bottom: 12px;
     }
+}
+
+
+/* Stilizovanje brojača pitanja */
+/* Stilizovanje brojača pitanja */
+#question-count {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+/* Stilizovanje timera */
+#timer {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 8px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+#timer-text {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #007bff;
+}
+
+#card:nth-child(2){
+    translate: 100%;
+}
+/* Stil za kartice sa pitanjima */
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Razmak između kartica */
+    overflow: hidden; /* Da bi kartice ostale unutar ekrana */
+    width: 100%;
+    position: relative;
+}
+
+/* Kartica sa pitanjem */
+.question-card {
+    border: none;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Blurovanje kartica */
+.question-card.blurred {
+    filter: blur(4px);
+    opacity: 0.6;
+    pointer-events: none; /* Sprečava interakciju dok je kartica blurovana */
+}
+
+/* Efekat hover na kartici */
+.question-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Strelica za sledeće pitanje */
+.btn-secondary {
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+/* Stil za dugme */
+.btn {
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Razmak između dugmadi */
+.ms-2 {
+    margin-left: 10px;
+}
+/* Stil za strelicu */
+.btn-secondary {
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    min-width: 60px;
+}
+
+/* Stil za input polje */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    padding: 12px 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    background-color: #ffffff;
+}
+
+/* Razmak između kartica */
+.container {
+    padding: 20px;
 }
