@@ -69,7 +69,7 @@ LIMIT 10;
     });
 });
 router.get("/admin", (req, res) => {
-    if (!req.session.user) {
+    if (!req.session.user.admin) {
         return res.redirect("/");
     }
     res.render("admin",{title: "admin", user: req.session.user});
