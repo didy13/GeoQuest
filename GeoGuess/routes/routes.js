@@ -55,6 +55,26 @@ router.get("/login", (req, res) => {
     res.render("login",{title: "Login", user: ""});
 });
 
+router.get("/ranglista", (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
+    const query = `
+        SELECT k.nickname, r.bodovi, r.datum
+        FROM RangLista r
+        INNER JOIN Korisnik k ON r.KorisnikID = k.KorisnikID
+        ORDER BY r.bodovi DESC, r.datum DESC
+    `;
+
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error("Error fetching leaderboard:", err);
+            return res.status(500).send("Internal Server Error");
+        }
+        console.log(results);
+        res.render("ranglista", { title: "Rang lista", rezultati: results, user: req.session.user.username });
+    });
+});
 
 router.post("/login", (req, res) => {
     const { nickname, lozinka } = req.body;
