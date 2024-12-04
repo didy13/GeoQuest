@@ -20,14 +20,16 @@
                 <li class="nav-item">
                     <a class="nav-link navLink" href="/register">Registracija</a>
                 </li>
+                <% if (user.admin) { %>
                 <li class="nav-item">
                     <a class="nav-link navLink" href="/admin">Admin</a>
                 </li>
+                <% } %>
             </ul>
-            <% if (user != "") { %>
+            <% if (user.username != "") { %>
             <div class="ms-auto d-flex flex-wrap justify-content-center align-items-center">
                 <div class="username">
-                    <%= user %>
+                    <%= user.username %>
                 </div>
                 <a href="/logout">
                 <button type="button" class="btn navBtn">

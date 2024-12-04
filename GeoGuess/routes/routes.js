@@ -40,7 +40,7 @@ const isAuthenticated = (req, res, next) =>
 
 router.get("/", isAuthenticated, (req, res) => {
     console.log(req.session.user);
-    res.render("index", { title: "Home", user: req.session.user.username});
+    res.render("index", { title: "Home", user: req.session.user});
 });
 router.get("/kviz", (req, res) => {
     if (!req.session.user) {
@@ -65,14 +65,14 @@ LIMIT 10;
             // Osiguraj da se odgovor šalje samo jednom
             return res.status(500).send("Server Error");
         }
-    res.render("kviz",{title: "kviz", user: req.session.user.username, questions: results});
+    res.render("kviz",{title: "kviz", user: req.session.user, questions: results});
     });
 });
 router.get("/admin", (req, res) => {
     if (!req.session.user) {
         return res.redirect("/");
     }
-    res.render("admin",{title: "admin", user: req.session.user.username});
+    res.render("admin",{title: "admin", user: req.session.user});
 });
 router.get("/login", (req, res) => {
     if (req.session.user) {
@@ -98,7 +98,7 @@ router.get("/ranglista", (req, res) => {
             return res.status(500).send("Internal Server Error");
         }
         console.log(results);
-        res.render("ranglista", { title: "Rang lista", rezultati: results, user: req.session.user.username });
+        res.render("ranglista", { title: "Rang lista", rezultati: results, user: req.session.user });
     });
 });
 
@@ -114,7 +114,7 @@ router.post("/login", (req, res) => {
         if (results.length > 0) {
             const validPassword = await bcrypt.compare(lozinka, results[0].lozinka);
             if (validPassword) {
-                req.session.user = { username: results[0].nickname };
+                req.session.user = { username: results[0].nickname, admin: results[0].admin};
                 req.session.save((saveErr) => { // Eksplicitno sačuvaj sesiju
                     if (saveErr) {
                         console.error("Error saving session:", saveErr);
@@ -144,7 +144,7 @@ router.get("/register", (req, res) => {
     let username = "";
     if(req.session.user)
     {
-        username = req.session.user.username;
+        username = req.session.user;
     }
     res.render("register", { error: "",title: "Register", user: username, errors: [] }); // Pretpostavljamo da postoji odgovarajuća view datoteka
 });
@@ -286,7 +286,7 @@ router.post('/adminDeleteUser', async (req, res) => {
             success: `Korisnik "${username}" je uspešno obrisan.`,
             formData: {}, // Clear the form data
             title: 'Delete User',
-            user: req.session.user.username || '',
+            user: req.session.user || '',
         });
         
     } catch (error) {
@@ -330,7 +330,7 @@ router.post('/adminDeleteQuestion', async (req, res) => {
                 errors: [{ msg: 'Pitanje ne postoji!' }], 
                 formData: req.body,
                 title: 'Delete Question',
-                user: req.session.user.username || '',
+                user: req.session.user || '',
             });
         }
 
@@ -350,7 +350,7 @@ router.post('/adminDeleteQuestion', async (req, res) => {
             success: `Pitanje o "${imeDrzave}" je uspešno obrisano.`,
             formData: {}, // Clear the form data
             title: 'Delete Question',
-            user: req.session.user.username || '',
+            user: req.session.user || '',
         });
         
     } catch (error) {
@@ -397,7 +397,7 @@ router.post('/adminInsertQuestion', async (req, res) => {
             success: `Pitanje za "${imeDrzave}" je uspešno dodato.`,
             formData: {}, // Clear the form data
             title: 'Insert Question',
-            user: req.session.user.username || '',
+            user: req.session.user || '',
         });
         
     } catch (error) {
@@ -562,7 +562,7 @@ router.use((req,res) => {
     let username = "";
     if(req.session.user)
     {
-        username = req.session.user.username;
+        username = req.session.user;
     }
     res.status(404).render("404", {title: "404", user: username});
 })
