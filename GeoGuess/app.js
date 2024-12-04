@@ -13,7 +13,6 @@ app.listen(process.env.PORT, () =>
 {
     console.log(`server je pokrenut na portu ${process.env.PORT}`);
 })
-
 app.use(routes);
 
 
