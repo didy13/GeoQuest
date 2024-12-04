@@ -7,6 +7,11 @@ const bcrypt = require("bcrypt");
 const Korisnik = require("../models/Korisnik");
 const registerValidation = require("../public/registerValidation");
 const { validationResult } = require('express-validator');
+const {
+    getRandomEasyQuestion,
+    getRandomMediumQuestion,
+    getRandomHardQuestion
+} = require('../public/kvizAlgorithm');
 
 Korisnik.setConnection(connection);
 
@@ -137,6 +142,49 @@ router.post('/register', [
     }
 });
 
+router.get('/kvizLaka', (req, res) => {
+    getRandomEasyQuestion((err, question) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Internal Server Error');
+        }
+        if (question) {
+            return res.render('question', { question });
+        } else {
+            return res.send('No questions available.');
+        }
+    });
+});
+
+// Route for fetching a medium difficulty question
+router.get('/kvizSrednja', (req, res) => {
+    getRandomMediumQuestion((err, question) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Internal Server Error');
+        }
+        if (question) {
+            return res.render('question', { question });
+        } else {
+            return res.send('No questions available.');
+        }
+    });
+});
+
+// Route for fetching a hard question
+router.get('/kvizTeska', (req, res) => {
+    getRandomHardQuestion((err, question) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Internal Server Error');
+        }
+        if (question) {
+            return res.render('question', { question });
+        } else {
+            return res.send('No questions available.');
+        }
+    });
+});
 
 
 module.exports = router;
