@@ -12,13 +12,13 @@
                 <div class="row">
                     <div class="col-sm-6 col-12 mb-3">
                         <label for="Ime">Ime <span class="req">*</span></label>
-                        <input type="text" name="ime" placeholder="Unesite svoje ime" class="form-control" >
+                        <input type="text" name="ime" placeholder="Unesite svoje ime" class="form-control mb-1">
                         <% if (errors && errors.length > 0) { %>
                             <div class="error-messages">
                                 <%  errors.forEach(function(error) { %>
                                 <%  if (error.msg.toLowerCase().includes(" ime")){%>
                                     <div class="error">
-                                        <p><%= error.msg %></p>
+                                        <p class="error mb-2"><%= error.msg.trim() %></p>
                                     </div>
                                 <% }}); %>
                             </div>
@@ -26,13 +26,13 @@
                     </div>
                     <div class="col-sm-6 col-12 mb-3">
                         <label for="Prezime">Prezime <span class="req">*</span></label>
-                        <input type="text" name="prezime" placeholder="Unesite svoje prezime" class="form-control" >
+                        <input type="text" name="prezime" placeholder="Unesite svoje prezime" class="form-control mb-1">
                         <% if (errors && errors.length > 0) { %>
                             <div class="error-messages">
                                 <%  errors.forEach(function(error) { %>
                                 <%  if (error.msg.toLowerCase().includes("prezime")){%>
                                     <div class="error">
-                                        <p><%= error.msg %></p>
+                                        <p class="error mb-2"><%= error.msg %></p>
                                     </div>
                                 <% }}); %>
                             </div>
@@ -42,13 +42,13 @@
                 <div class="row">
                     <div class="col-sm-6 col-12 mb-3">
                         <label for="Nickname">Korisničko ime <span class="req">*</span></label>
-                        <input type="text" name="nickname" placeholder="Unestie korisničko ime" class="form-control" >
+                        <input type="text" name="nickname" placeholder="Unestie korisničko ime" class="form-control mb-1">
                         <% if (errors && errors.length > 0) { %>
                             <div class="error-messages">
                                 <%  errors.forEach(function(error) { %>
                                 <%  if (error.msg.toLowerCase().includes("nickname")){%>
                                     <div class="error">
-                                        <p><%= error.msg %></p>
+                                        <p class="error mb-2"><%= error.msg %></p>
                                     </div>
                                 <% }}); %>
                             </div>
@@ -56,13 +56,13 @@
                     </div>
                     <div class="col-sm-6 col-12 mb-3">
                         <label for="Email">Email <span class="req">*</span></label>
-                        <input type="email" name="email" placeholder="Unesite svoj email" class="form-control" >
+                        <input type="text" name="email" placeholder="Unesite svoj email" class="form-control mb-1">
                         <% if (errors && errors.length > 0) { %>
                             <div class="error-messages">
                                 <%  errors.forEach(function(error) { %>
                                 <%  if (error.msg.toLowerCase().includes("email")){%>
                                     <div class="error">
-                                        <p><%= error.msg %></p>
+                                        <p class="error mb-2"><%= error.msg %></p>
                                     </div>
                                 <% }}); %>
                             </div>
@@ -72,13 +72,13 @@
                 <div class="row">
                     <div class="col-sm-6 col-12 mb-3">
                         <label for="Lozinka">Lozinka <span class="req">*</span></label>
-                        <input type="password" name="lozinka" placeholder="Unesite lozinku" class="form-control" >
+                        <input type="password" name="lozinka" placeholder="Unesite lozinku" class="form-control mb-1">
                         <% if (errors && errors.length > 0) { %>
                             <div class="error-messages">
                                 <%  errors.forEach(function(error) { %>
                                 <%  if (error.msg.toLowerCase().includes("lozinka")){%>
                                     <div class="error">
-                                        <p><%= error.msg %></p>
+                                        <p class="error mb-2"><%= error.msg %></p>
                                     </div>
                                 <% }}); %>
                             </div>
@@ -86,13 +86,13 @@
                     </div>
                     <div class="col-sm-6 col-12 mb-3">
                         <label for="datumRodjenja">Datum Rođenja <span class="req">*</span></label>
-                        <input type="date" name="date" class="form-control" >
+                        <input type="date" name="date" class="form-control mb-1">
                         <% if (errors && errors.length > 0) { %>
                             <div class="error-messages">
                                 <%  errors.forEach(function(error) { %>
                                 <%  if (error.msg.toLowerCase().includes("datum") || error.msg.toLowerCase().includes("godina")){%>
                                     <div class="error">
-                                        <p><%= error.msg %></p>
+                                        <p class="error mb-2"><%= error.msg %></p>
                                     </div>
                                 <% }}); %>
                             </div>
@@ -101,7 +101,7 @@
                 </div>
                 <button type="submit" class="btn dugme mt-2">Napravi nalog</button>
             </form>
-            <div class="PrijavaRegistracija mt-5">
+            <div class="PrijavaRegistracija mt-4">
                 <p>Imaš nalog? <a href="/login">Prijavi se</a></p>
             </div>
         </div>
@@ -110,7 +110,6 @@
                 <p class="error"><%= error %></p>
             </div>
         <% } %>
-        
     </section>
 
     <%- include("./partials/footer.ejs") %>
