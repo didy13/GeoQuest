@@ -42,8 +42,12 @@ router.get("/", isAuthenticated, (req, res) => {
     console.log(req.session.user);
     res.render("index", { title: "Home", user: req.session.user.username });
 });
-
-
+router.get("/kviz", (req, res) => {
+    if (req.session.user) {
+        return res.redirect("/");
+    }
+    res.render("kviz",{title: "kviz", user: ""});
+});
 router.get("/login", (req, res) => {
     if (req.session.user) {
         return res.redirect("/");

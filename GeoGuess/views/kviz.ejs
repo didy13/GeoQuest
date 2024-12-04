@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("./partials/head.ejs") %>
+    <body>
+        <header>
+            <%- include("./partials/nav.ejs") %>
+        </header>
+
+        <div class="container mt-5">
+            <!-- Brojač pitanja i timer -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div id="question-count" class="font-weight-bold">
+                    <span id="current-question">1</span> / <span id="total-questions">10</span>
+                </div>
+
+                <div id="timer" class="d-flex justify-content-center align-items-center">
+                    <div id="timer-text" class="fs-4">00:00</div>
+                </div>
+            </div>
+
+            <!-- Container for the question cards -->
+            <div class="card-container d-flex justify-content-center align-items-center">
+                <!-- Prva kartica (centrirana) -->
+                <div class="card shadow-lg p-4 question-card" id="card1">
+                    <div class="card-body">
+                        <h5 class="card-title">Pitanje 1:</h5>
+                        <p class="card-text">Koji je glavni grad Francuske?</p>
+                        <div class="mb-3">
+                            <label for="answer1" class="form-label">Unesite odgovor:</label>
+                            <input type="text" class="form-control" id="answer1" placeholder="Unesite odgovor ovde" required>
+                        </div>
+                        <form action="/check-answer" method="POST">
+                            <button type="submit" class="btn btn-success">Proveri odgovor</button>
+                        </form>
+                        <br>
+                       
+                    </div>
+                </div>
+
+                <!-- Druga kartica (blurovana na početku) -->
+                <div class="card shadow-lg p-4 question-card blurred" id="card2">
+                    <div class="card-body">
+                        <h5 class="card-title">Pitanje 2:</h5>
+                        <p class="card-text">Koji je glavni grad Italije?</p>
+                        <div class="mb-3">
+                            <label for="answer2" class="form-label">Unesite odgovor:</label>
+                            <input type="text" class="form-control" id="answer2" placeholder="Unesite odgovor ovde" required>
+                        </div>
+                        <form action="/check-answer" method="POST">
+                            <button type="submit" class="btn btn-success">Proveri odgovor</button>
+                        </form>
+                        <br>
+                       
+                    </div>
+                </div>
+
+                <!-- Treća kartica (blurovana na početku) -->
+                <div class="card shadow-lg p-4 question-card blurred" id="card3">
+                    <div class="card-body">
+                        <h5 class="card-title">Pitanje 3:</h5>
+                        <p class="card-text">Koji je glavni grad Španije?</p>
+                        <div class="mb-3">
+                            <label for="answer3" class="form-label">Unesite odgovor:</label>
+                            <input type="text" class="form-control" id="answer3" placeholder="Unesite odgovor ovde" required>
+                        </div>
+                        <form action="/check-answer" method="POST">
+                            <button type="submit" class="btn btn-success">Proveri odgovor</button>
+                        </form>
+                        <br>
+                       
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strelica za sledeće pitanje i povratak na prethodno pitanje -->
+            <div class="d-flex justify-content-between mt-3">
+                <button id="prev-button" class="btn btn-secondary" onclick="previousQuestion()" style="display: none;">←</button>
+                <button id="next-button" class="btn btn-secondary" onclick="nextQuestion()">→</button>
+            </div>
+        </div>
+
+        <%- include("./partials/footer.ejs") %>
+
+        <script>
+            let currentCardIndex = 0; // Indeks trenutne kartice
+            const totalQuestions = 3;
+            let timerInterval; 
+            let timeLeft = 0; // Timer na 60 sekundi po pitanju
+
+            // Funkcija za pokretanje timera
+            function startTimer() {
+                timerInterval = setInterval(function() {
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    document.getElementById('timer-text').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                    timeLeft++;
+
+                    if (timeLeft < 0) {
+                        clearInterval(timerInterval); // Zaustavi timer kada vreme istekne
+                    }
+                }, 1000);
+            }
+
+            // Funkcija za sledeće pitanje
+            function nextQuestion() {
+                // Skriva trenutnu karticu
+                const currentCard = document.getElementById('card' + (currentCardIndex + 1));
+                currentCard.classList.add('blurred'); // Blurovanje trenutne kartice
+                currentCard.style.transform = 'translateX(-100%)'; // Pomeri karticu ulevo
+
+                // Prikazuje sledeću karticu
+                currentCardIndex++;
+                const nextCard = document.getElementById('card' + (currentCardIndex + 1));
+                if (nextCard) {
+                    nextCard.classList.remove('blurred'); // Otkrivanje sledeće kartice
+                    nextCard.style.transform = 'translateX(0)'; // Vraća sledeću karticu u centar
+                }
+
+              
+
+                // Sakriva strelicu za sledeće pitanje ako je poslednje
+                if (currentCardIndex === totalQuestions - 1) {
+                    document.getElementById('next-button').style.display = 'none'; // Poslednje pitanje, nema sledeće
+                }
+
+                // Prikazuje strelicu za prethodno pitanje
+                document.getElementById('prev-button').style.display = 'inline-block';
+            }
+
+            // Funkcija za prethodno pitanje
+            function previousQuestion() {
+                // Skriva trenutnu karticu
+                const currentCard = document.getElementById('card' + (currentCardIndex + 1));
+                currentCard.classList.add('blurred'); // Blurovanje trenutne kartice
+                currentCard.style.transform = 'translateX(100%)'; // Pomeri karticu udesno
+
+                // Prikazuje prethodnu karticu
+                currentCardIndex--;
+                const prevCard = document.getElementById('card' + (currentCardIndex + 1));
+                if (prevCard) {
+                    prevCard.classList.remove('blurred'); // Otkrivanje prethodne kartice
+                    prevCard.style.transform = 'translateX(0)'; // Vraća prethodnu karticu u centar
+                }
+
+               
+
+                // Sakriva strelicu za prethodno pitanje ako je prvi
+                if (currentCardIndex === 0) {
+                    document.getElementById('prev-button').style.display = 'none'; // Prvo pitanje, nema prethodno
+                }
+
+                // Prikazuje strelicu za sledeće pitanje
+                document.getElementById('next-button').style.display = 'inline-block';
+            }
+
+            // Pokreni timer prilikom učitavanja stranice
+            startTimer();
+        </script>
+    </body>
+</html>
