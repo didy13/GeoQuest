@@ -118,14 +118,14 @@ router.post('/register', registerValidation, async (req, res) => {
     try {
         // Check if the user already exists (email or nickname)
         const checkQuery = "SELECT * FROM Korisnik WHERE email = ? OR nickname = ?";
-        const [existingUser] = await new Promise((resolve, reject) => {
+        const existingUsers = await new Promise((resolve, reject) => {
             connection.query(checkQuery, [email, nickname], (err, results) => {
                 if (err) return reject(err);
                 resolve(results);
             });
         });
-
-        if (existingUser.length > 0) {
+        
+        if (existingUsers.length > 0) {
             // User with email or nickname already exists
             return res.status(400).render('register', {
                 errors: [], // No validation errors
@@ -135,6 +135,7 @@ router.post('/register', registerValidation, async (req, res) => {
                 error: 'Email ili korisničko ime već postoje!' // Global error message
             });
         }
+        
 
         // Hash the password
         const hashedPassword = await bcrypt.hash(lozinka, 10);

@@ -45,6 +45,11 @@
                 <p>Imaš nalog? <a href="/login">Prijavi se</a></p>
             </div>
         </div>
+        <% if (errors) { %>
+            <div class="text-cetner mt-3">
+                <p class="error"><%= errors %></p>
+            </div>
+        <% } %>
         <% if (errors && errors.length > 0) { %>
             <div class="error-messages">
                 <% errors.forEach(function(error) { %>
