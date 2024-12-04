@@ -3,6 +3,7 @@
     font-size: 16px;
     font-weight: 400;
 }
+
 .dugme {
     background-color: #ccff34 !important;
     color: #6785ff !important;
@@ -13,24 +14,30 @@ nav {
     background-color: #6785ff;
     box-shadow: 0 8px 18px rgba(103, 133, 255, 0.5);
 }
+
 .navLogo {
     width: 164px;
     height: auto;
 }
+
 .navLink {
     color: white !important;
 }
+
 .username {
     color: white !important;
     margin-right: 15px;
 }
+
 .navBtn {
     background-color: #ccff34 !important;
     color: #6785ff !important;
 }
+
 .navBtn:hover {
     background-color: #ccff34 !important;
 }
+
 .btnLogin {
     text-decoration: none !important;
     color: #6785ff !important;
@@ -40,11 +47,13 @@ nav {
 footer {
     background-color: #6785ff;
 }
+
 footer p {
     color: white;
     font-size: 18px;
     margin: 0;
 }
+
 footer img {
     width: 340px;
 }
@@ -71,6 +80,7 @@ footer img {
     margin-top: 130px;
     margin-bottom: 130px;
 }
+
 .Prijava {
     background-color: #6785ff;
     padding: 40px;
@@ -79,15 +89,18 @@ footer img {
     margin-left: auto;
     margin-right: auto;
 }
+
 .Prijava h1 {
     color: #ccff34 !important;
     font-weight: 600;
     margin-bottom: 25px;
 }
+
 .Prijava label {
     color: #ffffff !important;
     margin-bottom: 0;
 }
+
 .Prijava input {
     margin-left: auto;
     margin-right: auto;
@@ -98,6 +111,7 @@ footer img {
 .PrijavaRegistracija {
     color: white;
 }
+
 .PrijavaRegistracija a {
     color: #ccff34;
 }
@@ -107,19 +121,23 @@ footer img {
     margin-top: 130px;
     margin-bottom: 130px;
 }
+
 .Forma {
     background-color: #6785ff;
     padding: 40px;
     border-radius: 10px;
 }
+
 .Forma h1 {
     color: #ccff34 !important;
     font-weight: 600;
     margin-bottom: 25px;
 }
+
 form label {
     color: #ffffff !important;
 }
+
 .req {
     color: rgb(209, 24, 25);
 }
@@ -135,6 +153,7 @@ form label {
     margin-bottom: 130px;
     text-align: center;
 }
+
 .kvizDugme {
     font-size: 34px !important;
     font-weight: 500;
@@ -184,22 +203,26 @@ form label {
     padding: 8px 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 #timer-text {
     font-weight: bold;
     font-size: 1.5rem;
     color: #007bff;
 }
 
-#card:nth-child(2){
+#card:nth-child(2) {
     translate: 100%;
 }
+
 /* Stil za kartice sa pitanjima */
 .card-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px; /* Razmak između kartica */
-    overflow: hidden; /* Da bi kartice ostale unutar ekrana */
+    gap: 20px;
+    /* Razmak između kartica */
+    overflow: hidden;
+    /* Da bi kartice ostale unutar ekrana */
     width: 100%;
     position: relative;
 }
@@ -222,7 +245,8 @@ form label {
 .question-card.blurred {
     filter: blur(4px);
     opacity: 0.6;
-    pointer-events: none; /* Sprečava interakciju dok je kartica blurovana */
+    pointer-events: none;
+    /* Sprečava interakciju dok je kartica blurovana */
 }
 
 /* Efekat hover na kartici */
@@ -269,6 +293,7 @@ form label {
 .ms-2 {
     margin-left: 10px;
 }
+
 /* Stil za strelicu */
 .btn-secondary {
     font-size: 1.5rem;
@@ -297,11 +322,13 @@ form label {
 .container {
     padding: 20px;
 }
+
 .table {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.table th, .table td {
+.table th,
+.table td {
     text-align: center;
     vertical-align: middle;
 }
@@ -322,6 +349,7 @@ form label {
     background: rgba(0, 0, 0, 0.7);
     z-index: 1000;
 }
+
 .stats-form {
     position: fixed;
     top: 50%;
@@ -335,12 +363,15 @@ form label {
     z-index: 1010;
     width: 300px;
 }
+
 body.modal-open {
     overflow: hidden;
 }
+
 .Statistika h3 {
     font-size: 32px !important;
 }
+
 .Statistika p {
     font-size: 18px;
 }
@@ -359,5 +390,283 @@ body.modal-open {
         margin-right: 0px;
         margin-top: 8px;
         margin-bottom: 12px;
+    }
+}
+
+/* Form Styling */
+form {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin: 30px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 60%;
+    max-width: 700px;
+}
+
+form h1 {
+    font-size: 24px;
+    color: #6785ff;
+    margin-bottom: 20px;
+}
+
+form input[type="text"],
+form select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+form select {
+    background-color: #f8f9fa;
+}
+
+/* Submit button styling */
+form input[type="submit"] {
+    background-color: #ccff34;
+    color: #6785ff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+    background-color: #a0e529;
+}
+
+/* Styling for labels and inputs */
+form label {
+    color: #333;
+    font-size: 16px;
+}
+
+form input[type="text"]:focus,
+form select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Additional Spacing and Button Styling */
+form .ms-2 {
+    margin-left: 10px;
+}
+
+form .btn {
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+form .btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+form .btn-success:hover {
+    background-color: #218838;
+}
+
+form .btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+}
+
+form .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+
+
+/* Responsive Design */
+@media only screen and (max-width: 992px) {
+    form {
+        width: 80%;
+    }
+
+    footer img {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+/*/////////////////////////
+
+/* Quiz Info Section */
+.quiz-info {
+    padding: 60px 0;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.quiz-info h1 {
+    font-size: 2rem;
+    color: #6785ff;
+    margin-bottom: 20px;
+}
+
+.quiz-info p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Technologies Section */
+.technologies {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.technologies h1 {
+    font-size: 2rem;
+    color: #6785ff;
+    margin-bottom: 30px;
+}
+
+.technologies ul {
+    list-style: none;
+    padding: 0;
+}
+
+.technologies ul li {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* Team Section */
+.team-info {
+    padding: 60px 0;
+    background-color: #ffffff;
+}
+
+.team-info h1 {
+    font-size: 2rem;
+    color: #6785ff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.team-members {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.team-member {
+    text-align: center;
+    width: 30%;
+    transition: transform 0.3s ease;
+}
+
+.team-member img {
+    width: 100%;
+    border-radius: 50%;
+    max-width: 150px;
+    margin-bottom: 15px;
+}
+
+.team-member h3 {
+    color: #6785ff;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.team-member p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.team-member:hover {
+    transform: scale(1.05);
+}
+
+/* Testimonials slider sa scroll bar-om */
+.testimonials-slider {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+}
+
+.testimonial {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    flex-shrink: 0;
+}
+
+.testimonials-slider::-webkit-scrollbar {
+    height: 10px;
+    /* Visina scroll bar-a */
+}
+
+.testimonials-slider::-webkit-scrollbar-thumb {
+    background-color: #6785ff;
+    border-radius: 5px;
+}
+
+.testimonials-slider::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+/* Animacija sekcija pri skrolovanju */
+.quiz-info,
+.technologies,
+.team-info,
+.testimonials {
+    opacity: 0;
+    /* Početna skrivenost */
+    transform: translateY(50px);
+    /* Sekcija je pomerena dole */
+    transition: all 0.5s ease;
+    /* Efekat animacije */
+}
+
+.quiz-info.animate,
+.technologies.animate,
+.team-info.animate,
+.testimonials.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* jQuery Animation on Scroll */
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .team-members {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .team-member {
+        width: 80%;
+        margin-bottom: 20px;
     }
 }
