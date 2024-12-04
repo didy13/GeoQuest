@@ -199,7 +199,7 @@ router.post('/register', registerValidation, async (req, res) => {
         await newUser.save();
 
         // Store the user in the session
-        req.session.user = { username: newUser.nickname };
+        req.session.user = { username: newUser.nickname, admin: false };
         req.session.save((err) => {
             if (err) {
                 console.error('Error saving session:', err);
