@@ -178,43 +178,6 @@ form label {
     font-size: 22px !important;
 }
 
-/* Pocetna */
-.Pocetna {
-    margin-top: 50px;
-    margin-bottom: 50px;
-}
-.Nature {
-    background-image: url("Nature.jpg");
-    background-size: cover;
-    position: relative;
-    color: white;
-}
-.Nature h1 {
-    font-size: 56px;
-}
-.Nature p {
-    font-size: 20px;
-}
-.Overlay {
-    background-color: rgba(0, 0, 0, 0.5);
-    min-height: 100vh;
-    padding-top: 19%;
-}
-.Pocetna h2 {
-    font-size: 42px;
-}
-.Pocetna p {
-    font-size: 20px;
-}
-.Pocetna span {
-    background-color: #6785ff;
-    color: #ccff34;
-    border-radius: 10px;
-    padding: 6px;
-    font-size: 20px;
-    font-weight: 500;
-}
-
 /* Pocetak Kviza */
 .pocetakKviza {
     margin-top: 75px;
@@ -334,6 +297,46 @@ form label {
     padding-right: 20px !important;
     padding-top: 10px !important;
     padding-bottom: 10px !important;
+}
+
+/* Pocetna */
+.Nature {
+    background-image: url("Nature.jpg");
+    min-height: 100vh;
+    background-size: cover;
+    position: relative;
+    color: white;
+}
+.Nature h1 {
+    font-size: 56px !important;
+    font-weight: 800 !important;
+}
+.HeroSubtitle {
+    font-size: 20px;
+    font-weight: 500;
+}
+.Pocetna {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.NatureOverlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    min-height: 100vh;
+    padding-top: 10%;
+}
+.Pocetna h2 {
+    font-size: 42px;
+}
+.Pocetna p {
+    font-size: 20px;
+}
+.Pocetna span {
+    background-color: #6785ff;
+    color: #ccff34;
+    border-radius: 10px;
+    padding: 6px;
+    font-size: 20px;
+    font-weight: 500;
 }
 
 /* Manji ekrani */

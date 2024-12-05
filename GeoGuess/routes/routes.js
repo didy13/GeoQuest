@@ -11,11 +11,6 @@ const axios = require('axios');
 const { OpenWeatherAPI } = require("openweather-api-node")
 const translate = require('@iamtraction/google-translate');
 router.use(express.json());
-const {
-    getRandomEasyQuestion,
-    getRandomMediumQuestion,
-    getRandomHardQuestion
-} = require('../public/kvizAlgorithm');
 
 Korisnik.setConnection(connection);
 
@@ -367,6 +362,7 @@ router.get("/ranglista", (req, res) => {
         FROM RangLista r
         INNER JOIN Korisnik k ON r.KorisnikID = k.KorisnikID
         ORDER BY r.bodovi DESC, r.datum DESC
+        LIMIT 10
     `;
 
     connection.query(query, (err, results) => {
@@ -766,68 +762,6 @@ async function executeUpdateQuery(query, values) {
     });
 }
 
-
-router.get('/kvizLaka', (req, res) => {
-    getRandomEasyQuestion((err, question) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Internal Server Error');
-        }
-        if (question) {
-            return res.render('question', { question });
-        } else {
-            return res.send('No questions available.');
-        }
-    });
-});
-
-// Route for fetching a medium difficulty question
-router.get('/kvizSrednja', (req, res) => {
-    getRandomMediumQuestion((err, question) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Internal Server Error');
-        }
-        if (question) {
-            return res.render('question', { question });
-        } else {
-            return res.send('No questions available.');
-        }
-    });
-});
-
-// Route for fetching a hard question
-router.get('/kvizTeska', (req, res) => {
-    getRandomHardQuestion((err, question) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Internal Server Error');
-        }
-        if (question) {
-            return res.render('question', { question });
-        } else {
-            return res.send('No questions available.');
-        }
-    });
-});
-
-/*router.post('/register', registerValidation, (req, res) => {
-    // Check for validation errors
-    const errors = validationResult(req);
-  
-    if (!errors.isEmpty()) {
-      // If there are validation errors, render the form again with the errors
-      return res.status(400).render('register', { 
-        title: 'Register',
-        errors: errors.array(),
-        formData: req.body  // Optionally send back the form data
-      });
-    }
-  
-    // Proceed with form submission if no errors
-    // Here you can insert the data into the database or perform other actions
-    res.send('Form is valid and data has been processed!');
-  });*/
 router.use((req,res) => {
     let username = "";
     if(req.session.user)
