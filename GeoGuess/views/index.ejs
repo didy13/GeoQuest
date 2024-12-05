@@ -6,47 +6,39 @@
         <%- include("./partials/nav.ejs") %>
     </header>
 
-    <div class="Nature">
-        <div class="Overlay">
+    <section class="Nature">
+        <div class="NatureOverlay">
             <div class="container text-center">
                 <h1>Dobrodošli u GeoGuess! 🌍</h1>
-                <p>
-                    Dobrodošli na našu aplikaciju, jedinstveni kviz o geografiji koji testira vaše znanje o zemljama sveta. GeoGuess nije samo igra — to je zabavan i edukativan način da proširite svoja znanja i izazovete svoje prijatelje.
-                </p>
+                <p class="HeroSubtitle">Dobrodošli na našu aplikaciju, jedinstveni kviz o geografiji koji testira vaše znanje o zemljama sveta. GeoGuess nije samo igra — to je zabavan i edukativan način da proširite svoja znanja i izazovete svoje prijatelje.</p>
+                <div class="Weather container">
+                    <h2 class="text-center mb-3">Vreme u <%= city.original %></h2>
+                    <% if (weather) { %>
+                        <div class="text-center">
+                            <h3><%= weather.weather.main %> - <%= weather.weather.description %></h3>
+
+                            <% if (weather.weather.icon && weather.weather.icon.url) { %>
+                                <div class="weather-icon mb-3">
+                                    <img src="<%= weather.weather.icon.url %>" alt="<%= weather.weather.description || 'N/A' %>" style="width: 100px; height: 100px;">
+                                </div>
+                            <% } else { %>
+                                <p>No weather icon available</p>
+                            <% } %>
+
+                            <p><strong>Temperatura:</strong> <%= weather.weather.temp && weather.weather.temp.cur ? weather.weather.temp.cur : 'N/A' %>°C</p>
+                            <p><strong>Temperatura osećanja:</strong> <%= weather.weather.feelsLike && weather.weather.feelsLike.cur ? weather.weather.feelsLike.cur : 'N/A' %>°C</p>
+                            <p><strong>Vlažnost vazduha:</strong> <%= weather.weather.humidity !== undefined ? weather.weather.humidity : 'N/A' %>%</p>
+                            <p><strong>Pritisak:</strong> <%= weather.weather.pressure !== undefined ? weather.weather.pressure : 'N/A' %> hPa</p>
+                            <p><strong>Brzina vetra:</strong> <%= weather.weather.wind && weather.weather.wind.speed ? weather.weather.wind.speed : 'N/A' %> m/s</p>
+                            <p><strong>Vidljivost:</strong> <%= weather.weather.visibility ? weather.weather.visibility / 1000 : 'N/A' %> km</p>
+                        </div>
+                    <% } else { %>
+                        <p>Trenutno ne možemo prikazati podatke o vremenu.</p>
+                    <% } %>
+                </div>
             </div>
         </div>
-    </div>
-
-<!-- Weather Section -->
-<section class="Weather container">
-    <h2 class="text-center mb-3">Vreme u <%= city.original %></h2>
-    <% if (weather) { %>
-        <div class="text-center">
-            <h3><%= weather.weather.main %> - <%= weather.weather.description %></h3>
-
-            <!-- Ikona vremena -->
-            <% if (weather.weather.icon && weather.weather.icon.url) { %>
-                <div class="weather-icon mb-3">
-                    <img src="<%= weather.weather.icon.url %>" alt="<%= weather.weather.description || 'N/A' %>" style="width: 100px; height: 100px;">
-                </div>
-            <% } else { %>
-                <p>No weather icon available</p>
-            <% } %>
-
-            <!-- Glavne informacije -->
-            <p><strong>Temperatura:</strong> <%= weather.weather.temp && weather.weather.temp.cur ? weather.weather.temp.cur : 'N/A' %>°C</p>
-            <p><strong>Temperatura osećanja:</strong> <%= weather.weather.feelsLike && weather.weather.feelsLike.cur ? weather.weather.feelsLike.cur : 'N/A' %>°C</p>
-            <p><strong>Vlažnost vazduha:</strong> <%= weather.weather.humidity !== undefined ? weather.weather.humidity : 'N/A' %>%</p>
-            <p><strong>Pritisak:</strong> <%= weather.weather.pressure !== undefined ? weather.weather.pressure : 'N/A' %> hPa</p>
-            <p><strong>Brzina vetra:</strong> <%= weather.weather.wind && weather.weather.wind.speed ? weather.weather.wind.speed : 'N/A' %> m/s</p>
-            <p><strong>Vidljivost:</strong> <%= weather.weather.visibility ? weather.weather.visibility / 1000 : 'N/A' %> km</p>
-        </div>
-    <% } else { %>
-        <p>Trenutno ne možemo prikazati podatke o vremenu.</p>
-    <% } %>
-</section>
-
-
+    </section>
 
     <section class="Pocetna container">
         <!-- Hook sekcija -->
