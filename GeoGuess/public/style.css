@@ -271,6 +271,43 @@ body.modal-open {
     font-size: 22px !important;
 }
 
+/* Pocetna */
+.Pocetna {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.Nature {
+    background-image: url("Nature.jpg");
+    background-size: cover;
+    position: relative;
+    color: white;
+}
+.Nature h1 {
+    font-size: 56px;
+}
+.Nature p {
+    font-size: 20px;
+}
+.Overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    min-height: 100vh;
+    padding-top: 19%;
+}
+.Pocetna h2 {
+    font-size: 42px;
+}
+.Pocetna p {
+    font-size: 20px;
+}
+.Pocetna span {
+    background-color: #6785ff;
+    color: #ccff34;
+    border-radius: 10px;
+    padding: 6px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
 /* Manji ekrani */
 @media only screen and (max-width: 992px) {
     .navBtn {

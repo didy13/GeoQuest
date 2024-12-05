@@ -40,7 +40,7 @@ const isAuthenticated = (req, res, next) =>
 
 router.get("/", isAuthenticated, (req, res) => {
     console.log(req.session.user);
-    res.render("index", { title: "GeoGuess Početna", user: req.session.user});
+    res.render("index", { title: "GeoGuess", user: req.session.user});
 });
 router.get("/kviz", (req, res) => {
     if (!req.session.user) {
