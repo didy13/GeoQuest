@@ -94,7 +94,15 @@
 
             allAnswers.forEach((option) => {
                 const button = document.createElement('button');
-                button.textContent = option;
+                if(!isNaN(option)){
+                    button.textContent = option;
+                }
+                else if(option.includes("https")){
+                    button.innerHTML = '<img width="100" height="100" src="' + option + '">';
+                }
+                else{
+                    button.textContent = option;
+                }
                 button.classList.add('option');
                 button.addEventListener('click', () => selectOption(button, option));
                 optionsEl.appendChild(button);
@@ -108,15 +116,27 @@
             const question = quizData[currentQuestion];
             Array.from(optionsEl.children).forEach(button => {
                 button.disabled = true;
+                
                 if (button.textContent === question.tacanOdgovor) {
                     button.classList.add('correct');
-                } else {
+                } else if (button.querySelector('img') && button.querySelector('img').src === question.tacanOdgovor) {
+                    button.classList.add('correct');
+                }
+                else {
                     button.classList.add('incorrect');
                 }
             });
 
             if (selectedAnswer === question.tacanOdgovor) {
-                score++;
+                if(question.tezina === "Lako"){
+                    score+=5;
+                }
+                else if(question.tezina === "Srednje"){
+                    score+=10;
+                }
+                else{
+                    score+=15;
+                }
                 selectedButton.classList.add('correct');
             } else {
                 selectedButton.classList.add('incorrect');
@@ -147,12 +167,21 @@
         }
 
         function showResults() {
+            if(timeLeft==600){
+                score = Math.floor(score * 2);
+            }
+            else if(timeLeft==0){
+                score = Math.floor(score * 0.5);
+            }
+            else{
+                score = score*Math.floor(0.5 + (1.5 * timeLeft) /600);
+            }
             quizContainer.innerHTML = `
                 <div class="results">
                     <div class="result-icon">
                         <i class="fas ${score > quizData.length / 2 ? 'fa-trophy text-success' : 'fa-times-circle text-danger'}"></i>
                     </div>
-                    <div class="score">Tvoj rezultat: ${score}/${quizData.length}</div>
+                    <div class="score">Tvoj rezultat: ${score}/600</div>
                     <p class="scoreParagraph">Preostalo vremena: ${Math.floor(timeLeft / 60)}:${timeLeft % 60}</p>
                     <p class="scoreParagraph">${score > quizData.length / 2 ? 'Svaka čast!' : 'Više sreće drugi put!'}</p>
                     <button class="btn dugme dugmeKviz mt-3" onclick="location.reload()">Ponovo pokrenite kviz</button>
@@ -160,7 +189,29 @@
             `;
             sendResultsToServer();
         }
-
+        function sendResultsToServer() {
+    const resultData = {
+        score: score,         // Rezultat korisnika
+        time: timeLeft,
+        user: `<%= user.username%>`  // Vreme koje je prošlo
+    };
+    console.log(resultData)
+    // Slanje POST zahteva na server
+    fetch('/api/quiz/results', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(resultData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Rezultati su uspešno poslati na server:', data);
+    })
+    .catch(error => {
+        console.error('Došlo je do greške pri slanju rezultata:', error);
+    });
+}
         nextBtn.addEventListener('click', () => {
             currentQuestion++;
             if (currentQuestion < quizData.length) {
