@@ -3,7 +3,6 @@
     font-size: 16px;
     font-weight: 400;
 }
-
 .dugme {
     background-color: #ccff34 !important;
     color: #6785ff !important;
@@ -135,67 +134,89 @@ form label {
 }
 
 /* Pocetak Kviza */
-.pocetakKviza {
-    margin-top: 100px;
-    margin-bottom: 100px;
-    text-align: center;
-}
-.kvizDugme {
-    font-size: 34px !important;
-    font-weight: 500 !important;
-    padding-left: 50px !important;
-    padding-right: 50px !important;
-    padding-top: 15px !important;
-    padding-bottom: 15px !important;
-}
-.pocetakKviza h1 {
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-.pocetakKviza h2 {
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-.pocetakKviza p {
-    font-size: 18px;
-    margin: 0;
+
+
+/* Strelica za sledeće pitanje */
+.btn-secondary {
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    border-radius: 5px;
 }
 
-/* Kviz */
-.kviz {
-    margin-top: 200px;
-    margin-bottom: 200px;
+/* Stil za dugme */
+.btn {
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: all 0.3s;
 }
-#question-count span {
-    font-size: 18px !important;
-    font-weight: 500 !important;
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
 }
-#timer {
-    font-size: 18px !important;
-    font-weight: 500 !important;
+
+.btn-success:hover {
+    background-color: #218838;
 }
-.dugmeTokomKviza {
-    font-size: 18px !important;
-    width: 150px !important;
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
 }
-.dugmeTokomKviza:disabled, .dugmeTokomKviza[disabled] {
-    border: 0 !important;
+
+.btn-primary:hover {
+    background-color: #0056b3;
 }
-.question-card {
-    transition: all 0.5s ease-in-out;
+
+/* Razmak između dugmadi */
+.ms-2 {
+    margin-left: 10px;
 }
-.blurred {
-    filter: blur(5px);
+/* Stil za strelicu */
+.btn-secondary {
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    min-width: 60px;
 }
-.hidden-left {
-    transform: translateX(-100%);
+
+/* Stil za input polje */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    padding: 12px 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
 }
-.hidden-right {
-    transform: translateX(100%);
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    background-color: #ffffff;
 }
-.active-card {
-    transform: translateX(0);
+
+/* Razmak između kartica */
+.container {
+    padding: 20px;
 }
+.table {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f0f8ff;
+}
+
+/* NE ZNAM - GORE */
 
 /* Statistika Kviza - Kraj */
 .backdrop {
@@ -206,28 +227,6 @@ form label {
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
     z-index: 1000;
-}
-.stats-form {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #6785ff;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 14px rgba(103, 133, 255, 0.8);
-    z-index: 1010;
-    width: 300px;
-}
-body.modal-open {
-    overflow: hidden;
-}
-.Statistika h3 {
-    font-size: 32px !important;
-}
-.Statistika p {
-    font-size: 18px;
 }
 
 /* Admin */
@@ -322,19 +321,42 @@ body.modal-open {
         margin-bottom: 12px;
         display: block;
     }
-    .ms-auto.d-flex {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .ms-auto.d-flex .username,
-    .ms-auto.d-flex .navBtn {
-        width: 100%;
-        text-align: center;
-    }
+}
+.options {
+    display: flex;
+    flex-direction: column; /* Postavlja odgovore vertikalno */
+    gap: 15px; /* Prostor između odgovora */
 }
 
-@media only screen and (max-width: 576px) {
-    .topMarginSmall {
-        margin-top: 18px !important;
-    }
+.option {
+    font-size: 1.2rem; /* Povećava veličinu teksta odgovora */
+    padding: 15px; /* Dodaje unutrašnje margine za bolje isticanje */
+    background-color: #f9f9f9; /* Svetlo siva pozadina */
+    border: 2px solid #ccc; /* Blaga granica */
+    border-radius: 8px; /* Zaobljeni uglovi */
+    text-align: left; /* Poravnanje teksta na levo */
+    cursor: pointer; /* Menja kursor na "pointer" za klikabilne opcije */
+    transition: all 0.3s ease; /* Animacija pri hover efektu */
+}
+
+.option:hover {
+    background-color: #eaeaea; /* Tamnija nijansa sive pri hover efektu */
+    border-color: #999; /* Naglašenija granica */
+}
+
+.option.correct {
+    background-color: #d4edda; /* Svetlo zelena za tačan odgovor */
+    border-color: #28a745;
+    color: #155724;
+}
+
+.option.incorrect {
+    background-color: #f8d7da; /* Svetlo crvena za netačan odgovor */
+    border-color: #dc3545;
+    color: #721c24;
+}
+
+.option:disabled {
+    cursor: not-allowed; /* Pokazuje da dugme nije aktivno */
+    opacity: 0.7; /* Smanjuje vidljivost za deaktivirane opcije */
 }

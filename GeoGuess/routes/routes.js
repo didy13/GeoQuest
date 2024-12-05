@@ -49,7 +49,6 @@ router.get("/kviz", (req, res) => {
 
     const query = `
         SELECT 
-            Pitanje.PitanjeID, 
             Pitanje.tekstPitanja, 
             Pitanje.tipPitanja, 
             Pitanje.tezina, 
@@ -108,7 +107,6 @@ router.get("/kviz", (req, res) => {
                     ...question,
                     answers: shuffledAnswers
                 });
-
                 // Kada se svi odgovori dodaju, renderuj kviz
                 if (questionsWithAnswers.length === results.length) {
                     res.render("kviz", {
