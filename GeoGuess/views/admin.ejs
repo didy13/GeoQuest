@@ -79,9 +79,16 @@
                                         <% } %>
                                     </td>
                                     <td>
+                                        <% if (korisnik.nickname != user.username) { %>
                                         <form action="/delete/<%= korisnik.KorisnikID %>" method="POST" onsubmit="return confirm('Da li ste sigurni da želite da obrišete ovog korisnika?');">
                                             <input type="submit" value="Obriši" class="btn dugme">
                                         </form>
+                                        <% } %>
+                                        <% if (korisnik.nickname == user.nickname) { %>
+                                            <form action="/delete/<%= korisnik.KorisnikID %>" method="POST" onsubmit="return confirm('Da li ste sigurni da želite da obrišete ovog korisnika?');">
+                                                <input type="submit" value="Obriši" class="btn dugme" disabled>
+                                            </form>
+                                            <% } %>
                                     </td>
                                 </tr>
                             <% }); %>

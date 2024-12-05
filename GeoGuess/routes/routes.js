@@ -323,63 +323,63 @@ router.post('/delete/:id', async (req, res) => {
             return res.status(404).redirect("/admin");
         }
 
-        // Delete the user
+        console.log(req.session.user.username);
+        console.log(user[0].nickname);
+
+        // If the current user is trying to delete their own account
+
+
+        // Delete the user from RangLista
         const deleteQuery = "DELETE FROM RangLista WHERE KorisnikID = ?";
         await new Promise((resolve, reject) => {
             connection.query(deleteQuery, [req.params.id], (err, results) => {
                 if (err) return reject(err);
                 resolve(results);
             });
-            
         });
+
+        // Delete the user from Korisnik
         const deleteQuery2 = "DELETE FROM Korisnik WHERE KorisnikID = ?";
         await new Promise((resolve, reject) => {
             connection.query(deleteQuery2, [req.params.id], (err, results) => {
                 if (err) return reject(err);
                 resolve(results);
             });
-            
         });
-        if(req.session.user.username === username){
-            req.session.destroy((err) => {
-                if (err) {
-                    console.error('Error destroying session:', err);
-                    return res.status(500).redirect("/admin");
-                }
-                res.clearCookie("connect.sid", { path: "/" });
-                return res.redirect('/logout');
-            });
-            return;
-        }
-        return res.redirect("/admin");
-        // Redirect to a success page or display a success message
-        
+
+        return res.redirect("/admin"); // Ensure only one response is sent here
+
     } catch (error) {
         console.error('Error during user deletion:', error);
-
-        // Render the deletion page with a general error message
-        res.status(500).redirect("/admin");
+        return res.status(500).redirect("/admin"); // Handle errors gracefully and ensure one response
     }
 });
 
 router.post('/upgrade/:id', async (req, res) => {
-    const { id } =req.params;
+    const { id } = req.params;
 
     if (!id) {
         return res.status(400).redirect("/admin");
     }
-    const deleteQuery = "UPDATE Korisnik SET admin = 1 WHERE KorisnikID = ?";
+
+    try {
+        const deleteQuery = "UPDATE Korisnik SET admin = 1 WHERE KorisnikID = ?";
         await new Promise((resolve, reject) => {
             connection.query(deleteQuery, [id], (err, results) => {
                 if (err) return reject(err);
-                console.log(results);
                 resolve(results);
             });
-            
         });
-        res.redirect("/admin");
 
+        return res.redirect("/admin"); // Ensure one response here
+
+    } catch (error) {
+        console.error('Error during upgrade:', error);
+        return res.status(500).redirect("/admin"); // Handle errors gracefully and ensure one response
+    }
 });
+
+
 
 router.post('/adminDeleteQuestion', async (req, res) => {
     const { imeDrzave, tipPitanja } = req.body;
