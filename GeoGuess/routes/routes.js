@@ -11,11 +11,6 @@ const axios = require('axios');
 const { OpenWeatherAPI } = require("openweather-api-node")
 const translate = require('@iamtraction/google-translate');
 router.use(express.json());
-const {
-    getRandomEasyQuestion,
-    getRandomMediumQuestion,
-    getRandomHardQuestion
-} = require('../public/kvizAlgorithm');
 
 Korisnik.setConnection(connection);
 
