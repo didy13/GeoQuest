@@ -90,8 +90,7 @@ router.get("/", isAuthenticated, async (req, res) => {
                     console.error('Greška pri preuzimanju vremenskih podataka:', error);
                     weatherData = null;
                 }
-                console.log(`Current temperature in ${translatedCity} is: ${weatherData.weather.temp.cur}°C`);
-                console.log(weatherData);
+
                 // 4. Render the index page with the city and weather data
                 res.render("index", {
                     title: "GeoGuess",
@@ -356,7 +355,7 @@ router.get("/login", (req, res) => {
     if (req.session.user) {
         return res.redirect("/");
     }
-    res.render("login",{title: "GeoGuess Prijava", user: ""});
+    res.render("login",{title: "GeoGuess Prijava", user: "", error: ""});
 });
 
 router.get("/ranglista", (req, res) => {
@@ -403,7 +402,8 @@ router.post("/login", (req, res) => {
                 return; // Završava funkciju nakon redirect-a
             }
         }
-        res.render("login", { error: "Invalid username or password", title: "GeoGuess Prijava", user: "" });
+
+        res.render("login", { error: "Netacna lozinka ili korisnicko ime", title: "GeoGuess Prijava", user: "" });
     });
 });
 

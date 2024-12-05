@@ -12,14 +12,18 @@
             <form action="/login" method="POST">
                 <div class="mb-4">
                     <label for="nickname" class="form-label">Korisničko ime</label>
-                    <input type="text" name="nickname" id="nickname" placeholder="Unesite korisničko ime" class="form-control" required>
+                    <input type="text" name="nickname" id="nickname" placeholder="Unesite korisničko ime" class="form-control">
                 </div>
                 <div>
                     <label for="lozinka" class="form-label">Lozinka</label>
-                    <input type="password" name="lozinka" id="lozinka" placeholder="Unesite lozinku" class="form-control" required>
+                    <input type="password" name="lozinka" id="lozinka" placeholder="Unesite lozinku" class="form-control">
                 </div>
+                <% if(error != ""){ %>
+                    <p class="error mt-1"><%= error %></p>
+                    <% } %>
                 <button type="submit" class="btn dugme mt-4">Prijavi se</button>
             </form>
+            
             <div class="text-center PrijavaRegistracija mt-4">
                 <p>Nemaš nalog? <a href="/register">Registruj se</a></p>
             </div>

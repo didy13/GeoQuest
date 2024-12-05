@@ -100,17 +100,18 @@
                         <% } %>
                     </div>
                 </div>
+                <% if (error) { %>
+                    <div class="text-cetner mt-3">
+                        <p class="error"><%= error %></p>
+                    </div>
+                <% } %>
                 <button type="submit" class="btn dugme mt-2">Napravi nalog</button>
             </form>
             <div class="PrijavaRegistracija mt-4">
                 <p>Imaš nalog? <a href="/login">Prijavi se</a></p>
             </div>
         </div>
-        <% if (error) { %>
-            <div class="text-cetner mt-3">
-                <p class="error"><%= error %></p>
-            </div>
-        <% } %>
+        
     </section>
 
     <%- include("./partials/footer.ejs") %>
