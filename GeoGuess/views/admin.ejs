@@ -49,19 +49,58 @@
             <input type="submit" class="btn dugme mt-4" value="Prosledi">
         </form>
 
-        <form action="/adminDeleteUser" class="AdminForm mb-5" method="POST">
-            <h2>Obriši korisnika</h2>
-            <label for="KorisničkoIme" class="mb-1">Korisničko ime</label>
-            <input type="text" name="username" placeholder="Unesite korisničko ime..." class="form-control">
-            <input type="submit" class="btn dugme mt-4" value="Obriši">
-        </form>
-
-        <form action="/adminUpdateUser" class="AdminForm mb-5" method="POST">
-            <h2>Unapredi korisnika</h2>
-            <label for="KorisničkoIme" class="mb-1">Korisničko ime</label>
-            <input type="text" name="username" placeholder="Unesite korisničko ime..." class="form-control">
-            <input type="submit" class="btn dugme mt-4" value="Unapredi">
-        </form>
+        <div class="AdminForm mb-5">
+            <h2>Manipuliši korisnicima</h2>
+            <div class="table-responsive mt-4">
+                <table class="table table-bordered table-hover">
+                    <thead class="HeadTable table">
+                        <tr>
+                            <th>#</th>
+                            <th>Korisničko ime</th>
+                            <th>Unapredi korisnika</th>
+                            <th>Obriši korisnika</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- EJS petlja koja puni tabelu -->
+                        <% if (korisnici && korisnici.length > 0) { %>
+                            <% korisnici.forEach(function(korisnik, index) { %>
+                                <tr>
+                                    <td><%= index + 1 %></td> <!-- Prikazuje redni broj korisnika -->
+                                    <td><%= korisnik.nickname %></td> <!-- Prikazuje korisničko ime -->
+                                    <td>
+                                        <% if (!korisnik.admin) { %>
+                                        <form action="/upgrade/<%= korisnik.KorisnikID %>" method="POST">
+                                            <input type="submit" value="Unapredi" class="btn dugme">
+                                        </form>
+                                        <% } %>
+                                        <% if (korisnik.admin) { %>
+                                            ADMIN
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <% if (korisnik.nickname != user.username) { %>
+                                        <form action="/delete/<%= korisnik.KorisnikID %>" method="POST" onsubmit="return confirm('Da li ste sigurni da želite da obrišete ovog korisnika?');">
+                                            <input type="submit" value="Obriši" class="btn dugme">
+                                        </form>
+                                        <% } %>
+                                        <% if (korisnik.nickname == user.nickname) { %>
+                                            <form action="/delete/<%= korisnik.KorisnikID %>" method="POST" onsubmit="return confirm('Da li ste sigurni da želite da obrišete ovog korisnika?');">
+                                                <input type="submit" value="Obriši" class="btn dugme" disabled>
+                                            </form>
+                                            <% } %>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="4" class="text-center">Nema rezultata za prikaz.</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <form action="/adminDeleteQuestion" class="AdminForm mb-5" method="POST">
             <h2>Obriši pitanje</h2>
@@ -108,6 +147,7 @@
             <input type="submit" class="btn dugme mt-4" value="Unesi">
         </form>
     </section>
+    
     <%- include("./partials/footer.ejs") %>
 </body>
 </html>

@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <%- include("./partials/head.ejs") %>
-
 <body>
-    <%- include("./partials/nav.ejs") %>
+    <header>
+        <%- include("./partials/nav.ejs") %>
+    </header>
+
     <section class="pocetakKviza container" id="start-container">
         <div>
             <div class="mb-4 text-center">
                 <h1>Dobrodošli u GeoGuess Kviz! 🌍</h1>
                 <p>Spremite se da testirate svoje znanje o geografiji i osvajate bodove!</p>
             </div>
-
             <div>
                 <h2>Pravila kviza:</h2>
-                <p class="mb-3"><strong>Vreme za igru:</strong> Imate tačno <strong>15 minuta</strong> da završite kviz. Ako ne završite na vreme, vaš rezultat će se automatski predati.</p>
+                <p class="mb-3"><strong>Vreme za igru:</strong> Imate tačno <strong>10 minuta</strong> da završite kviz. Ako ne završite na vreme, vaš rezultat će se automatski predati.</p>
                 <p><strong>Pitanja:</strong> Kviz se sastoji od <strong>30 pitanja</strong>, podeljenih u tri težine:</p>
                 <p class="mb-3">
                     <strong>•</strong> 10 lakih pitanja<br>
@@ -31,105 +31,35 @@
                 </p>
             </div>
         </div>
-        <button id="start-button" class="btn dugme mt-4 kvizDugme" onclick="startQuiz()">Kreni Kviz</button>
+        <button class="btn dugme mt-4 kvizDugme" onclick="startQuiz()">Kreni Kviz</button>
     </section>
-
-    <div class="container">
-        <div class="quiz-container" id="quiz" style="display: none;">
-            <div class="quiz-header">
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    <section class="Kviz">
+        <div class="container">
+            <div class="quiz-container" id="quiz" style="display: none;">
+                <div class="quiz-header">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="timer text-end" id="timer">10:00</div>
                 </div>
-                <div class="timer text-end" id="timer">10:00</div>
-            </div>
 
-            <!-- Pitanje sa odgovorima unutar kartice -->
-            <div id="question-container" class="text-center">
-                <div class="card shadow p-3 mb-4">
-                    <div class="card-body">
-                        <p class="question" id="question"></p>
-                        <div class="options" id="options"></div> <!-- Odgovori su sada unutar kartice -->
+                <div id="question-container" class="text-center">
+                    <div class="card shadow-lg p-5">
+                        <div class="card-body">
+                            <p class="question" id="question"></p>
+                            <div class="options" id="options"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="quiz-footer">
-                <button class="btn btn-primary mt-4" id="next-btn" style="display: none;">Next</button>
+                <div class="quiz-footer text-center mt-5">
+                    <button class="btn dugme dugmeKviz" id="next-btn" style="display: none;">Sledeće pitanje</button>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <%- include("./partials/footer.ejs") %>
-    <style>
-        /* Stilovi za početno dugme */
-        #start-button {
-            font-size: 1.5rem;
-            padding: 1rem 2rem;
-        }
-    
-        /* Stilovi za pitanje */
-        .question {
-            font-size: 2.5rem;  /* Veći font */
-            font-weight: 700;  /* Deblji font za naglašavanje */
-            color: #343a40;  /* Tamna boja teksta */
-            margin: 20px 0;
-            font-family: 'Roboto', sans-serif; /* Google font za lepši izgled */
-            text-align: center;  /* Poravnanje teksta na sredinu */
-        }
-    
-        /* Stilovi za dugme za odgovore */
-        .option {
-            display: block;
-            margin: 10px auto;
-            padding: 10px 15px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            border: none;
-            background: #f8f9fa;
-            color: #343a40;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-    
-        .option:hover {
-            background-color: #e2e6ea;
-        }
-    
-        /* Stilovi za dugme "Next" */
-        .quiz-footer {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-        }
-    
-        #next-btn {
-            font-size: 1.2rem;
-            padding: 10px 20px;
-        }
-    
-        /* Stilovi za progress bar */
-        .progress {
-            height: 10px;
-            background-color: #e9ecef;
-            border-radius: 5px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-    
-        .progress-bar {
-            height: 100%;
-            background-color: #007bff;
-            transition: width 0.4s ease;
-        }
-    
-        /* Tajmer ispod progress bara */
-        .timer {
-            font-size: 1.5rem;
-            font-weight: 400;
-            margin-top: 10px;
-        }
-    </style>
     
     <script>
         const quizData = JSON.parse('<%- JSON.stringify(questions) %>');
@@ -212,7 +142,7 @@
                 selectedButton.classList.add('incorrect');
             }
 
-            nextBtn.textContent = currentQuestion === quizData.length - 1 ? "Završi Kviz" : "Next";
+            nextBtn.textContent = currentQuestion === quizData.length - 1 ? "Završi kviz" : "Sledeće pitanje";
             nextBtn.style.display = 'block';
         }
 
@@ -221,7 +151,7 @@
                 timeLeft--;
                 const minutes = Math.floor(timeLeft / 60);
                 const seconds = timeLeft % 60;
-                timerEl.textContent = `Time: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                timerEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 
                 if (timeLeft === 0) {
                     clearInterval(timer);
@@ -251,10 +181,10 @@
                     <div class="result-icon">
                         <i class="fas ${score > quizData.length / 2 ? 'fa-trophy text-success' : 'fa-times-circle text-danger'}"></i>
                     </div>
-                    <div class="score">Your score: ${score}/600</div>
-                    <p>Time left: ${Math.floor(timeLeft / 60)}:${timeLeft % 60}</p>
-                    <p>${score > quizData.length / 2 ? 'Great job!' : 'Better luck next time!'}</p>
-                    <button class="btn btn-primary" onclick="location.reload()">Restart Quiz</button>
+                    <div class="score">Tvoj rezultat: ${score}/600</div>
+                    <p class="scoreParagraph">Preostalo vremena: ${Math.floor(timeLeft / 60)}:${timeLeft % 60}</p>
+                    <p class="scoreParagraph">${score > quizData.length / 2 ? 'Svaka čast!' : 'Više sreće drugi put!'}</p>
+                    <button class="btn dugme dugmeKviz mt-3" onclick="location.reload()">Ponovo pokrenite kviz</button>
                 </div>
             `;
             sendResultsToServer();
@@ -290,6 +220,29 @@
                 showResults();
             }
         });
+        function sendResultsToServer() {
+    const resultData = {
+        score: score,         // Rezultat korisnika
+        time: timeLeft,
+        user: `<%= user.username%>`  // Vreme koje je prošlo
+    };
+    console.log(resultData)
+    // Slanje POST zahteva na server
+    fetch('/api/quiz/results', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(resultData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Rezultati su uspešno poslati na server:', data);
+    })
+    .catch(error => {
+        console.error('Došlo je do greške pri slanju rezultata:', error);
+    });
+}
     </script>
 </body>
 
