@@ -164,7 +164,15 @@
 
             allAnswers.forEach((option) => {
                 const button = document.createElement('button');
-                button.textContent = option;
+                if(!isNaN(option)){
+                    button.textContent = option;
+                }
+                else if(option.includes("https")){
+                    button.innerHTML = '<img width="100" height="100" src="' + option + '">';
+                }
+                else{
+                    button.textContent = option;
+                }
                 button.classList.add('option');
                 button.addEventListener('click', () => selectOption(button, option));
                 optionsEl.appendChild(button);
@@ -178,9 +186,13 @@
             const question = quizData[currentQuestion];
             Array.from(optionsEl.children).forEach(button => {
                 button.disabled = true;
+                
                 if (button.textContent === question.tacanOdgovor) {
                     button.classList.add('correct');
-                } else {
+                } else if (button.querySelector('img') && button.querySelector('img').src === question.tacanOdgovor) {
+                    button.classList.add('correct');
+                }
+                else {
                     button.classList.add('incorrect');
                 }
             });

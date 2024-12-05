@@ -163,7 +163,7 @@ router.get("/kviz", (req, res) => {
                 break;
                 case "Kontinent":
                     const incorrectQuery3 = `
-                    SELECT 
+                    SELECT DISTINCT
                         Drzava.kontinent AS netacanOdgovor
                     FROM 
                         Drzava
