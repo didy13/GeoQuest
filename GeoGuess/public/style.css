@@ -266,6 +266,10 @@ form label {
 }
 
 /* 404 */
+.error404 {
+    margin-top: 250px;
+    margin-bottom: 250px;
+}
 .paragraph404 {
     font-size: 22px !important;
 }
