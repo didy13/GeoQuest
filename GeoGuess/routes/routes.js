@@ -40,7 +40,7 @@ const isAuthenticated = (req, res, next) =>
 
 router.get("/", isAuthenticated, (req, res) => {
     console.log(req.session.user);
-    res.render("index", { title: "Home", user: req.session.user});
+    res.render("index", { title: "GeoGuess Početna", user: req.session.user});
 });
 router.get("/kviz", (req, res) => {
     if (!req.session.user) {
@@ -125,13 +125,13 @@ router.get("/admin", (req, res) => {
     if (!req.session.user.admin) {
         return res.redirect("/");
     }
-    res.render("admin",{title: "admin", user: req.session.user});
+    res.render("admin",{title: "GeoGuess Admin", user: req.session.user});
 });
 router.get("/login", (req, res) => {
     if (req.session.user) {
         return res.redirect("/");
     }
-    res.render("login",{title: "Login", user: ""});
+    res.render("login",{title: "GeoGuess Prijava", user: ""});
 });
 
 router.get("/ranglista", (req, res) => {
@@ -151,7 +151,7 @@ router.get("/ranglista", (req, res) => {
             return res.status(500).send("Internal Server Error");
         }
         console.log(results);
-        res.render("ranglista", { title: "Rang lista", rezultati: results, user: req.session.user });
+        res.render("ranglista", { title: "GeoGuess Rang Lista", rezultati: results, user: req.session.user });
     });
 });
 
@@ -178,7 +178,7 @@ router.post("/login", (req, res) => {
                 return; // Završava funkciju nakon redirect-a
             }
         }
-        res.render("login", { error: "Invalid username or password", title: "Login", user: "" });
+        res.render("login", { error: "Invalid username or password", title: "GeoGuess Prijava", user: "" });
     });
 });
 
@@ -199,7 +199,7 @@ router.get("/register", (req, res) => {
     {
         username = req.session.user;
     }
-    res.render("register", { error: "",title: "Register", user: username, errors: [] }); // Pretpostavljamo da postoji odgovarajuća view datoteka
+    res.render("register", { error: "",title: "GeoGuess Registracija", user: username, errors: [] }); // Pretpostavljamo da postoji odgovarajuća view datoteka
 });
 
 // POST: Obrada podataka za registraciju
@@ -212,7 +212,7 @@ router.post('/register', registerValidation, async (req, res) => {
         return res.status(400).render('register', {
             errors: errors.array(), // Pass validation errors
             formData: req.body, // Retain form input data
-            title: 'Register', // Page title
+            title: 'GeoGuess Register', // Page title
             user: req.session.user || '', // Pass session user (if available)
             error: null // No global error message
         });
@@ -235,7 +235,7 @@ router.post('/register', registerValidation, async (req, res) => {
             return res.status(400).render('register', {
                 errors: [], // No validation errors
                 formData: req.body, // Retain form input data
-                title: 'Register', 
+                title: 'GeoGuess Registracija', 
                 user: req.session.user || '',
                 error: 'Email ili korisničko ime već postoje!' // Global error message
             });
@@ -268,7 +268,7 @@ router.post('/register', registerValidation, async (req, res) => {
         res.status(500).render('register', {
             errors: [], // No validation errors
             formData: req.body, // Retain form input data
-            title: 'Register',
+            title: 'GeoGuess Registracija',
             user: req.session.user || '',
             error: 'Došlo je do greške. Pokušajte ponovo.' // General error message
         });
@@ -683,7 +683,7 @@ router.use((req,res) => {
     {
         username = req.session.user;
     }
-    res.status(404).render("404", {title: "404", user: username});
+    res.status(404).render("404", {title: "GeoGuess 404", user: username});
 })
 
 module.exports = router;
