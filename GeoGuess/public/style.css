@@ -8,6 +8,9 @@
     background-color: #ccff34 !important;
     color: #6785ff !important;
 }
+.dugme:hover {
+    background-color: #bfff00 !important;
+}
 
 h1 {
     font-weight: 600 !important;
@@ -34,7 +37,7 @@ nav {
     color: #6785ff !important;
 }
 .navBtn:hover {
-    background-color: #ccff34 !important;
+    background-color: #bfff00 !important;
 }
 .btnLogin {
     text-decoration: none !important;
@@ -70,8 +73,8 @@ footer img {
 
 /* Prijava */
 .PrijavaSection {
-    margin-top: 130px;
-    margin-bottom: 130px;
+    margin-top: 150px;
+    margin-bottom: 150px;
 }
 .Prijava {
     background-color: #6785ff;
@@ -106,8 +109,8 @@ footer img {
 
 /* Registracija */
 .FormaSection {
-    margin-top: 130px;
-    margin-bottom: 130px;
+    margin-top: 150px;
+    margin-bottom: 150px;
 }
 .Forma {
     background-color: #6785ff;
@@ -261,6 +264,11 @@ body.modal-open {
 }
 .RangLista th {
     background-color: #6785ff !important;
+}
+
+/* 404 */
+.paragraph404 {
+    font-size: 22px !important;
 }
 
 /* Manji ekrani */
