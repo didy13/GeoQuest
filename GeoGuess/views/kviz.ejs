@@ -35,6 +35,7 @@
             <button id="start-button" class="btn dugme mt-4 kvizDugme" onclick="startQuiz()">Kreni kviz</button>
         </div>
     </section>
+    
     <section class="kviz container">
         <div class="mt-5 d-none" id="quiz-container">
             <div class="row mb-4">
@@ -47,17 +48,44 @@
                     <div id="timer" class="fs-5">00:00</div>
                 </div>
             </div>
-            <div class="d-flex justify-content-center position-relative overflow-hidden card-group" id="card-container" style="height: 300px;">
-                <% questions.forEach((question, index) => { %>
-                    <div class="card question-card <%= index === 0 ? 'active-card' : 'hidden-right' %>" id="card<%= index + 1 %>">
-                        <div class="card-body">
-                            <h5 class="card-title">Pitanje <%= index + 1 %>:</h5>
-                            <p class="card-text"><%= question.tekstPitanja %></p>
+            <div id="carouselExampleIndicators" class="carousel slide">
+                <div class="carousel-indicators">
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner d-flex justify-content-center align-items-center" style="height: 50em !important">
+                    <% questions.forEach((question, index) => { %>
+                    <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                        <div class="card shadow-lg p-4 question-card <%= index === 0 ? 'active-card' : 'hidden-right' %>" id="card<%= index + 1 %>"  style=" flex: 0 0 auto; margin:0 auto; " >
+                            <div class="card-body">
+                                <h5 class="card-title">Pitanje <%= index + 1 %>:</h5>
+                                <p class="card-text"><%= question.tekstPitanja %></p>
+                                <div class="mb-3">
+                                    <label for="answer1" class="form-label">Unesite odgovor:</label>
+                                    <input type="text" class="form-control" id="answer1" placeholder="Unesite odgovor ovde" required>
+                                </div>
+                                <form action="/check-answer" method="POST">
+                                    <button type="submit" class="btn btn-success">Proveri odgovor</button>
+                                </form>
+                                <br>
+                               
+                            </div>
                         </div>
                     </div>
-                <% }); %>
-            </div>
-        </div>
+                    <% }); %>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            
+        <!--</div>
         <div class="row mt-4 d-none" id="nav-buttons">
             <div class="col-6 text-start">
                 <button id="prev-button" class="btn dugme dugmeTokomKviza" onclick="previousQuestion()" disabled>←</button>
@@ -66,7 +94,7 @@
                 <button id="next-button" class="btn dugme dugmeTokomKviza" onclick="nextQuestion()">→</button>
                 <button id="finish-button" class="btn dugme d-none dugmeTokomKviza" onclick="finishQuiz()">Završi kviz</button>
             </div>
-        </div>
+        </div>-->
     </section>
     <div id="stats-modal" class="d-none">
         <div id="modal-backdrop" class="backdrop"></div>

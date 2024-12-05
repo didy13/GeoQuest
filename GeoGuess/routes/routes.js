@@ -576,8 +576,8 @@ router.post('/adminUpdateQuestion', async (req, res) => {
         
 
         // If nothing is updated
-        if (!tekstPitanja && !tezina && !tacanOdgovor) {
-            return res.status(400).render('adminUpdateQuestion', {
+        if (!tekstPitanja && !tezina) {
+            return res.status(400).render('admin', {
                 errors: [{ msg: 'Morate uneti bar jednu vrednost za ažuriranje!' }],
                 formData: req.body,
                 title: 'Update Question',
