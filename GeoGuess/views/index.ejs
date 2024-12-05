@@ -17,16 +17,36 @@
         </div>
     </div>
 
-    <!-- Weather Section -->
-    <section class="Weather container">
-        <h2 class="text-center mb-3">Vreme u <%= city.original %></h2>
-            <div class="text-center">
-                <p><strong>Temperatura:</strong> <%= weather.temp %>°C</p>
-                <p><strong>Opis vremena:</strong> <%= weather.description %></p>
-                <p><strong>Vlažnost vazduha:</strong> <%= weather.humidity %>%</p>
-                <p><strong>Brzina vetra:</strong> <%= weather.wind %> m/s</p>
-            </div>
-    </section>
+<!-- Weather Section -->
+<section class="Weather container">
+    <h2 class="text-center mb-3">Vreme u <%= city.original %></h2>
+    <% if (weather.weather) { %>
+        <div class="text-center">
+            <h3><%= weather.weather.main %> - <%= weather.weather.description %></h3>
+
+            <!-- Ikona vremena -->
+            <% if (weather.weather.icon && weather.weather.icon.url) { %>
+                <div class="weather-icon mb-3">
+                    <img src="<%= weather.weather.icon.url %>" alt="<%= weather.weather.description || 'N/A' %>" style="width: 100px; height: 100px;">
+                </div>
+            <% } else { %>
+                <p>No weather icon available</p>
+            <% } %>
+
+            <!-- Glavne informacije -->
+            <p><strong>Temperatura:</strong> <%= weather.weather.temp && weather.weather.temp.cur ? weather.weather.temp.cur : 'N/A' %>°C</p>
+            <p><strong>Temperatura osećanja:</strong> <%= weather.weather.feelsLike && weather.weather.feelsLike.cur ? weather.weather.feelsLike.cur : 'N/A' %>°C</p>
+            <p><strong>Vlažnost vazduha:</strong> <%= weather.weather.humidity !== undefined ? weather.weather.humidity : 'N/A' %>%</p>
+            <p><strong>Pritisak:</strong> <%= weather.weather.pressure !== undefined ? weather.weather.pressure : 'N/A' %> hPa</p>
+            <p><strong>Brzina vetra:</strong> <%= weather.weather.wind && weather.weather.wind.speed ? weather.weather.wind.speed : 'N/A' %> m/s</p>
+            <p><strong>Vidljivost:</strong> <%= weather.weather.visibility ? weather.weather.visibility / 1000 : 'N/A' %> km</p>
+        </div>
+    <% } else { %>
+        <p>Trenutno ne možemo prikazati podatke o vremenu.</p>
+    <% } %>
+</section>
+
+
 
     <section class="Pocetna container">
         <!-- Hook sekcija -->
@@ -123,5 +143,8 @@
     </section>    
 
     <%- include("./partials/footer.ejs") %>
+    <script>
+        console.log(JSON.parse('<%- JSON.stringify(weather.weather) %>'))
+    </script>
 </body>
 </html>
