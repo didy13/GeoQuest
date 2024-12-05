@@ -324,9 +324,17 @@ router.post('/delete/:id', async (req, res) => {
         }
 
         // Delete the user
-        const deleteQuery = "DELETE FROM Korisnik WHERE KorisnikID = ?";
+        const deleteQuery = "DELETE FROM RangLista WHERE KorisnikID = ?";
         await new Promise((resolve, reject) => {
             connection.query(deleteQuery, [req.params.id], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+            
+        });
+        const deleteQuery2 = "DELETE FROM Korisnik WHERE KorisnikID = ?";
+        await new Promise((resolve, reject) => {
+            connection.query(deleteQuery2, [req.params.id], (err, results) => {
                 if (err) return reject(err);
                 resolve(results);
             });
