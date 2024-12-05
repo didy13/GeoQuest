@@ -84,7 +84,7 @@ router.get("/kviz", (req, res) => {
         results.forEach((question) => {
             const incorrectQuery = `
                 SELECT 
-                    Drzava.naziv AS netacanOdgovor
+                    Drzava.glavniGrad AS netacanOdgovor
                 FROM 
                     Drzava
                 WHERE 
