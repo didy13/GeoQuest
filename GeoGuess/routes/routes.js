@@ -75,12 +75,6 @@ router.get("/", isAuthenticated, async (req, res) => {
                 
                     // Proveri da li podaci postoje i da li su u ispravnom formatu
                     if (weatherData && weatherData.weather) {
-                        weather.weather.description = await translate(weather.weather.description, { to: 'rs' })
-                        .then(res => res.text)
-                        .catch(err => {
-                            console.error('Error translating city name:', err);
-                            throw new Error('Translation failed');
-                        });
                         console.log('Podaci o vremenu su uspešno preuzeti:', weatherData);
                         // Dalja obrada podataka...
                     } else {
