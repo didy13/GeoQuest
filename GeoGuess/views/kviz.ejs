@@ -45,7 +45,7 @@
 
             <!-- Pitanje sa odgovorima unutar kartice -->
             <div id="question-container" class="text-center">
-                <div class="card shadow p-3 mb-4">
+                <div class="card shadow-lg p-4 mb-4">
                     <div class="card-body">
                         <p class="question" id="question"></p>
                         <div class="options" id="options"></div> <!-- Odgovori su sada unutar kartice -->
@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <div class="quiz-footer">
+            <div class="quiz-footer text-center">
                 <button class="btn btn-primary mt-4" id="next-btn" style="display: none;">Next</button>
             </div>
         </div>
@@ -66,7 +66,7 @@
             font-size: 1.5rem;
             padding: 1rem 2rem;
         }
-    
+
         /* Stilovi za pitanje */
         .question {
             font-size: 2.5rem;  /* Veći font */
@@ -76,7 +76,7 @@
             font-family: 'Roboto', sans-serif; /* Google font za lepši izgled */
             text-align: center;  /* Poravnanje teksta na sredinu */
         }
-    
+
         /* Stilovi za dugme za odgovore */
         .option {
             display: block;
@@ -90,11 +90,11 @@
             border-radius: 5px;
             transition: background-color 0.3s;
         }
-    
+
         .option:hover {
             background-color: #e2e6ea;
         }
-    
+
         /* Stilovi za dugme "Next" */
         .quiz-footer {
             display: flex;
@@ -102,12 +102,19 @@
             align-items: center;
             margin-top: 20px;
         }
-    
+
         #next-btn {
             font-size: 1.2rem;
             padding: 10px 20px;
+            background-color: #007bff;
+            border-radius: 5px;
+            color: white;
         }
-    
+
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+
         /* Stilovi za progress bar */
         .progress {
             height: 10px;
@@ -116,21 +123,51 @@
             margin: 20px 0;
             overflow: hidden;
         }
-    
+
         .progress-bar {
             height: 100%;
             background-color: #007bff;
             transition: width 0.4s ease;
         }
-    
+
         /* Tajmer ispod progress bara */
         .timer {
             font-size: 1.5rem;
             font-weight: 400;
             margin-top: 10px;
         }
+
+        /* Styling za statistiku */
+        .results {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .score {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .result-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .result-icon i {
+            color: #28a745; /* Success icon color */
+        }
+
+        .result-icon i.text-danger {
+            color: #dc3545; /* Failure icon color */
+        }
     </style>
-    
+
     <script>
         const quizData = JSON.parse('<%- JSON.stringify(questions) %>');
         let currentQuestion = 0;
@@ -228,6 +265,7 @@
                     <button class="btn btn-primary" onclick="location.reload()">Restart Quiz</button>
                 </div>
             `;
+            sendResultsToServer();
         }
 
         nextBtn.addEventListener('click', () => {
@@ -238,6 +276,29 @@
                 showResults();
             }
         });
+        function sendResultsToServer() {
+    const resultData = {
+        score: score,         // Rezultat korisnika
+        time: timeLeft,
+        user: `<%= user.username%>`  // Vreme koje je prošlo
+    };
+    console.log(resultData)
+    // Slanje POST zahteva na server
+    fetch('/api/quiz/results', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(resultData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Rezultati su uspešno poslati na server:', data);
+    })
+    .catch(error => {
+        console.error('Došlo je do greške pri slanju rezultata:', error);
+    });
+}
     </script>
 </body>
 

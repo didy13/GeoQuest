@@ -132,7 +132,7 @@ router.post('/api/quiz/results', async (req, res) => {
                 return res.status(500).json({ message: 'Greška pri unosu u RangLista', error });
             }
 
-            console.log(results);
+            console.log(res);
             res.json({ message: 'Rezultati su uspešno sačuvani!', data: results });
         });
     } catch (error) {
