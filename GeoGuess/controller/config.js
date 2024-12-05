@@ -1,5 +1,7 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const dotenv = require("dotenv");
+const fs = require("fs");
+const pg = require("pg");
 dotenv.config()
 
   let connection = mysql.createConnection({
@@ -7,8 +9,13 @@ dotenv.config()
     user: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DBNAME,
-    port: process.env.DB_PORT
+    port: process.env.DB_PORT,
+    ssl: {
+      rejectUnauthorized: true,
+      ca: fs.readFileSync("./controller/ca.pem").toString(),
+    },
 })
+
 connection.connect((err) => {
   if (err) {
       console.error('Greška pri povezivanju sa bazom: ', err.message);
