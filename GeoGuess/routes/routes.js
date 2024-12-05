@@ -579,7 +579,13 @@ router.post('/adminDeleteQuestion', async (req, res) => {
     const { imeDrzave, tipPitanja } = req.body;
 
     if (!imeDrzave && !tipPitanja) {
-        return res.status(400).redirect("/admin");
+        return res.send(`
+            <script>
+                alert('Morate popuniti ime države i tip pitanja!');
+                window.location.href = '/admin'; // Redirect after the alert
+            </script>
+        `);
+        
     }
 
     try {
@@ -594,7 +600,7 @@ router.post('/adminDeleteQuestion', async (req, res) => {
 
         if (quest.length === 0) {
             // User not found
-            return res.status(404).redirect("/admin");
+            return  res.render("admin", { error: "Pitanje nije pronađeno", title: "GeoGuess Prijava", user: "" });;
         }
 
         // Delete the user
@@ -606,16 +612,25 @@ router.post('/adminDeleteQuestion', async (req, res) => {
             });
             
         });
-        res.redirect("/admin");
         
         // Redirect to a success page or display a success message
-        res.redirect("/admin");
+        return res.send(`
+            <script>
+                alert('Pitanje je uspešno obrisano!');
+                window.location.href = '/admin'; // Redirect after the alert
+            </script>
+        `);
         
     } catch (error) {
         console.error('Error during user deletion:', error);
 
         // Render the deletion page with a general error message
-        res.status(500).redirect("/admin");
+        return res.send(`
+            <script>
+                alert('Došlo je do greške! Pokušajte ponovo');
+                window.location.href = '/admin'; // Redirect after the alert
+            </script>
+        `);
     }
 });
 
@@ -623,12 +638,12 @@ router.post('/adminInsertQuestion', async (req, res) => {
     const { tekstPitanja, tezina, imeDrzave, tipPitanja } = req.body;
 
     if (!imeDrzave || !tipPitanja || !tekstPitanja || !tezina) {
-        return res.status(400).render('admin', {
-            errors: [{ msg: 'Sva polja su obavezna!' }], // Validation error
-            formData: req.body,
-            title: 'Insert Question',
-            user: req.session.user || '',
-        });
+        return res.send(`
+            <script>
+                alert('Morate popuniti sva polja!');
+                window.location.href = '/admin'; // Redirect after the alert
+            </script>
+        `);
     }
 
     try {
@@ -645,7 +660,12 @@ router.post('/adminInsertQuestion', async (req, res) => {
         });
 
         
-        res.redirect("/admin");
+        return res.send(`
+            <script>
+                alert('Pitanje je uspešno dodato!');
+                window.location.href = '/admin'; // Redirect after the alert
+            </script>
+        `);
         
         // Redirect to a success page or display a success message
         
@@ -654,25 +674,25 @@ router.post('/adminInsertQuestion', async (req, res) => {
         console.error('Error during question insertion:', error);
 
         // Render the deletion page with a general error message
-        res.status(500).render('admin', {
-            errors: [{ msg: 'Došlo je do greške. Pokušajte ponovo.' }],
-            formData: req.body,
-            title: 'Insert Question',
-            user: req.session.user || '',
-        });
+        return res.send(`
+            <script>
+                alert('Došlo je do greške! Pokušajte ponovo');
+                window.location.href = '/admin'; // Redirect after the alert
+            </script>
+        `);
     }
 });
 
 router.post('/adminUpdateQuestion', async (req, res) => {
     const { tekstPitanja, tezina, imeDrzave, tipPitanja } = req.body;
 
-    if (!imeDrzave && !tipPitanja) {
-        return res.status(400).render('adminQuestion', {
-            errors: [{ msg: 'Morate uneti ime države i tip pitanja!' }],
-            formData: req.body,
-            title: 'Update Question',
-            user: req.session.user || '',
-        });
+    if (!imeDrzave || !tipPitanja) {
+        return res.send(`
+            <script>
+                alert('Morate popuniti polja za pretraživanje!');
+                window.location.href = '/admin'; // Redirect after the alert
+            </script>
+        `);
     }
 
     try {
@@ -708,26 +728,31 @@ router.post('/adminUpdateQuestion', async (req, res) => {
 
         // If nothing is updated
         if (!tekstPitanja && !tezina) {
-            return res.status(400).render('admin', {
-                errors: [{ msg: 'Morate uneti bar jednu vrednost za ažuriranje!' }],
-                formData: req.body,
-                title: 'Update Question',
-                user: req.session.user || '',
-            });
+            return res.send(`
+                <script>
+                    alert('Morate popuniti polja za vrednosti novog pitanja!');
+                    window.location.href = '/admin'; // Redirect after the alert
+                </script>
+            `);
         }
 
         // Render success message
-       res.redirect("/admin");
+        return res.send(`
+            <script>
+                alert('Pitanje je uspešno editovano!');
+                window.location.href = '/admin'; // Redirect after the alert
+            </script>
+        `);
     } catch (error) {
         console.error('Error during question update:', error);
 
         // Render the page with a general error message
-        res.status(500).render('adminUpdateQuestion', {
-            errors: [{ msg: 'Došlo je do greške. Pokušajte ponovo.' }],
-            formData: req.body,
-            title: 'Update Question',
-            user: req.session.user || '',
-        });
+        return res.send(`
+            <script>
+                alert('Došlo je do greške! Pokušajte ponovo');
+                window.location.href = '/admin'; // Redirect after the alert
+            </script>
+        `);
     }
 });
 
