@@ -403,7 +403,7 @@ router.post("/login", (req, res) => {
             }
         }
 
-        res.render("login", { error: "Netačna je lozinka ili korisničko ime", title: "GeoGuess Prijava", user: "" });
+        res.render("login", { error: "Netacna lozinka ili korisnicko ime", title: "GeoGuess Prijava", user: "" });
     });
 });
 
@@ -462,7 +462,7 @@ router.post('/register', registerValidation, async (req, res) => {
                 formData: req.body, // Retain form input data
                 title: 'GeoGuess Registracija', 
                 user: req.session.user || '',
-                error: 'Email ili korisničko ime već postoje' // Global error message
+                error: 'Email ili korisničko ime već postoje!' // Global error message
             });
         }
         
