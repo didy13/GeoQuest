@@ -748,68 +748,6 @@ async function executeUpdateQuery(query, values) {
     });
 }
 
-
-router.get('/kvizLaka', (req, res) => {
-    getRandomEasyQuestion((err, question) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Internal Server Error');
-        }
-        if (question) {
-            return res.render('question', { question });
-        } else {
-            return res.send('No questions available.');
-        }
-    });
-});
-
-// Route for fetching a medium difficulty question
-router.get('/kvizSrednja', (req, res) => {
-    getRandomMediumQuestion((err, question) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Internal Server Error');
-        }
-        if (question) {
-            return res.render('question', { question });
-        } else {
-            return res.send('No questions available.');
-        }
-    });
-});
-
-// Route for fetching a hard question
-router.get('/kvizTeska', (req, res) => {
-    getRandomHardQuestion((err, question) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Internal Server Error');
-        }
-        if (question) {
-            return res.render('question', { question });
-        } else {
-            return res.send('No questions available.');
-        }
-    });
-});
-
-/*router.post('/register', registerValidation, (req, res) => {
-    // Check for validation errors
-    const errors = validationResult(req);
-  
-    if (!errors.isEmpty()) {
-      // If there are validation errors, render the form again with the errors
-      return res.status(400).render('register', { 
-        title: 'Register',
-        errors: errors.array(),
-        formData: req.body  // Optionally send back the form data
-      });
-    }
-  
-    // Proceed with form submission if no errors
-    // Here you can insert the data into the database or perform other actions
-    res.send('Form is valid and data has been processed!');
-  });*/
 router.use((req,res) => {
     let username = "";
     if(req.session.user)
