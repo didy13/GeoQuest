@@ -57,107 +57,97 @@
     <%- include("./partials/footer.ejs") %>
     <script>
         // Pretpostavka: `questions` je niz sa podacima o pitanjima
-        //const quizData = JSON.parse('<%- JSON.stringify(questions) %>');
-        const quizData = [
-    {
-        tekstPitanja: "Koja je glavni grad Francuske?",
-        tacanOdgovor: "Pariz",
-        answers: ["Lion", "Marsej", "Nica"] // Netacni odgovori
-    },
-    {
-        tekstPitanja: "Koja je najduža reka na svetu?",
-        tacanOdgovor: "Nil",
-        answers: ["Amazon", "Misisipi", "Dunav"] // Netacni odgovori
-    }
-];
-        let currentQuestion = 0;
-        let score = 0;
-        let timer;
-        let timeLeft = 30;
+        const quizData = JSON.parse('<%- JSON.stringify(questions) %>');
+    let currentQuestion = 0;
+    let score = 0;
+    let timer;
+    let totalTime = 10 * 60; // 10 minuta u sekundama
+    let timeLeft = totalTime;
 
-        const questionEl = document.getElementById('question');
-        const optionsEl = document.getElementById('options');
-        const nextBtn = document.getElementById('next-btn');
-        const timerEl = document.getElementById('timer');
-        const progressBar = document.querySelector('.progress-bar');
-        const quizContainer = document.getElementById('quiz');
-        const startContainer = document.getElementById('start-container');
+    const questionEl = document.getElementById('question');
+    const optionsEl = document.getElementById('options');
+    const nextBtn = document.getElementById('next-btn');
+    const timerEl = document.getElementById('timer');
+    const progressBar = document.querySelector('.progress-bar');
+    const quizContainer = document.getElementById('quiz');
+    const startContainer = document.getElementById('start-container');
+
 
         // Funkcija za početak kviza
         function startQuiz() {
-            startContainer.style.display = 'none';
-            quizContainer.style.display = 'block';
-            loadQuestion();
-        }
-
-        // Funkcija za učitavanje pitanja
-        function loadQuestion() {
-    const question = quizData[currentQuestion];
-    questionEl.textContent = question.tekstPitanja;
-    optionsEl.innerHTML = '';
-
-    // Kombinovanje tačnog i netačnih odgovora
-    const allAnswers = [...question.answers, question.tacanOdgovor];
-    allAnswers.sort(() => Math.random() - 0.5); // Mešanje odgovora
-
-    // Kreiranje dugmića za odgovore
-    allAnswers.forEach((option) => {
-        const button = document.createElement('button');
-        button.textContent = option;
-        button.classList.add('option');
-        button.addEventListener('click', () => selectOption(button, option));
-        optionsEl.appendChild(button);
-    });
-
-    nextBtn.style.display = 'none';
-    timeLeft = 30;
-    if (timer) clearInterval(timer);
-    startTimer();
-    updateProgress();
-}
-
-        // Funkcija za selekciju odgovora
-        function selectOption(selectedButton, selectedAnswer) {
-    const question = quizData[currentQuestion];
-
-    // Onemogući sve opcije da ne budu klikabilne
-    Array.from(optionsEl.children).forEach(button => {
-        button.disabled = true;
-        if (button.textContent === question.tacanOdgovor) {
-            button.classList.add('correct'); // Obeleži tačan odgovor
-        } else {
-            button.classList.add('incorrect'); // Obeleži netačne odgovore
-        }
-    });
-
-    // Obeleži izabranu opciju kao tačnu ili netačnu
-    if (selectedAnswer === question.tacanOdgovor) {
-        score++;
-        selectedButton.classList.add('correct');
-    } else {
-        selectedButton.classList.add('incorrect');
+        startContainer.style.display = 'none';
+        quizContainer.style.display = 'block';
+        loadQuestion();
+        startTimer(); // Pokreni tajmer kad kviz počne
     }
 
-    // Prikaži dugme "Next" za prelazak na sledeće pitanje
-    nextBtn.style.display = 'block';
+    // Funkcija za učitavanje pitanja
+    function loadQuestion() {
+        const question = quizData[currentQuestion];
+        questionEl.textContent = question.tekstPitanja;
+        optionsEl.innerHTML = '';
 
-    // Zaustavi tajmer (ako je u toku)
-    if (timer) clearInterval(timer);
-}
+        // Kombinovanje tačnog i netačnih odgovora
+        const allAnswers = [...question.answers, question.tacanOdgovor];
+        allAnswers.sort(() => Math.random() - 0.5); // Mešanje odgovora
+
+        // Kreiranje dugmića za odgovore
+        allAnswers.forEach((option) => {
+            const button = document.createElement('button');
+            button.textContent = option;
+            button.classList.add('option');
+            button.addEventListener('click', () => selectOption(button, option));
+            optionsEl.appendChild(button);
+        });
+
+        nextBtn.style.display = 'none';
+    }
+
+    // Funkcija za selekciju odgovora
+    function selectOption(selectedButton, selectedAnswer) {
+        const question = quizData[currentQuestion];
+
+        // Onemogući sve opcije da ne budu klikabilne
+        Array.from(optionsEl.children).forEach(button => {
+            button.disabled = true;
+            if (button.textContent === question.tacanOdgovor) {
+                button.classList.add('correct'); // Obeleži tačan odgovor
+            } else {
+                button.classList.add('incorrect'); // Obeleži netačne odgovore
+            }
+        });
+
+        // Obeleži izabranu opciju kao tačnu ili netačnu
+        if (selectedAnswer === question.tacanOdgovor) {
+            score++;
+            selectedButton.classList.add('correct');
+        } else {
+            selectedButton.classList.add('incorrect');
+        }
+
+        // Prikaži dugme "Next" za prelazak na sledeće pitanje
+        nextBtn.style.display = 'block';
+
+        // Zaustavi tajmer (ako je u toku)
+        if (timer) clearInterval(timer);
+    }
 
 
         // Funkcija za pokretanje tajmera
         function startTimer() {
-            timer = setInterval(() => {
-                timeLeft--;
-                timerEl.textContent = `Time: ${timeLeft}s`;
-                if (timeLeft === 0) {
-                    clearInterval(timer);
-                    checkAnswer();
-                }
-            }, 1000);
-        }
+        timer = setInterval(() => {
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerEl.textContent = `Time: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 
+            // Kada vreme istekne, završava se kviz
+            if (timeLeft === 0) {
+                clearInterval(timer);
+                showResults();
+            }
+        }, 1000);
+    }
         // Funkcija za proveru odgovora
         function checkAnswer() {
             const selectedOption = document.querySelector('.option.selected');
@@ -180,10 +170,10 @@
 
         // Funkcija za ažuriranje progresa
         function updateProgress() {
-            const progress = ((currentQuestion + 1) / quizData.length) * 100;
-            progressBar.style.width = `${progress}%`;
-            progressBar.setAttribute('aria-valuenow', progress);
-        }
+        const progress = ((currentQuestion + 1) / quizData.length) * 100;
+        progressBar.style.width = `${progress}%`;
+        progressBar.setAttribute('aria-valuenow', progress);
+    }
 
         // Funkcija za prikaz rezultata
         function showResults() {
@@ -193,6 +183,7 @@
                         <i class="fas ${score > quizData.length / 2 ? 'fa-trophy text-success' : 'fa-times-circle text-danger'}"></i>
                     </div>
                     <div class="score">Your score: ${score}/${quizData.length}</div>
+                    <p>Time left: ${timeLeft}</p>
                     <p>${score > quizData.length / 2 ? 'Great job!' : 'Better luck next time!'}</p>
                     <button class="btn btn-primary" onclick="location.reload()">Restart Quiz</button>
                 </div>
