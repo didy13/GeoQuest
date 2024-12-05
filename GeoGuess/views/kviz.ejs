@@ -101,6 +101,7 @@
         });
 
         nextBtn.style.display = 'none';
+        updateProgress();
     }
 
     // Funkcija za selekciju odgovora
@@ -129,7 +130,6 @@
         nextBtn.style.display = 'block';
 
         // Zaustavi tajmer (ako je u toku)
-        if (timer) clearInterval(timer);
     }
 
 
@@ -183,11 +183,12 @@
                         <i class="fas ${score > quizData.length / 2 ? 'fa-trophy text-success' : 'fa-times-circle text-danger'}"></i>
                     </div>
                     <div class="score">Your score: ${score}/${quizData.length}</div>
-                    <p>Time left: ${timeLeft}</p>
+                    <p>Time left: ${Math.floor(timeLeft / 60)}:${ timeLeft % 60}</p>
                     <p>${score > quizData.length / 2 ? 'Great job!' : 'Better luck next time!'}</p>
                     <button class="btn btn-primary" onclick="location.reload()">Restart Quiz</button>
                 </div>
             `;
+            sendResultsToServer();
         }
 
         // Funkcionalnost za dugme "Next"
@@ -199,6 +200,29 @@
                 showResults();
             }
         });
+        function sendResultsToServer() {
+    const resultData = {
+        score: score,         // Rezultat korisnika
+        time: timeLeft,
+        user: `<%= user.username%>`  // Vreme koje je prošlo
+    };
+    console.log(resultData)
+    // Slanje POST zahteva na server
+    fetch('/api/quiz/results', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(resultData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Rezultati su uspešno poslati na server:', data);
+    })
+    .catch(error => {
+        console.error('Došlo je do greške pri slanju rezultata:', error);
+    });
+}
     </script>
 </body>
 

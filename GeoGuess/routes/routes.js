@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 const Korisnik = require("../models/Korisnik");
 const registerValidation = require("../public/registerValidation");
 const { validationResult } = require('express-validator');
+router.use(express.json());
 const {
     getRandomEasyQuestion,
     getRandomMediumQuestion,
@@ -119,6 +120,25 @@ router.get("/kviz", (req, res) => {
             });
         });
     });
+});
+router.post('/api/quiz/results', async (req, res) => {
+    const { user , score } = req.body;
+    const query = 'INSERT INTO RangLista (KorisnikID, bodovi, datum) SELECT KorisnikID, ?, NOW() FROM Korisnik WHERE nickname = ?;';
+    const values = [score, user];
+    try {
+        connection.query(query, values, (error, results) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({ message: 'Greška pri unosu u RangLista', error });
+            }
+
+            console.log(results);
+            res.json({ message: 'Rezultati su uspešno sačuvani!', data: results });
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Došlo je do greške pri obradi', error });
+    }
 });
 router.get("/admin", (req, res) => {
     if (!req.session.user.admin) {
