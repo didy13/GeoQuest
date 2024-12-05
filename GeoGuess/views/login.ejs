@@ -14,14 +14,14 @@
                     <label for="nickname" class="form-label">Korisničko ime</label>
                     <input type="text" name="nickname" id="nickname" placeholder="Unesite korisničko ime" class="form-control">
                 </div>
-                <div>
+                <div class="mb-4">
                     <label for="lozinka" class="form-label">Lozinka</label>
                     <input type="password" name="lozinka" id="lozinka" placeholder="Unesite lozinku" class="form-control">
                 </div>
                 <% if(error != ""){ %>
-                    <p class="error mt-1"><%= error %></p>
+                    <p class="error mt-3 mb-4"><%= error %></p>
                     <% } %>
-                <button type="submit" class="btn dugme mt-4">Prijavi se</button>
+                <button type="submit" class="btn dugme">Prijavi se</button>
             </form>
             
             <div class="text-center PrijavaRegistracija mt-4">
