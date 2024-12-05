@@ -242,3 +242,41 @@ form label {
         margin-bottom: 12px;
     }
 }
+.options {
+    display: flex;
+    flex-direction: column; /* Postavlja odgovore vertikalno */
+    gap: 15px; /* Prostor između odgovora */
+}
+
+.option {
+    font-size: 1.2rem; /* Povećava veličinu teksta odgovora */
+    padding: 15px; /* Dodaje unutrašnje margine za bolje isticanje */
+    background-color: #f9f9f9; /* Svetlo siva pozadina */
+    border: 2px solid #ccc; /* Blaga granica */
+    border-radius: 8px; /* Zaobljeni uglovi */
+    text-align: left; /* Poravnanje teksta na levo */
+    cursor: pointer; /* Menja kursor na "pointer" za klikabilne opcije */
+    transition: all 0.3s ease; /* Animacija pri hover efektu */
+}
+
+.option:hover {
+    background-color: #eaeaea; /* Tamnija nijansa sive pri hover efektu */
+    border-color: #999; /* Naglašenija granica */
+}
+
+.option.correct {
+    background-color: #d4edda; /* Svetlo zelena za tačan odgovor */
+    border-color: #28a745;
+    color: #155724;
+}
+
+.option.incorrect {
+    background-color: #f8d7da; /* Svetlo crvena za netačan odgovor */
+    border-color: #dc3545;
+    color: #721c24;
+}
+
+.option:disabled {
+    cursor: not-allowed; /* Pokazuje da dugme nije aktivno */
+    opacity: 0.7; /* Smanjuje vidljivost za deaktivirane opcije */
+}

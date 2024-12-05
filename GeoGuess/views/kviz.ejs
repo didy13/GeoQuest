@@ -1,108 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kviz</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/path-to-your-css.css"> <!-- Dodaj putanju do svog CSS fajla -->
-</head>
-<body>
-    <div class="container kviz">
-        <div class="text-center mb-4">
-            <h1 class="text-primary">Dobrodošli u kviz!</h1>
-            <p id="question-count">
-                Pitanje <span id="current-question">1</span> od <span id="total-questions"><%= questions.length %></span>
-            </p>
-        </div>
 
-        <% questions.forEach((question, index) => { %>
-            <div class="card question-card <%= index === 0 ? 'active-card' : 'hidden-right' %>" id="card<%= index + 1 %>">
-                <div class="card-body">
-                    <h3 class="text-center text-secondary">Pitanje <%= index + 1 %>:</h3>
-                    <p class="text-center"><%= question.tekstPitanja %></p>
-                    <div id="answers<%= index + 1 %>" class="answers text-center mt-3">
-                        <% question.answers.forEach(answer => { %>
-                            <button 
-                                class="btn dugme mt-2 answer-button" 
-                                data-correct="<%= answer === question.tacanOdgovor %>"
-                                onclick="handleAnswerClick(this, <%= index + 1 %>, '<%= question.tacanOdgovor %>')">
-                                <%= answer %>
-                            </button>
-                        <% }); %>
-                    </div>
-                    <p id="correct-answer<%= index + 1 %>" class="mt-3 d-none text-center text-success">
-                        Tačan odgovor: <strong><%= question.tacanOdgovor %></strong>
-                    </p>
+<%- include("./partials/head.ejs") %>
+
+<body>
+    <%- include("./partials/nav.ejs") %>
+    <section class="pocetakKviza container" id="start-container">
+        <div>
+            <div class="mb-4">
+                <h1>Dobrodošli u GeoGuess Kviz! 🌍</h1>
+                <p>Spremite se da testirate svoje znanje o geografiji i osvajate bodove!</p>
+            </div>
+
+            <div>
+                <h2>Pravila kviza:</h2>
+                <p class="mb-3"><strong>Vreme za igru:</strong> Imate tačno <strong>15 minuta</strong> da završite kviz. Ako ne završite na vreme, vaš rezultat će se automatski predati.</p>
+                <p><strong>Pitanja:</strong> Kviz se sastoji od <strong>30 pitanja</strong>, podeljenih u tri težine:</p>
+                <p class="mb-3">
+                    <strong>•</strong> 10 lakih pitanja<br>
+                    <strong>•</strong> 10 srednjih pitanja<br>
+                    <strong>•</strong> 10 teških pitanja
+                </p>
+                <p class="mb-3"><strong>Bodovanje:</strong> Što brže odgovorite na pitanje, više bodova osvajate. Pazite na vreme, jer svaki sekund se računa!</p>
+                <p><strong>Teme pitanja:</strong> Možete očekivati pitanja o:</p>
+                <p>
+                    <strong>•</strong> Prepoznavanju zastava<br>
+                    <strong>•</strong> Glavnim gradovima<br>
+                    <strong>•</strong> Broju stanovnika<br>
+                    <strong>•</strong> Kontinentima i još mnogo toga!
+                </p>
+            </div>
+        </div>
+        <button id="start-button" class="btn dugme mt-4 kvizDugme" onclick="startQuiz()">Kreni kviz</button>
+    </section>
+
+    <div class="container">
+        <div class="quiz-container" id="quiz" style="display: none;">
+            <div class="quiz-header">
+                <h2>Interactive Quiz</h2>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0"
+                        aria-valuemax="100"></div>
                 </div>
             </div>
-        <% }); %>
-
-        <div class="d-flex justify-content-between mt-4">
-            <button id="previous-btn" class="btn dugmeTokomKviza" onclick="previousQuestion()" disabled>Prethodno</button>
-            <button id="next-btn" class="btn dugmeTokomKviza" onclick="nextQuestion()">Sledeće</button>
+            <div id="question-container">
+                <p class="question" id="question"></p>
+                <div class="options" id="options"></div>
+            </div>
+            <div class="quiz-footer">
+                <div class="timer" id="timer">Time: 30s</div>
+                <button class="btn btn-primary" id="next-btn">Next</button>
+            </div>
         </div>
     </div>
 
+    <%- include("./partials/footer.ejs") %>
     <script>
-        let currentQuestion = 1;
-        const totalQuestions = <%= questions.length %>;
+        // Pretpostavka: `questions` je niz sa podacima o pitanjima
+        //const quizData = JSON.parse('<%- JSON.stringify(questions) %>');
+        const quizData = [
+    {
+        tekstPitanja: "Koja je glavni grad Francuske?",
+        tacanOdgovor: "Pariz",
+        answers: ["Lion", "Marsej", "Nica"] // Netacni odgovori
+    },
+    {
+        tekstPitanja: "Koja je najduža reka na svetu?",
+        tacanOdgovor: "Nil",
+        answers: ["Amazon", "Misisipi", "Dunav"] // Netacni odgovori
+    }
+];
+        let currentQuestion = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 30;
 
-        // Ažuriraj broj pitanja
-        document.getElementById('total-questions').textContent = totalQuestions;
+        const questionEl = document.getElementById('question');
+        const optionsEl = document.getElementById('options');
+        const nextBtn = document.getElementById('next-btn');
+        const timerEl = document.getElementById('timer');
+        const progressBar = document.querySelector('.progress-bar');
+        const quizContainer = document.getElementById('quiz');
+        const startContainer = document.getElementById('start-container');
 
-        // Funkcija za sledeće pitanje
-        function nextQuestion() {
-            if (currentQuestion < totalQuestions) {
-                document.getElementById(card${currentQuestion}).classList.remove('active-card');
-                document.getElementById(card${currentQuestion}).classList.add('hidden-left');
-                currentQuestion++;
-                document.getElementById(card${currentQuestion}).classList.remove('hidden-right');
-                document.getElementById(card${currentQuestion}).classList.add('active-card');
-            }
-            toggleNavButtons();
-            updateQuestionCount();
+        // Funkcija za početak kviza
+        function startQuiz() {
+            startContainer.style.display = 'none';
+            quizContainer.style.display = 'block';
+            loadQuestion();
         }
 
-        // Funkcija za prethodno pitanje
-        function previousQuestion() {
-            if (currentQuestion > 1) {
-                document.getElementById(card${currentQuestion}).classList.remove('active-card');
-                document.getElementById(card${currentQuestion}).classList.add('hidden-right');
-                currentQuestion--;
-                document.getElementById(card${currentQuestion}).classList.remove('hidden-left');
-                document.getElementById(card${currentQuestion}).classList.add('active-card');
-            }
-            toggleNavButtons();
-            updateQuestionCount();
+        // Funkcija za učitavanje pitanja
+        function loadQuestion() {
+    const question = quizData[currentQuestion];
+    questionEl.textContent = question.tekstPitanja;
+    optionsEl.innerHTML = '';
+
+    // Kombinovanje tačnog i netačnih odgovora
+    const allAnswers = [...question.answers, question.tacanOdgovor];
+    allAnswers.sort(() => Math.random() - 0.5); // Mešanje odgovora
+
+    // Kreiranje dugmića za odgovore
+    allAnswers.forEach((option) => {
+        const button = document.createElement('button');
+        button.textContent = option;
+        button.classList.add('option');
+        button.addEventListener('click', () => selectOption(button, option));
+        optionsEl.appendChild(button);
+    });
+
+    nextBtn.style.display = 'none';
+    timeLeft = 30;
+    if (timer) clearInterval(timer);
+    startTimer();
+    updateProgress();
+}
+
+        // Funkcija za selekciju odgovora
+        function selectOption(selectedButton, selectedAnswer) {
+    const question = quizData[currentQuestion];
+
+    // Onemogući sve opcije da ne budu klikabilne
+    Array.from(optionsEl.children).forEach(button => {
+        button.disabled = true;
+        if (button.textContent === question.tacanOdgovor) {
+            button.classList.add('correct'); // Obeleži tačan odgovor
+        } else {
+            button.classList.add('incorrect'); // Obeleži netačne odgovore
+        }
+    });
+
+    // Obeleži izabranu opciju kao tačnu ili netačnu
+    if (selectedAnswer === question.tacanOdgovor) {
+        score++;
+        selectedButton.classList.add('correct');
+    } else {
+        selectedButton.classList.add('incorrect');
+    }
+
+    // Prikaži dugme "Next" za prelazak na sledeće pitanje
+    nextBtn.style.display = 'block';
+
+    // Zaustavi tajmer (ako je u toku)
+    if (timer) clearInterval(timer);
+}
+
+
+        // Funkcija za pokretanje tajmera
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                timerEl.textContent = `Time: ${timeLeft}s`;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    checkAnswer();
+                }
+            }, 1000);
         }
 
-        // Ažuriraj navigacione dugmiće
-        function toggleNavButtons() {
-            document.getElementById('previous-btn').disabled = currentQuestion === 1;
-            document.getElementById('next-btn').disabled = currentQuestion === totalQuestions;
+        // Funkcija za proveru odgovora
+        function checkAnswer() {
+            const selectedOption = document.querySelector('.option.selected');
+            if (!selectedOption) return;
+
+            const question = quizData[currentQuestion];
+            const selectedAnswer = selectedOption.textContent;
+
+            Array.from(optionsEl.children).forEach(button => {
+                button.disabled = true;
+                if (button.textContent === question.tacanOdgovor) {
+                    button.classList.add('correct');
+                } else {
+                    button.classList.add('incorrect');
+                }
+            });
+
+            clearInterval(timer);
         }
 
-        // Ažuriraj broj trenutnog pitanja
-        function updateQuestionCount() {
-            document.getElementById('current-question').textContent = currentQuestion;
+        // Funkcija za ažuriranje progresa
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / quizData.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            progressBar.setAttribute('aria-valuenow', progress);
         }
 
-        // Funkcija za klik na odgovor
-        function handleAnswerClick(button, questionIndex, correctAnswer) {
-            const answersDiv = document.getElementById(answers${questionIndex});
-            const answerButtons = answersDiv.querySelectorAll('.answer-button');
-            answerButtons.forEach(btn => btn.disabled = true);
+        // Funkcija za prikaz rezultata
+        function showResults() {
+            quizContainer.innerHTML = `
+                <div class="results">
+                    <div class="result-icon">
+                        <i class="fas ${score > quizData.length / 2 ? 'fa-trophy text-success' : 'fa-times-circle text-danger'}"></i>
+                    </div>
+                    <div class="score">Your score: ${score}/${quizData.length}</div>
+                    <p>${score > quizData.length / 2 ? 'Great job!' : 'Better luck next time!'}</p>
+                    <button class="btn btn-primary" onclick="location.reload()">Restart Quiz</button>
+                </div>
+            `;
+        }
 
-            if (button.dataset.correct === "true") {
-                button.classList.add('btn-success');
+        // Funkcionalnost za dugme "Next"
+        nextBtn.addEventListener('click', () => {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
             } else {
-                button.classList.add('btn-danger');
+                showResults();
             }
-
-            const correctAnswerParagraph = document.getElementById(correct-answer${questionIndex});
-            correctAnswerParagraph.classList.remove('d-none');
-        }
+        });
     </script>
 </body>
+
 </html>
