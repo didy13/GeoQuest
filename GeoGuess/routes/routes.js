@@ -593,10 +593,9 @@ router.post('/adminDeleteQuestion', async (req, res) => {
                 resolve(results);
             });
         });
-
         if (quest.length === 0) {
             // User not found
-            return  res.render("admin", { error: "Pitanje nije pronađeno", title: "GeoGuess Prijava", user: "" });;
+            return  res.render("admin", { error: "Pitanje nije pronađeno", title: "GeoGuess Prijava", user: req.session.user });;
         }
 
         // Delete the user
