@@ -49,19 +49,32 @@
             <input type="submit" class="btn dugme mt-4" value="Prosledi">
         </form>
 
-        <form action="/adminDeleteUser" class="AdminForm mb-5" method="POST">
-            <h2>Obriši korisnika</h2>
-            <label for="KorisničkoIme" class="mb-1">Korisničko ime</label>
-            <input type="text" name="username" placeholder="Unesite korisničko ime..." class="form-control">
-            <input type="submit" class="btn dugme mt-4" value="Obriši">
-        </form>
-
-        <form action="/adminUpdateUser" class="AdminForm mb-5" method="POST">
-            <h2>Unapredi korisnika</h2>
-            <label for="KorisničkoIme" class="mb-1">Korisničko ime</label>
-            <input type="text" name="username" placeholder="Unesite korisničko ime..." class="form-control">
-            <input type="submit" class="btn dugme mt-4" value="Unapredi">
-        </form>
+        <div class="AdminForm mb-5">
+            <h2>Manipuliši korisnika</h2>
+            <div class="table-responsive mt-4">
+                <table class="table table-bordered table-hover">
+                    <thead class="HeadTable table">
+                        <tr>
+                            <th>#</th>
+                            <th>Korisničko ime</th>
+                            <th>Unapredi korisnika</th>
+                            <th>Obriši korisnika</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>culi</td>
+                            <td><input type="submit" value="Unapredi" class="btn dugme"></td>
+                            <td><input type="submit" value="Obriši" class="btn dugme"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="text-center">Nema rezultata za prikaz.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <form action="/adminDeleteQuestion" class="AdminForm mb-5" method="POST">
             <h2>Obriši pitanje</h2>
