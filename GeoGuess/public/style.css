@@ -9,6 +9,10 @@
     color: #6785ff !important;
 }
 
+h1 {
+    font-weight: 600 !important;
+}
+
 /* Navigacija */
 nav {
     background-color: #6785ff;
@@ -248,6 +252,15 @@ body.modal-open {
 .adminHelp {
     color: white !important;
     margin: 0 !important;
+}
+
+/* RangLista */
+.RangLista {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+.RangLista th {
+    background-color: #6785ff !important;
 }
 
 /* Manji ekrani */
