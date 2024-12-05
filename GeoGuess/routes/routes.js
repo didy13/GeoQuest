@@ -82,42 +82,169 @@ router.get("/kviz", (req, res) => {
         const questionsWithAnswers = [];
 
         results.forEach((question) => {
-            const incorrectQuery = `
-                SELECT 
-                    Drzava.glavniGrad AS netacanOdgovor
-                FROM 
-                    Drzava
-                WHERE 
-                    Drzava.DrzavaID != (SELECT DrzavaID FROM Pitanje WHERE PitanjeID = ? AND tipPitanja LIKE ? LIMIT 1)
-                ORDER BY 
-                    RAND()
-                LIMIT 3;
-            `;
+            switch(question.tipPitanja){
+                case "Glavni grad":
+                const incorrectQuery1 = `
+                    SELECT 
+                        Drzava.glavniGrad AS netacanOdgovor
+                    FROM 
+                        Drzava
+                    WHERE 
+                        Drzava.DrzavaID != (SELECT DrzavaID FROM Pitanje WHERE PitanjeID = ? AND tipPitanja LIKE ? LIMIT 1)
+                    ORDER BY 
+                        RAND()
+                    LIMIT 3;
+                `;
 
-            connection.query(incorrectQuery, [question.PitanjeID, question.tipPitanja], (err, incorrectResults) => {
-                if (err) {
-                    console.error("Error fetching incorrect answers:", err);
-                    return res.status(500).send("Server Error");
-                }
+                connection.query(incorrectQuery1, [question.PitanjeID, question.tipPitanja], (err, incorrectResults) => {
+                    if (err) {
+                        console.error("Error fetching incorrect answers:", err);
+                        return res.status(500).send("Server Error");
+                    }
 
-                // Kombinuj tačan odgovor sa netačnim
-                const answers = [...incorrectResults.map(r => r.netacanOdgovor)];
-                // Randomizuj odgovore
-                const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
+                    // Kombinuj tačan odgovor sa netačnim
+                    const answers = [...incorrectResults.map(r => r.netacanOdgovor)];
+                    // Randomizuj odgovore
+                    const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
 
-                questionsWithAnswers.push({
-                    ...question,
-                    answers: shuffledAnswers
-                });
-                // Kada se svi odgovori dodaju, renderuj kviz
-                if (questionsWithAnswers.length === results.length) {
-                    res.render("kviz", {
-                        title: "GeoGuess Kviz",
-                        user: req.session.user,
-                        questions: questionsWithAnswers
+                    questionsWithAnswers.push({
+                        ...question,
+                        answers: shuffledAnswers
                     });
-                }
-            });
+                    // Kada se svi odgovori dodaju, renderuj kviz
+                    if (questionsWithAnswers.length === results.length) {
+                        res.render("kviz", {
+                            title: "GeoGuess Kviz",
+                            user: req.session.user,
+                            questions: questionsWithAnswers
+                        });
+                    }
+                    
+                });
+                break;
+                case "Populacija":
+                    const incorrectQuery2 = `
+                    SELECT 
+                        Drzava.brojStanovnika AS netacanOdgovor
+                    FROM 
+                        Drzava
+                    WHERE 
+                        Drzava.DrzavaID != (SELECT DrzavaID FROM Pitanje WHERE PitanjeID = ? AND tipPitanja LIKE ? LIMIT 1)
+                    ORDER BY 
+                        RAND()
+                    LIMIT 3;
+                `;
+
+                connection.query(incorrectQuery2, [question.PitanjeID, question.tipPitanja], (err, incorrectResults) => {
+                    if (err) {
+                        console.error("Error fetching incorrect answers:", err);
+                        return res.status(500).send("Server Error");
+                    }
+
+                    // Kombinuj tačan odgovor sa netačnim
+                    const answers = [...incorrectResults.map(r => r.netacanOdgovor)];
+                    // Randomizuj odgovore
+                    const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
+
+                    questionsWithAnswers.push({
+                        ...question,
+                        answers: shuffledAnswers
+                    });
+                    // Kada se svi odgovori dodaju, renderuj kviz
+                    if (questionsWithAnswers.length === results.length) {
+                        res.render("kviz", {
+                            title: "GeoGuess Kviz",
+                            user: req.session.user,
+                            questions: questionsWithAnswers
+                        });
+                    }
+                  
+                });
+                break;
+                case "Kontinent":
+                    const incorrectQuery3 = `
+                    SELECT 
+                        Drzava.kontinent AS netacanOdgovor
+                    FROM 
+                        Drzava
+                    WHERE 
+                        Drzava.DrzavaID != (SELECT DrzavaID FROM Pitanje WHERE PitanjeID = ? AND tipPitanja LIKE ? LIMIT 1)
+                    ORDER BY 
+                        RAND()
+                    LIMIT 3;
+                `;
+
+                connection.query(incorrectQuery3, [question.PitanjeID, question.tipPitanja], (err, incorrectResults) => {
+                    if (err) {
+                        console.error("Error fetching incorrect answers:", err);
+                        return res.status(500).send("Server Error");
+                    }
+
+                    // Kombinuj tačan odgovor sa netačnim
+                    const answers = [...incorrectResults.map(r => r.netacanOdgovor)];
+                    // Randomizuj odgovore
+                    const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
+
+                    questionsWithAnswers.push({
+                        ...question,
+                        answers: shuffledAnswers
+                    });
+                    // Kada se svi odgovori dodaju, renderuj kviz
+                    if (questionsWithAnswers.length === results.length) {
+                        res.render("kviz", {
+                            title: "GeoGuess Kviz",
+                            user: req.session.user,
+                            questions: questionsWithAnswers
+                        });
+                    }
+                    
+
+                  
+                });
+                break;
+                case "Zastava":
+                    const incorrectQuery4 = `
+                    SELECT 
+                        Drzava.zastava AS netacanOdgovor
+                    FROM 
+                        Drzava
+                    WHERE 
+                        Drzava.DrzavaID != (SELECT DrzavaID FROM Pitanje WHERE PitanjeID = ? AND tipPitanja LIKE ? LIMIT 1)
+                    ORDER BY 
+                        RAND()
+                    LIMIT 3;
+                `;
+
+                connection.query(incorrectQuery4, [question.PitanjeID, question.tipPitanja], (err, incorrectResults) => {
+                    if (err) {
+                        console.error("Error fetching incorrect answers:", err);
+                        return res.status(500).send("Server Error");
+                    }
+
+                    // Kombinuj tačan odgovor sa netačnim
+                    const answers = [...incorrectResults.map(r => r.netacanOdgovor)];
+                    // Randomizuj odgovore
+                    const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
+
+                    questionsWithAnswers.push({
+                        ...question,
+                        answers: shuffledAnswers
+                    });
+                    // Kada se svi odgovori dodaju, renderuj kviz
+                    if (questionsWithAnswers.length === results.length) {
+                        res.render("kviz", {
+                            title: "GeoGuess Kviz",
+                            user: req.session.user,
+                            questions: questionsWithAnswers
+                        });
+                    }
+                    
+
+                  
+                });
+            }
+            
+            
         });
     });
 });
