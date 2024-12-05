@@ -73,8 +73,23 @@ router.get("/", isAuthenticated, async (req, res) => {
                     locationName: translatedCity,
                     units: "metric" // Use "metric" for Celsius, or "imperial" for Fahrenheit
                 });
-
-                const weatherData = await weather.getCurrent();
+                let weatherData = null;
+                try {
+                    // Pokušaj preuzimanja podataka o vremenu
+                    weatherData = await weather.getCurrent();
+                
+                    // Proveri da li podaci postoje i da li su u ispravnom formatu
+                    if (weatherData && weatherData.weather) {
+                        console.log('Podaci o vremenu su uspešno preuzeti:', weatherData);
+                        // Dalja obrada podataka...
+                    } else {
+                        console.log('Nema podataka o vremenu');
+                    }
+                } catch (error) {
+                    // Ako dođe do greške (npr. nevalidne koordinate, loša mreža, API greška)
+                    console.error('Greška pri preuzimanju vremenskih podataka:', error);
+                    weatherData = null;
+                }
                 console.log(`Current temperature in ${translatedCity} is: ${weatherData.weather.temp.cur}°C`);
                 console.log(weatherData);
                 // 4. Render the index page with the city and weather data

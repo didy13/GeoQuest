@@ -20,7 +20,7 @@
 <!-- Weather Section -->
 <section class="Weather container">
     <h2 class="text-center mb-3">Vreme u <%= city.original %></h2>
-    <% if (weather.weather) { %>
+    <% if (weather) { %>
         <div class="text-center">
             <h3><%= weather.weather.main %> - <%= weather.weather.description %></h3>
 
