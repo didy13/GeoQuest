@@ -50,26 +50,27 @@ router.get("/kviz", (req, res) => {
 
     const query = `
         SELECT 
-            Pitanje.PitanjeID as PitanjeID,
-            Pitanje.tekstPitanja as tekstPitanja, 
-            Pitanje.tipPitanja as tipPitanja, 
-            Pitanje.tezina as tezina, 
-            Drzava.naziv AS drzavaNaziv, 
-            CASE 
-                WHEN Pitanje.tipPitanja = 'Glavni grad' THEN Drzava.glavniGrad
-                WHEN Pitanje.tipPitanja = 'Populacija' THEN Drzava.brojStanovnika
-                WHEN Pitanje.tipPitanja = 'Zastava' THEN Drzava.zastava
-                WHEN Pitanje.tipPitanja = 'Kontinent' THEN Drzava.kontinent
-            END AS tacanOdgovor
-        FROM 
-            Pitanje
-        JOIN 
-            Drzava ON Pitanje.DrzavaID = Drzava.DrzavaID
-        WHERE 
-            Pitanje.tezina LIKE 'Lako'
-        ORDER BY 
-            RAND()
-        LIMIT 10;
+    RandomPitanja.PitanjeID AS PitanjeID,
+    RandomPitanja.tekstPitanja AS tekstPitanja, 
+    RandomPitanja.tipPitanja AS tipPitanja, 
+    RandomPitanja.tezina AS tezina, 
+    Drzava.naziv AS drzavaNaziv, 
+    CASE 
+        WHEN RandomPitanja.tipPitanja = 'Glavni grad' THEN Drzava.glavniGrad
+        WHEN RandomPitanja.tipPitanja = 'Populacija' THEN Drzava.brojStanovnika
+        WHEN RandomPitanja.tipPitanja = 'Zastava' THEN Drzava.zastava
+        WHEN RandomPitanja.tipPitanja = 'Kontinent' THEN Drzava.kontinent
+    END AS tacanOdgovor
+FROM (
+    SELECT * FROM (SELECT * FROM Pitanje WHERE tezina = 'Lako' ORDER BY RAND() LIMIT 10) AS LakoPitanja
+    UNION ALL
+    SELECT * FROM (SELECT * FROM Pitanje WHERE tezina = 'Srednje' ORDER BY RAND() LIMIT 10) AS SrednjePitanja
+    UNION ALL
+    SELECT * FROM (SELECT * FROM Pitanje WHERE tezina = 'Teško' ORDER BY RAND() LIMIT 10) AS TeskoPitanja
+) AS RandomPitanja
+JOIN Drzava ON RandomPitanja.DrzavaID = Drzava.DrzavaID;
+
+
     `;
 
     connection.query(query, (err, results) => {

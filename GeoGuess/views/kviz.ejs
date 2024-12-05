@@ -198,7 +198,15 @@
             });
 
             if (selectedAnswer === question.tacanOdgovor) {
-                score++;
+                if(question.tezina === "Lako"){
+                    score+=5;
+                }
+                else if(question.tezina === "Srednje"){
+                    score+=10;
+                }
+                else{
+                    score+=15;
+                }
                 selectedButton.classList.add('correct');
             } else {
                 selectedButton.classList.add('incorrect');
@@ -229,19 +237,51 @@
         }
 
         function showResults() {
+            if(timeLeft==600){
+                score = Math.floor(score * 2);
+            }
+            else if(timeLeft==0){
+                score = Math.floor(score * 0.5);
+            }
+            else{
+                score = score*Math.floor(0.5 + (1.5 * timeLeft) /600);
+            }
             quizContainer.innerHTML = `
                 <div class="results">
                     <div class="result-icon">
                         <i class="fas ${score > quizData.length / 2 ? 'fa-trophy text-success' : 'fa-times-circle text-danger'}"></i>
                     </div>
-                    <div class="score">Your score: ${score}/${quizData.length}</div>
+                    <div class="score">Your score: ${score}/600</div>
                     <p>Time left: ${Math.floor(timeLeft / 60)}:${timeLeft % 60}</p>
                     <p>${score > quizData.length / 2 ? 'Great job!' : 'Better luck next time!'}</p>
                     <button class="btn btn-primary" onclick="location.reload()">Restart Quiz</button>
                 </div>
             `;
+            sendResultsToServer();
         }
-
+        function sendResultsToServer() {
+    const resultData = {
+        score: score,         // Rezultat korisnika
+        time: timeLeft,
+        user: `<%= user.username%>`  // Vreme koje je prošlo
+    };
+    console.log(resultData)
+    // Slanje POST zahteva na server
+    fetch('/api/quiz/results', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(resultData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Rezultati su uspešno poslati na server:', data);
+    })
+    .catch(error => {
+        console.error('Došlo je do greške pri slanju rezultata:', error);
+    });
+}
         nextBtn.addEventListener('click', () => {
             currentQuestion++;
             if (currentQuestion < quizData.length) {
