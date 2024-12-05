@@ -49,9 +49,10 @@ router.get("/kviz", (req, res) => {
 
     const query = `
         SELECT 
-            Pitanje.tekstPitanja, 
-            Pitanje.tipPitanja, 
-            Pitanje.tezina, 
+            Pitanje.PitanjeID as PitanjeID,
+            Pitanje.tekstPitanja as tekstPitanja, 
+            Pitanje.tipPitanja as tipPitanja, 
+            Pitanje.tezina as tezina, 
             Drzava.naziv AS drzavaNaziv, 
             CASE 
                 WHEN Pitanje.tipPitanja = 'Glavni grad' THEN Drzava.glavniGrad
@@ -64,7 +65,7 @@ router.get("/kviz", (req, res) => {
         JOIN 
             Drzava ON Pitanje.DrzavaID = Drzava.DrzavaID
         WHERE 
-            Pitanje.tezina IN ('Lako', 'Srednje', 'Teško')
+            Pitanje.tezina LIKE 'Lako'
         ORDER BY 
             RAND()
         LIMIT 10;
@@ -79,27 +80,27 @@ router.get("/kviz", (req, res) => {
         // Uzmi 3 nasumična netačna odgovora za svako pitanje
         const questionsWithAnswers = [];
 
-        results.forEach((question, index) => {
+        results.forEach((question) => {
             const incorrectQuery = `
                 SELECT 
                     Drzava.naziv AS netacanOdgovor
                 FROM 
                     Drzava
                 WHERE 
-                    Drzava.DrzavaID != (SELECT DrzavaID FROM Pitanje WHERE PitanjeID = ?)
+                    Drzava.DrzavaID != (SELECT DrzavaID FROM Pitanje WHERE PitanjeID = ? AND tipPitanja LIKE ? LIMIT 1)
                 ORDER BY 
                     RAND()
                 LIMIT 3;
             `;
 
-            connection.query(incorrectQuery, [question.PitanjeID], (err, incorrectResults) => {
+            connection.query(incorrectQuery, [question.PitanjeID, question.tipPitanja], (err, incorrectResults) => {
                 if (err) {
                     console.error("Error fetching incorrect answers:", err);
                     return res.status(500).send("Server Error");
                 }
 
                 // Kombinuj tačan odgovor sa netačnim
-                const answers = [question.tacanOdgovor, ...incorrectResults.map(r => r.netacanOdgovor)];
+                const answers = [...incorrectResults.map(r => r.netacanOdgovor)];
                 // Randomizuj odgovore
                 const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
 
