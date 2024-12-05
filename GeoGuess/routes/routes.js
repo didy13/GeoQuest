@@ -144,7 +144,19 @@ router.get("/admin", (req, res) => {
     if (!req.session.user.admin) {
         return res.redirect("/");
     }
-    res.render("admin",{title: "GeoGuess Admin", user: req.session.user});
+    const query = `
+        SELECT *
+        FROM Korisnik 
+    `;
+
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error("Error fetching leaderboard:", err);
+            return res.status(500).send("Internal Server Error");
+        }
+        console.log(results);
+        res.render("admin", { title: "GeoGuess Admin", korisnici: results, user: req.session.user });
+    });
 });
 router.get("/login", (req, res) => {
     if (req.session.user) {
@@ -295,23 +307,12 @@ router.post('/register', registerValidation, async (req, res) => {
 });
 
 
-router.post('/adminDeleteUser', async (req, res) => {
-    const { username } = req.body;
-
-    if (!username) {
-        return res.status(400).render('admin', {
-            errors: [{ msg: 'Korisničko ime je obavezno!' }], // Validation error
-            formData: req.body,
-            title: 'Delete User',
-            user: req.session.user || '',
-        });
-    }
-
+router.post('/delete/:id', async (req, res) => {
     try {
         // Check if the user exists
-        const checkQuery = "SELECT * FROM Korisnik WHERE nickname = ?";
+        const checkQuery = "SELECT * FROM Korisnik WHERE KorisnikID = ?";
         const user = await new Promise((resolve, reject) => {
-            connection.query(checkQuery, [username], (err, results) => {
+            connection.query(checkQuery, [req.params.id], (err, results) => {
                 if (err) return reject(err);
                 resolve(results);
             });
@@ -319,18 +320,13 @@ router.post('/adminDeleteUser', async (req, res) => {
 
         if (user.length === 0) {
             // User not found
-            return res.status(404).render('admin', {
-                errors: [{ msg: 'Korisnik sa datim korisničkim imenom ne postoji!' }], 
-                formData: req.body,
-                title: 'Delete User',
-                user: req.session.user || '',
-            });
+            return res.status(404).redirect("/admin");
         }
 
         // Delete the user
-        const deleteQuery = "DELETE FROM Korisnik WHERE nickname = ?";
+        const deleteQuery = "DELETE FROM Korisnik WHERE KorisnikID = ?";
         await new Promise((resolve, reject) => {
-            connection.query(deleteQuery, [username], (err, results) => {
+            connection.query(deleteQuery, [req.params.id], (err, results) => {
                 if (err) return reject(err);
                 resolve(results);
             });
@@ -340,116 +336,48 @@ router.post('/adminDeleteUser', async (req, res) => {
             req.session.destroy((err) => {
                 if (err) {
                     console.error('Error destroying session:', err);
-                    return res.status(500).render('admin', {
-                        errors: [{ msg: 'Došlo je do greške prilikom odjave korisnika.' }],
-                        formData: req.body,
-                        title: 'Delete User',
-                        user: req.session.user || '',
-                    });
+                    return res.status(500).redirect("/admin");
                 }
                 res.clearCookie("connect.sid", { path: "/" });
                 return res.redirect('/logout');
             });
             return;
         }
-        res.redirect("/admin");
+        return res.redirect("/admin");
         // Redirect to a success page or display a success message
-        res.render('admin', {
-            success: `Korisnik "${username}" je uspešno obrisan.`,
-            formData: {}, // Clear the form data
-            title: 'Delete User',
-            user: req.session.user || '',
-        });
         
     } catch (error) {
         console.error('Error during user deletion:', error);
 
         // Render the deletion page with a general error message
-        res.status(500).render('admin', {
-            errors: [{ msg: 'Došlo je do greške. Pokušajte ponovo.' }],
-            formData: req.body,
-            title: 'Delete User',
-            user: req.session.user || '',
-        });
+        res.status(500).redirect("/admin");
     }
 });
 
-router.post('/adminUpdateUser', async (req, res) => {
-    const { username } = req.body;
+router.post('/upgrade/:id', async (req, res) => {
+    const { id } =req.params;
 
-    if (!username) {
-        return res.status(400).render('admin', {
-            errors: [{ msg: 'Korisničko ime je obavezno!' }], // Validation error
-            formData: req.body,
-            title: 'Update User',
-            user: req.session.user || '',
-        });
+    if (!id) {
+        return res.status(400).redirect("/admin");
     }
-
-    try {
-        // Check if the user exists
-        const checkQuery = "SELECT * FROM Korisnik WHERE nickname = ?";
-        const user = await new Promise((resolve, reject) => {
-            connection.query(checkQuery, [username], (err, results) => {
-                if (err) return reject(err);
-                resolve(results);
-            });
-        });
-
-        if (user.length === 0) {
-            // User not found
-            return res.status(404).render('admin', {
-                errors: [{ msg: 'Korisnik sa datim korisničkim imenom ne postoji!' }], 
-                formData: req.body,
-                title: 'Delete User',
-                user: req.session.user || '',
-            });
-        }
-
-        // Delete the user
-        const deleteQuery = "UPDATE Korisnik SET admin = 1 WHERE nickname = ?";
+    const deleteQuery = "UPDATE Korisnik SET admin = 1 WHERE KorisnikID = ?";
         await new Promise((resolve, reject) => {
-            connection.query(deleteQuery, [username], (err, results) => {
+            connection.query(deleteQuery, [id], (err, results) => {
                 if (err) return reject(err);
+                console.log(results);
                 resolve(results);
             });
             
         });
-        
-            
-        
         res.redirect("/admin");
-        // Redirect to a success page or display a success message
-        res.render('admin', {
-            success: `Korisnik "${username}" je uspešno obrisan.`,
-            formData: {}, // Clear the form data
-            title: 'Delete User',
-            user: req.session.user.username || '',
-        });
-        
-    } catch (error) {
-        console.error('Error during user deletion:', error);
 
-        // Render the deletion page with a general error message
-        res.status(500).render('admin', {
-            errors: [{ msg: 'Došlo je do greške. Pokušajte ponovo.' }],
-            formData: req.body,
-            title: 'Delete User',
-            user: req.session.user || '',
-        });
-    }
 });
 
 router.post('/adminDeleteQuestion', async (req, res) => {
     const { imeDrzave, tipPitanja } = req.body;
 
     if (!imeDrzave && !tipPitanja) {
-        return res.status(400).render('admin', {
-            errors: [{ msg: 'Sva polja su obavezna!' }], // Validation error
-            formData: req.body,
-            title: 'Delete Question',
-            user: req.session.user || '',
-        });
+        return res.status(400).redirect("/admin");
     }
 
     try {
@@ -464,12 +392,7 @@ router.post('/adminDeleteQuestion', async (req, res) => {
 
         if (quest.length === 0) {
             // User not found
-            return res.status(404).render('admin', {
-                errors: [{ msg: 'Pitanje ne postoji!' }], 
-                formData: req.body,
-                title: 'Delete Question',
-                user: req.session.user || '',
-            });
+            return res.status(404).redirect("/admin");
         }
 
         // Delete the user
@@ -484,23 +407,13 @@ router.post('/adminDeleteQuestion', async (req, res) => {
         res.redirect("/admin");
         
         // Redirect to a success page or display a success message
-        res.render('admin', {
-            success: `Pitanje o "${imeDrzave}" je uspešno obrisano.`,
-            formData: {}, // Clear the form data
-            title: 'Delete Question',
-            user: req.session.user || '',
-        });
+        res.redirect("/admin");
         
     } catch (error) {
         console.error('Error during user deletion:', error);
 
         // Render the deletion page with a general error message
-        res.status(500).render('admin', {
-            errors: [{ msg: 'Došlo je do greške. Pokušajte ponovo.' }],
-            formData: req.body,
-            title: 'Delete User',
-            user: req.session.user || '',
-        });
+        res.status(500).redirect("/admin");
     }
 });
 

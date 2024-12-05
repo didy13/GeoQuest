@@ -50,7 +50,7 @@
         </form>
 
         <div class="AdminForm mb-5">
-            <h2>Manipuliši korisnika</h2>
+            <h2>Manipuliši korisnicima</h2>
             <div class="table-responsive mt-4">
                 <table class="table table-bordered table-hover">
                     <thead class="HeadTable table">
@@ -62,15 +62,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>culi</td>
-                            <td><input type="submit" value="Unapredi" class="btn dugme"></td>
-                            <td><input type="submit" value="Obriši" class="btn dugme"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="4" class="text-center">Nema rezultata za prikaz.</td>
-                        </tr>
+                        <!-- EJS petlja koja puni tabelu -->
+                        <% if (korisnici && korisnici.length > 0) { %>
+                            <% korisnici.forEach(function(korisnik, index) { %>
+                                <tr>
+                                    <td><%= index + 1 %></td> <!-- Prikazuje redni broj korisnika -->
+                                    <td><%= korisnik.nickname %></td> <!-- Prikazuje korisničko ime -->
+                                    <td>
+                                        <% if (!korisnik.admin) { %>
+                                        <form action="/upgrade/<%= korisnik.KorisnikID %>" method="POST">
+                                            <input type="submit" value="Unapredi" class="btn dugme">
+                                        </form>
+                                        <% } %>
+                                        <% if (korisnik.admin) { %>
+                                            ADMIN
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <form action="/delete/<%= korisnik.KorisnikID %>" method="POST" onsubmit="return confirm('Da li ste sigurni da želite da obrišete ovog korisnika?');">
+                                            <input type="submit" value="Obriši" class="btn dugme">
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="4" class="text-center">Nema rezultata za prikaz.</td>
+                            </tr>
+                        <% } %>
                     </tbody>
                 </table>
             </div>
