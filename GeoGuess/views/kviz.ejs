@@ -91,22 +91,33 @@
 
             const allAnswers = [...question.answers, question.tacanOdgovor];
             allAnswers.sort(() => Math.random() - 0.5);
-
+            const kontinentiAnswers = ["Evropa", "Azija", "Afrika", "Južna Amerika", "Severna Amerika", "Australija i Okeanija"]
+            if(question.tipPitanja !== "Kontinent"){
             allAnswers.forEach((option) => {
-                const button = document.createElement('button');
-                if(!isNaN(option)){
+                    const button = document.createElement('button');
+                    if(!isNaN(option)){
+                        button.textContent = option;
+                    }
+                    else if(option.includes("https")){
+                        button.innerHTML = '<img width="100" height="100" src="' + option + '">';
+                    }
+                    else{
+                        button.textContent = option;
+                    }
+                    button.classList.add('option');
+                    button.addEventListener('click', () => selectOption(button, option));
+                    optionsEl.appendChild(button);
+                });
+            }
+            else{
+                kontinentiAnswers.forEach((option) => {
+                    const button = document.createElement('button');
                     button.textContent = option;
-                }
-                else if(option.includes("https")){
-                    button.innerHTML = '<img width="100" height="100" src="' + option + '">';
-                }
-                else{
-                    button.textContent = option;
-                }
-                button.classList.add('option');
-                button.addEventListener('click', () => selectOption(button, option));
-                optionsEl.appendChild(button);
-            });
+                    button.classList.add('option');
+                    button.addEventListener('click', () => selectOption(button, option));
+                    optionsEl.appendChild(button);
+                });
+            }
 
             nextBtn.style.display = 'none';
             updateProgress();
@@ -167,15 +178,9 @@
         }
 
         function showResults() {
-            if(timeLeft==600){
-                score = Math.floor(score * 2);
-            }
-            else if(timeLeft==0){
-                score = Math.floor(score * 0.5);
-            }
-            else{
-                score = score*Math.floor(0.5 + (1.5 * timeLeft) /600);
-            }
+            
+                score = Math.floor(score*(0.5 + (1.5 * timeLeft) /600));
+            
             quizContainer.innerHTML = `
                 <div class="results">
                     <div class="result-icon">
