@@ -7,6 +7,9 @@ const bcrypt = require("bcrypt");
 const Korisnik = require("../models/Korisnik");
 const registerValidation = require("../public/registerValidation");
 const { validationResult } = require('express-validator');
+const axios = require('axios');
+const { OpenWeatherAPI } = require("openweather-api-node")
+const translate = require('@iamtraction/google-translate');
 router.use(express.json());
 const {
     getRandomEasyQuestion,
@@ -26,8 +29,7 @@ router.use(session({
         sameSite: "lax" // Poboljšava sigurnost sesije
     }
 }));
-
-
+    
 const isAuthenticated = (req, res, next) =>
 {
     console.log(req.session);
@@ -39,9 +41,58 @@ const isAuthenticated = (req, res, next) =>
 }
 
 
-router.get("/", isAuthenticated, (req, res) => {
-    console.log(req.session.user);
-    res.render("index", { title: "GeoGuess", user: req.session.user});
+router.get("/", isAuthenticated, async (req, res) => {
+    try {
+        // 1. Fetch a random city from your database
+        const query = "SELECT glavniGrad FROM Drzava ORDER BY RAND() LIMIT 1"; // Replace with your actual table and column names
+        connection.query(query, async (err, results) => {
+            if (err) {
+                console.error('Error fetching city from DB:', err);
+                return res.status(500).send('Error fetching city');
+            }
+
+            const city = results[0]; // Assuming the city name is in the `glavniGrad` column
+            console.log(city.glavniGrad);
+            if (!city) {
+                return res.status(404).redirect('/');
+            }
+
+            try {
+                // 2. Translate the city name to English (if necessary)
+                const translatedCity = await translate(city.glavniGrad, { to: 'en' })
+                    .then(res => res.text)
+                    .catch(err => {
+                        console.error('Error translating city name:', err);
+                        throw new Error('Translation failed');
+                    });
+                    console.log(translatedCity);
+                // 3. Fetch weather data using OpenWeatherAPI
+                const apiKey = '6b3f90733d55f97c9970464fd39a253e'; // Replace with your actual API key
+                const weather = new OpenWeatherAPI({
+                    key: apiKey,
+                    locationName: translatedCity,
+                    units: "metric" // Use "metric" for Celsius, or "imperial" for Fahrenheit
+                });
+
+                const weatherData = await weather.getCurrent();
+                console.log(`Current temperature in ${translatedCity} is: ${weatherData.weather.temp.cur}°C`);
+                console.log(weatherData);
+                // 4. Render the index page with the city and weather data
+                res.render("index", {
+                    title: "GeoGuess",
+                    user: req.session.user,
+                    city: { original: city.glavniGrad, translated: translatedCity },
+                    weather: weatherData,
+                });
+            } catch (weatherError) {
+                console.error('Error fetching weather data:', weatherError);
+                return res.status(500).send('Error fetching weather data');
+            }
+        });
+    } catch (error) {
+        console.error('Error in route:', error);
+        return res.status(500).send('Internal server error');
+    }
 });
 router.get("/kviz", (req, res) => {
     if (!req.session.user) {

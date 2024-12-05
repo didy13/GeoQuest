@@ -16,26 +16,38 @@
             </div>
         </div>
     </div>
+
+    <!-- Weather Section -->
+    <section class="Weather container">
+        <h2 class="text-center mb-3">Vreme u <%= city.original %></h2>
+            <div class="text-center">
+                <p><strong>Temperatura:</strong> <%= weather.temp %>°C</p>
+                <p><strong>Opis vremena:</strong> <%= weather.description %></p>
+                <p><strong>Vlažnost vazduha:</strong> <%= weather.humidity %>%</p>
+                <p><strong>Brzina vetra:</strong> <%= weather.wind %> m/s</p>
+            </div>
+    </section>
+
     <section class="Pocetna container">
         <!-- Hook sekcija -->
         <div class="text-center py-4 mb-5">
             <h2>Da li ste znali? 🌍</h2>
             <p>Prema istraživanjima, čak <span>60% mladih ne zna glavni grad susednih zemalja</span>, a većina ne može da nabroji ni tri najveće zemlje po površini! GeoGuess je tu da kroz zabavu proširi vaše znanje o geografiji!</p>
         </div>
-    
+
         <!-- Kako funkcioniše aplikacija -->
         <div class="mb-5">
             <h2 class="text-center mb-3">Kako funkcioniše GeoGuess?</h2>
             <p class="text-center">Naša aplikacija kombinuje zabavu i obrazovanje kroz interaktivni kviz. Svaki korisnik odgovara na pitanja iz geografije, koja uključuju prepoznavanje zastava, glavni grad, kontinent ili broj stanovnika. Brzina i tačnost vaših odgovora donose vam dodatne bodove i bolji plasman na rang-listi!</p>
         </div>
-    
+
         <!-- Ko je deo tima -->
         <div class="py-4 mb-5">
             <h2 class="text-center mb-3">Ko je deo tima?</h2>
             <div class="row">
                 <div class="col-12 col-md-3 col-sm-6">
                     <div class="card h-100">
-                        <img src="Tim/David.jpeg" class="card-img-top" alt="...">
+                        <img src="Tim/David.jpeg" class="card-img-top" alt="David Koloski">
                         <div class="card-body">
                             <h5 class="card-title">David Koloski</h5>
                             <p class="card-text">Naš kapiten, poznat po svojoj energiji i organizaciji. Uvek motiviše tim i vodi nas ka zajedničkom cilju.</p>
@@ -44,16 +56,16 @@
                 </div>
                 <div class="col-12 col-md-3 col-sm-6">
                     <div class="card h-100">
-                        <img src="Tim/Aleksa.jpg" class="card-img-top" alt="...">
+                        <img src="Tim/Aleksa.jpg" class="card-img-top" alt="Aleksa Stankić">
                         <div class="card-body">
-                        <h5 class="card-title">Aleksa Stankić</h5>
-                        <p class="card-text">Kreativac u timu, zadužen za estetiku i inovativne ideje. Strastven je kada su u pitanju dizajn i detalji.</p>
+                            <h5 class="card-title">Aleksa Stankić</h5>
+                            <p class="card-text">Kreativac u timu, zadužen za estetiku i inovativne ideje. Strastven je kada su u pitanju dizajn i detalji.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-3 col-sm-6">
                     <div class="card h-100">
-                        <img src="Tim/Stefke.jpeg" class="card-img-top" alt="...">
+                        <img src="Tim/Stefke.jpeg" class="card-img-top" alt="Stefan Sofronijević">
                         <div class="card-body">
                             <h5 class="card-title">Stefan Sofronijević</h5>
                             <p class="card-text">Praktičan i logičan član tima, odličan u rešavanju problema i osmišljavanju novih pristupa.</p>
@@ -62,7 +74,7 @@
                 </div>
                 <div class="col-12 col-md-3 col-sm-6">
                     <div class="card h-100">
-                        <img src="Tim/Mizdrak.jpeg" class="card-img-top" alt="...">
+                        <img src="Tim/Mizdrak.jpeg" class="card-img-top" alt="Stefan Mizdrak">
                         <div class="card-body">
                             <h5 class="card-title">Stefan Mizdrak</h5>
                             <p class="card-text">Naš entuzijasta za geografiju i kulturu, uvek spreman da predloži zanimljive ideje i unapredi projekt.</p>
@@ -77,7 +89,7 @@
             <h2 class="text-center mb-3">Zašto smo izabrali ovu aplikaciju?</h2>
             <p class="text-center">Inspirisani potrebom da se mladi ljudi edukuju o osnovama geografije, odlučili smo da napravimo aplikaciju koja kroz igru podiže svest o važnosti poznavanja sveta. GeoGuess nije samo igra, već i način da naučite nešto novo i postanete pravi geograf!</p>
         </div>
-    
+
         <!-- Šta ljudi kažu o nama -->
         <div class="py-4 mb-5">
             <h2 class="text-center mb-3">Šta ljudi kažu o našoj aplikaciji?</h2>
