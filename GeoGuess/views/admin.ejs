@@ -1,67 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include("./partials/head.ejs") %>
+<%- include("./partials/head.ejs") %>
 <body>
+    <header>
+        <%- include("./partials/nav.ejs") %>
+    </header>
 
+    <section class="Admin container">
+        <h1 class="text-center text-uppercase mb-4">Admin</h1>
 
-<header>
-    <%- include("./partials/nav.ejs") %> 
-</header>
+        <form action="/adminUpdateQuestion" class="AdminForm mb-5" method="POST">
+            <h2>Promeni pitanje</h2>
+            <div class="row mb-4">
+                <div class="col-12 col-sm-6">
+                    <label for="TekstPitanja" class="mb-1">Tekst pitanja:</label>
+                    <input type="text" name="tekstPitanja" placeholder="Unesite tekst pitanja..." class="form-control">
+                    <p class="adminHelp mt-1">Ovo polje služi za promeni pitanja.</p>
+                </div>
+                <div class="col-12 col-sm-6 topMarginSmall">
+                    <label for="Težina" class="mb-1">Težina pitanja:</label>
+                    <select class="form-control">
+                        <option default hidden></option>
+                        <option value="Lako">Lako</option>
+                        <option value="Srednje"> Srednje</option>
+                        <option value="Teško">Teško</option>
+                    </select>
+                    <p class="adminHelp mt-1">Ovo polje služi za promeni pitanja.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <label for="NazivDržave" class="mb-1">Naziv države:</label>
+                    <input type="text" name="imeDrzave" placeholder="Unesite naziv države..." class="form-control">
+                    <p class="adminHelp mt-1">Ovo polje služi za pretraživanje.</p>
+                </div>
+                <div class="col-12 col-sm-6 topMarginSmall">
+                    <label for="TipPitanja" class="mb-1">Tip pitanja:</label>
+                    <select name="tipPitanja" class="form-control">
+                        <option default hidden></option>
+                        <option value="Glavni grad">Glavni grad</option>
+                        <option value="Zastava">Zastava</option>
+                        <option value="Populacija">Populacija</option>
+                        <option value="Kontinent">Kontinent</option>
+                    </select>
+                    <p class="adminHelp mt-1">Ovo polje služi za pretraživanje.</p>
+                </div>
+            </div>
+            <input type="submit" class="btn dugme mt-4" value="Prosledi">
+        </form>
 
-<form action="/adminUpdateQuestion" method="POST">
-    <h1>Updateuj pitanje</h1>
-    Tekst pitanja: <input type="text" name="tekstPitanja"><br>
-    <select>
-        <option default hidden value=""></option>
-        <option value="Lako">Lako</option>
-        <option value="Srednje"> Srednje</option>
-        <option value="Teško">Teško</option>
-    </select><br>
-    imeDrzave<input type="text" name="imeDrzave"><br>
-    tipPitanja<input type="text" name="tipPitanja"><br>
-    <input type="submit" name=""><br>
-</form><br>
+        <form action="/adminDeleteUser" class="AdminForm mb-5" method="POST">
+            <h2>Obriši korisnika</h2>
+            <label for="KorisničkoIme" class="mb-1">Korisničko ime</label>
+            <input type="text" name="username" placeholder="Unesite korisničko ime..." class="form-control">
+            <input type="submit" class="btn dugme mt-4" value="Obriši">
+        </form>
 
+        <form action="/adminUpdateUser" class="AdminForm mb-5" method="POST">
+            <h2>Unapredi korisnika</h2>
+            <label for="KorisničkoIme" class="mb-1">Korisničko ime</label>
+            <input type="text" name="username" placeholder="Unesite korisničko ime..." class="form-control">
+            <input type="submit" class="btn dugme mt-4" value="Unapredi">
+        </form>
 
-<form action="/adminDeleteUser" method="POST">
-    <h1>OBriši usera</h1>
-    <input type="text" name="username"><br>
-    <input type="submit">
-</form><br>
+        <form action="/adminDeleteQuestion" class="AdminForm mb-5" method="POST">
+            <h2>Obriši pitanje</h2>
+            <label for="NazivDržave" class="mb-1">Naziv države:</label>
+            <input type="text" name="imeDrzave" placeholder="Unesite naziv države..." class="form-control mb-4">
+            <label for="TipPitanja" class="mb-1">Tip pitanja:</label>
+            <input type="text" name="tipPitanja" placeholder="Unesite tip pitanja..." class="form-control">
+            <input type="submit" class="btn dugme mt-4" value="Obriši">
+        </form>
 
-
-<form action="/adminUpdateUser" method="POST">
-    <h1>Promoteuj usera</h1>
-    <input type="text" name="username"><br>
-    <input type="submit">
-</form><br>
-
-
-<form action="/adminDeleteQuestion" method="POST">
-    <h1>Obriši pitanje</h1>
-    imeDrzave<input type="text" name="imeDrzave"><br>
-    tipPitanja<input type="text" name="tipPitanja"><br>
-    <input type="submit" name=""><br>
-</form><br>
-
-
-<form action="/adminInsertQuestion" method="POST">
-    <h1>Unesi pitanje</h1>
-    Tekst pitanja: <input type="text" name="tekstPitanja"><br>
-    <select name="tezina">
-        <option value="Lako">Lako</option>
-        <option value="Srednje"> Srednje</option>
-        <option value="Teško">Teško</option>
-    </select><br>
-    imeDrzave<input type="text" name="imeDrzave"><br>
-    tipPitanja <select name="tipPitanja">
-        <option value="Glavni grad">Glavni grad</option>
-        <option value="Zastava">Zastava</option>
-        <option value="Populacija">Populacija</option>
-        <option value="Kontinent">Kontinent</option>
-    </select>
-    <input type="submit" name=""><br>
-</form><br>
+        <form action="/adminInsertQuestion" class="AdminForm" method="POST">
+            <h2>Unesi pitanje</h2>
+            <div class="row mb-4">
+                <div class="col-12 col-sm-6">
+                    <label for="TekstPitanja" class="mb-1">Tekst pitanja:</label>
+                    <input type="text" name="tekstPitanja" placeholder="Unesite tekst pitanja..." class="form-control">
+                </div>
+                <div class="col-12 col-sm-6 topMarginSmall">
+                    <label for="Težina" class="mb-1">Težina pitanja:</label>
+                    <select class="form-control">
+                        <option default hidden></option>
+                        <option value="Lako">Lako</option>
+                        <option value="Srednje"> Srednje</option>
+                        <option value="Teško">Teško</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <label for="NazivDržave" class="mb-1">Naziv države:</label>
+                    <input type="text" name="imeDrzave" placeholder="Unesite naziv države..." class="form-control">
+                </div>
+                <div class="col-12 col-sm-6 topMarginSmall">
+                    <label for="TipPitanja" class="mb-1">Tip pitanja:</label>
+                    <select name="tipPitanja" class="form-control">
+                        <option default hidden></option>
+                        <option value="Glavni grad">Glavni grad</option>
+                        <option value="Zastava">Zastava</option>
+                        <option value="Populacija">Populacija</option>
+                        <option value="Kontinent">Kontinent</option>
+                    </select>
+                </div>
+            </div>
+            <input type="submit" class="btn dugme mt-4" value="Unesi">
+        </form>
+    </section>
     <%- include("./partials/footer.ejs") %>
 </body>
 </html>

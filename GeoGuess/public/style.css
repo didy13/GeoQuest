@@ -8,36 +8,37 @@
     background-color: #ccff34 !important;
     color: #6785ff !important;
 }
+.dugme:hover {
+    background-color: #bfff00 !important;
+}
+
+h1 {
+    font-weight: 600 !important;
+}
 
 /* Navigacija */
 nav {
     background-color: #6785ff;
     box-shadow: 0 8px 18px rgba(103, 133, 255, 0.5);
 }
-
 .navLogo {
     width: 164px;
     height: auto;
 }
-
 .navLink {
     color: white !important;
 }
-
 .username {
     color: white !important;
     margin-right: 15px;
 }
-
 .navBtn {
     background-color: #ccff34 !important;
     color: #6785ff !important;
 }
-
 .navBtn:hover {
-    background-color: #ccff34 !important;
+    background-color: #bfff00 !important;
 }
-
 .btnLogin {
     text-decoration: none !important;
     color: #6785ff !important;
@@ -47,13 +48,11 @@ nav {
 footer {
     background-color: #6785ff;
 }
-
 footer p {
     color: white;
     font-size: 18px;
     margin: 0;
 }
-
 footer img {
     width: 340px;
 }
@@ -62,25 +61,21 @@ footer img {
 ::-webkit-scrollbar {
     width: 9px;
 }
-
 ::-webkit-scrollbar-track {
     background-color: white;
 }
-
 ::-webkit-scrollbar-thumb {
     background-color: #2A2C35;
 }
-
 ::-webkit-scrollbar-thumb:hover {
     background-color: #1f2027;
 }
 
 /* Prijava */
 .PrijavaSection {
-    margin-top: 130px;
-    margin-bottom: 130px;
+    margin-top: 150px;
+    margin-bottom: 150px;
 }
-
 .Prijava {
     background-color: #6785ff;
     padding: 40px;
@@ -89,18 +84,15 @@ footer img {
     margin-left: auto;
     margin-right: auto;
 }
-
 .Prijava h1 {
     color: #ccff34 !important;
     font-weight: 600;
     margin-bottom: 25px;
 }
-
 .Prijava label {
     color: #ffffff !important;
     margin-bottom: 0;
 }
-
 .Prijava input {
     margin-left: auto;
     margin-right: auto;
@@ -111,33 +103,28 @@ footer img {
 .PrijavaRegistracija {
     color: white;
 }
-
 .PrijavaRegistracija a {
     color: #ccff34;
 }
 
 /* Registracija */
 .FormaSection {
-    margin-top: 130px;
-    margin-bottom: 130px;
+    margin-top: 150px;
+    margin-bottom: 150px;
 }
-
 .Forma {
     background-color: #6785ff;
     padding: 40px;
     border-radius: 10px;
 }
-
 .Forma h1 {
     color: #ccff34 !important;
     font-weight: 600;
     margin-bottom: 25px;
 }
-
 form label {
     color: #ffffff !important;
 }
-
 .req {
     color: rgb(209, 24, 25);
 }
@@ -153,7 +140,6 @@ form label {
     margin-bottom: 100px;
     text-align: center;
 }
-
 .kvizDugme {
     font-size: 34px !important;
     font-weight: 500 !important;
@@ -221,7 +207,6 @@ form label {
     background: rgba(0, 0, 0, 0.7);
     z-index: 1000;
 }
-
 .stats-form {
     position: fixed;
     top: 50%;
@@ -235,17 +220,55 @@ form label {
     z-index: 1010;
     width: 300px;
 }
-
 body.modal-open {
     overflow: hidden;
 }
-
 .Statistika h3 {
     font-size: 32px !important;
 }
-
 .Statistika p {
     font-size: 18px;
+}
+
+/* Admin */
+.Admin {
+    margin-top: 75px;
+    margin-bottom: 75px;
+}
+.Admin h1 {
+    font-size: 48px;
+    font-weight: 600;
+}
+.AdminForm {
+    background-color: #6785ff;
+    padding: 40px;
+    border-radius: 10px;
+}
+.AdminForm h2 {
+    color: #ccff34 !important;
+    font-weight: 600 !important;
+    margin-bottom: 25px !important;
+}
+.AdminForm label {
+    color: #ffffff !important;
+}
+.adminHelp {
+    color: white !important;
+    margin: 0 !important;
+}
+
+/* RangLista */
+.RangLista {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+.RangLista th {
+    background-color: #6785ff !important;
+}
+
+/* 404 */
+.paragraph404 {
+    font-size: 22px !important;
 }
 
 /* Manji ekrani */
@@ -253,199 +276,28 @@ body.modal-open {
     .navBtn {
         width: 100%;
     }
-
     .btnLogin {
         margin-top: 5px;
     }
-
     .username {
         margin-right: 0px;
         margin-top: 8px;
         margin-bottom: 12px;
+        display: block;
     }
-}
-
-/* Responsive Design */
-@media only screen and (max-width: 992px) {
-    form {
-        width: 80%;
-    }
-
-    footer img {
-        width: 100%;
-        max-width: 300px;
-    }
-}
-
-/*/////////////////////////
-
-/* Quiz Info Section */
-.quiz-info {
-    padding: 60px 0;
-    background-color: #ffffff;
-    text-align: center;
-}
-
-.quiz-info h1 {
-    font-size: 2rem;
-    color: #6785ff;
-    margin-bottom: 20px;
-}
-
-.quiz-info p {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #555;
-    margin-bottom: 20px;
-}
-
-/* Technologies Section */
-.technologies {
-    background-color: #f8f9fa;
-    padding: 60px 0;
-    text-align: center;
-}
-
-.technologies h1 {
-    font-size: 2rem;
-    color: #6785ff;
-    margin-bottom: 30px;
-}
-
-.technologies ul {
-    list-style: none;
-    padding: 0;
-}
-
-.technologies ul li {
-    font-size: 1.2rem;
-    color: #555;
-    margin-bottom: 15px;
-}
-
-/* Team Section */
-.team-info {
-    padding: 60px 0;
-    background-color: #ffffff;
-}
-
-.team-info h1 {
-    font-size: 2rem;
-    color: #6785ff;
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.team-members {
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
-    flex-wrap: wrap;
-    margin-top: 30px;
-}
-
-.team-member {
-    text-align: center;
-    width: 30%;
-    transition: transform 0.3s ease;
-}
-
-.team-member img {
-    width: 100%;
-    border-radius: 50%;
-    max-width: 150px;
-    margin-bottom: 15px;
-}
-
-.team-member h3 {
-    color: #6785ff;
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-}
-
-.team-member p {
-    font-size: 1rem;
-    color: #555;
-    line-height: 1.5;
-}
-
-.team-member:hover {
-    transform: scale(1.05);
-}
-
-/* Testimonials slider sa scroll bar-om */
-.testimonials-slider {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    padding-bottom: 20px;
-}
-
-.testimonial {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    flex-shrink: 0;
-}
-
-.testimonials-slider::-webkit-scrollbar {
-    height: 10px;
-    /* Visina scroll bar-a */
-}
-
-.testimonials-slider::-webkit-scrollbar-thumb {
-    background-color: #6785ff;
-    border-radius: 5px;
-}
-
-.testimonials-slider::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
-}
-
-/* Animacija sekcija pri skrolovanju */
-.quiz-info,
-.technologies,
-.team-info,
-.testimonials {
-    opacity: 0;
-    /* Početna skrivenost */
-    transform: translateY(50px);
-    /* Sekcija je pomerena dole */
-    transition: all 0.5s ease;
-    /* Efekat animacije */
-}
-
-.quiz-info.animate,
-.technologies.animate,
-.team-info.animate,
-.testimonials.animate {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* jQuery Animation on Scroll */
-@keyframes slideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@media only screen and (max-width: 992px) {
-    .team-members {
+    .ms-auto.d-flex {
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
     }
+    .ms-auto.d-flex .username,
+    .ms-auto.d-flex .navBtn {
+        width: 100%;
+        text-align: center;
+    }
+}
 
-    .team-member {
-        width: 80%;
-        margin-bottom: 20px;
+@media only screen and (max-width: 576px) {
+    .topMarginSmall {
+        margin-top: 18px !important;
     }
 }
