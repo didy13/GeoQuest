@@ -367,6 +367,7 @@ router.get("/ranglista", (req, res) => {
         FROM RangLista r
         INNER JOIN Korisnik k ON r.KorisnikID = k.KorisnikID
         ORDER BY r.bodovi DESC, r.datum DESC
+        LIMIT 10
     `;
 
     connection.query(query, (err, results) => {
