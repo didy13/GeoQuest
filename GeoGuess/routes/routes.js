@@ -643,15 +643,12 @@ router.post('/adminInsertQuestion', async (req, res) => {
             });
             
         });
+
+        
         res.redirect("/admin");
         
         // Redirect to a success page or display a success message
-        res.render('admin', {
-            success: `Pitanje za "${imeDrzave}" je uspešno dodato.`,
-            formData: {}, // Clear the form data
-            title: 'Insert Question',
-            user: req.session.user || '',
-        });
+        
         
     } catch (error) {
         console.error('Error during question insertion:', error);
@@ -720,12 +717,7 @@ router.post('/adminUpdateQuestion', async (req, res) => {
         }
 
         // Render success message
-        res.render('admin', {
-            success: 'Pitanje je uspešno ažurirano.',
-            formData: {}, // Clear the form data
-            title: 'Update Question',
-            user: req.session.user || '',
-        });
+       res.redirect("/admin");
     } catch (error) {
         console.error('Error during question update:', error);
 
