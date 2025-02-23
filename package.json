@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "node app.js",
-    "geo": "npm install express routes bcrypt express-session axios express-validator openweather-api-node mysql2 dotenv fs pg && node app.js"
+    "geoinstall": "npm install express routes bcrypt express-session axios express-validator openweather-api-node mysql2 dotenv fs pg && node app.js"
   },
   "dependencies": {
     "@iamtraction/google-translate": "github:iamtraction/google-translate",
