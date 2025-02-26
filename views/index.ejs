@@ -1,136 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
     <%- include("./partials/head.ejs") %>
-<body>
-    <header>
-        <%- include("./partials/nav.ejs") %>
-    </header>
+<body class="homeBody">
 
-    <section class="Nature">
+    <section class="HeroSection">
         <div class="NatureOverlay">
-            <div class="container text-center">
-                <h1>Dobrodošli u GeoGuess! 🌍</h1>
-                <p class="HeroSubtitle">Dobrodošli na našu aplikaciju, jedinstveni kviz o geografiji koji testira vaše znanje o zemljama sveta. GeoGuess nije samo igra — to je zabavan i edukativan način da proširite svoja znanja i izazovete svoje prijatelje.</p>
-                <div class="Weather container mt-5">
-                    <h2 class="mb-1">Vreme u <%= city.original %></h2>
-                    <% if (weather) { %>
-                        <div>
-                            <% if (weather.weather.icon && weather.weather.icon.url) { %>
-                                <div class="weather-icon mb-3">
-                                    <img src="<%= weather.weather.icon.url %>" alt="<%= weather.weather.description || 'N/A' %>" style="width: 100px; height: 100px;">
-                                </div>
-                            <% } else { %>
-                                <p>Nije dostupna ikona da opiše trenutno vreme</p>
-                            <% } %>
-
-                            <p class="WeatherArray"><span>Temperatura:</span> <%= weather.weather.temp && weather.weather.temp.cur ? weather.weather.temp.cur : 'N/A' %>°C</p>
-                            <p class="WeatherArray"><span>Subjektivni osećaj:</span> <%= weather.weather.feelsLike && weather.weather.feelsLike.cur ? weather.weather.feelsLike.cur : 'N/A' %>°C</p>
-                            <p class="WeatherArray"><span>Vlažnost vazduha:</span> <%= weather.weather.humidity !== undefined ? weather.weather.humidity : 'N/A' %>%</p>
-                            <p class="WeatherArray"><span>Pritisak:</span> <%= weather.weather.pressure !== undefined ? weather.weather.pressure : 'N/A' %> hPa</p>
-                            <p class="WeatherArray"><span>Brzina vetra:</span> <%= weather.weather.wind && weather.weather.wind.speed ? weather.weather.wind.speed : 'N/A' %> m/s</p>
-                            <p class="WeatherArray"><span>Vidljivost:</span> <%= weather.weather.visibility ? weather.weather.visibility / 1000 : 'N/A' %> km</p>
-                        </div>
-                    <% } else { %>
-                        <p>Trenutno ne možemo prikazati podatke o vremenu.</p>
-                    <% } %>
-                </div>
-            </div>
+            <header>
+                <%- include("./partials/nav.ejs") %>
+            </header>
+            <div class="container text-center HeroItems">
+                <img src="images/Logo.png" alt="GeoQuest">
+                <h1>Koliko dobro poznaješ geografiju?</h1>
+                <p>GeoQuest je edukativna aplikacija koja nudi interaktivne kvizove o geografiji. Testirajte svoje znanje o zemljama sveta, njihovim glavnim gradovima, zastavama i mnogim drugim geografski relevantnim temama. Pridružite se izazovu, proširite svoje geografsko znanje i zabavite se sa prijateljima!</p>
+                <p class="HeroCTA">Izazovi sebe, dokaži da si geo ekspert i zauzmi prvo mesto!</p>
+                <a href="/kviz" class="a-dugme">
+                    <button type="button" class="btn dugme">Kreni kviz</button>
+                </a>
+            </div>            
         </div>
     </section>
-    <section class="Pocetna">
-        <div class="container">
-            <div class="Hook row d-flex justify-content-center">
-                <div class="col-12 col-md-6 text-start">
-                    <h2>Da li ste znali? 😮</h2>
-                    <p>Prema istraživanjima, čak <span class="wow">60% mladih</span> ne zna glavni grad susednih zemalja, a većina ne može da nabroji ni tri najveće zemlje po površini! GeoGuess je tu da kroz zabavu proširi vaše znanje o geografiji!</p>
-                </div>
-                <div class="col-12 col-md-6 HookSlika">
-                    <img src="AskingPeople.jpg" alt="Pitamo ljude da li znaju galvne gradove susednih zemalja?">
-                </div>
-            </div>
-            <div class="Funkcionalnost text-center">
-                <h2 class="mb-3">Kako funkcioniše GeoGuess? 📱</h2>
-                <p>Naša aplikacija kombinuje zabavu i obrazovanje kroz interaktivni kviz. Svaki korisnik odgovara na pitanja iz geografije, koja uključuju prepoznavanje zastava, glavni grad, kontinent ili broj stanovnika. Brzina i tačnost vaših odgovora donose vam dodatne bodove i bolji plasman na rang-listi!</p>
-            </div>
 
-            <div class="Tim text-center">
-                <h2 class="mb-4">Ko je deo tima? 💻</h2>
-                <div class="row">
-                    <div class="David col-12 col-lg-3 col-md-6">
-                        <div class="card h-100">
-                            <img src="Tim/David.jpeg" class="card-img-top" alt="David Koloski">
-                            <div class="card-body">
-                                <h5 class="card-title">David Koloski</h5>
-                                <p class="card-text">Naš kapiten, poznat po svojoj energiji i organizaciji. Uvek motiviše tim i vodi nas ka zajedničkom cilju.</p>
-                            </div>
-                        </div>
+    <div class="Weather container mt-5">
+        <h2 class="mb-1">Vreme u <%= city.original %></h2>
+        <% if (weather) { %>
+            <div>
+                <% if (weather.weather.icon && weather.weather.icon.url) { %>
+                    <div class="weather-icon mb-3">
+                        <img src="<%= weather.weather.icon.url %>" alt="<%= weather.weather.description || 'N/A' %>" style="width: 100px; height: 100px;">
                     </div>
-                    <div class="Aleksa col-12 col-lg-3 col-md-6">
-                        <div class="card h-100">
-                            <img src="Tim/Aleksa.jpg" class="card-img-top" alt="Aleksa Stankić">
-                            <div class="card-body">
-                                <h5 class="card-title">Aleksa Stankić</h5>
-                                <p class="card-text">Kreativac u timu, zadužen za estetiku i inovativne ideje. Strastven je kada su u pitanju dizajn i detalji.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Stefke col-12 col-lg-3 col-md-6">
-                        <div class="card h-100">
-                            <img src="Tim/Stefke.jpeg" class="card-img-top" alt="Stefan Sofronijević">
-                            <div class="card-body">
-                                <h5 class="card-title">Stefan Sofronijević</h5>
-                                <p class="card-text">Praktičan i logičan član tima, odličan u rešavanju problema i osmišljavanju novih pristupa.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Mizdrak col-12 col-lg-3 col-md-6">
-                        <div class="card h-100">
-                            <img src="Tim/Mizdrak.jpeg" class="card-img-top" alt="Stefan Mizdrak">
-                            <div class="card-body">
-                                <h5 class="card-title">Stefan Mizdrak</h5>
-                                <p class="card-text">Rešio nam da ne idemo u školu i da nemamo pismeni iz matematike, da bi se posvetili ovom projektu.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <% } else { %>
+                    <p>Nije dostupna ikona da opiše trenutno vreme</p>
+                <% } %>
 
-            <div class="Aplikacija">
-                <h2 class="text-center mb-3">Zašto smo izabrali ovu aplikaciju? 🤔</h2>
-                <p class="text-center">Inspirisani potrebom da se mladi ljudi edukuju o osnovama geografije, odlučili smo da napravimo aplikaciju koja kroz igru podiže svest o važnosti poznavanja sveta. GeoGuess nije samo igra, već i način da naučite nešto novo i postanete pravi geograf!</p>
+                <p class="WeatherArray"><span>Temperatura:</span> <%= weather.weather.temp && weather.weather.temp.cur ? weather.weather.temp.cur : 'N/A' %>°C</p>
+                <p class="WeatherArray"><span>Subjektivni osećaj:</span> <%= weather.weather.feelsLike && weather.weather.feelsLike.cur ? weather.weather.feelsLike.cur : 'N/A' %>°C</p>
+                <p class="WeatherArray"><span>Vlažnost vazduha:</span> <%= weather.weather.humidity !== undefined ? weather.weather.humidity : 'N/A' %>%</p>
+                <p class="WeatherArray"><span>Pritisak:</span> <%= weather.weather.pressure !== undefined ? weather.weather.pressure : 'N/A' %> hPa</p>
+                <p class="WeatherArray"><span>Brzina vetra:</span> <%= weather.weather.wind && weather.weather.wind.speed ? weather.weather.wind.speed : 'N/A' %> m/s</p>
+                <p class="WeatherArray"><span>Vidljivost:</span> <%= weather.weather.visibility ? weather.weather.visibility / 1000 : 'N/A' %> km</p>
             </div>
+        <% } else { %>
+            <p>Trenutno ne možemo prikazati podatke o vremenu.</p>
+        <% } %>
+    </div>
 
-            <div class="py-4 mb-5">
-                <h2 class="text-center mb-4">Šta ljudi kažu o našoj aplikaciji?</h2>
-                <div class="row">
-                    <div class="Dusan col-12 col-md-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">@krle.tips</h5>
-                                <p class="card-text">"Ova aplikacija mi je pomogla da naučim sve glavne gradove na celom svetu! Hvala GeoGuess timu! 😄"</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Emilija col-12 col-md-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                            <h5 class="card-title">3m1l4jdz4</h5>
-                            <p class="card-text">"Savršena kombinacija igre i učenja! Preporučujem svim uzrastima. ❤️"</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Filip col-12 col-md-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">pjeviic</h5>
-                                <p class="card-text">"GeoGuess je najbolja aplikacija za sve ljubitelje geografije! 🌍"</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="Aplikacija">
+        <h2 class="text-center mb-3">Zašto smo izabrali ovu aplikaciju? 🤔</h2>
+        <p class="text-center">Inspirisani potrebom da se mladi ljudi edukuju o osnovama geografije, odlučili smo da napravimo aplikaciju koja kroz igru podiže svest o važnosti poznavanja sveta. GeoGuess nije samo igra, već i način da naučite nešto novo i postanete pravi geograf!</p>
+    </div>
 
     <%- include("./partials/footer.ejs") %>
 </body>

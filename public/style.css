@@ -38,6 +38,11 @@ nav {
     color: white !important;
     margin-right: 1rem;
 }
+.navbar-toggler i.fas.fa-bars {
+    color: #6ddaf5;
+    font-size: 1.25rem;
+    transform: scale(0.8);
+}
 
 /* Footer */
 footer {
@@ -129,6 +134,23 @@ footer img {
     color: rgb(209, 24, 25);
 }
 
+/* 404 */
+.error404 {
+    margin-top: 15rem;
+    margin-bottom: 15rem;
+}
+.error404 h1 {
+    color: #001f3f !important;
+    font-weight: 600;
+    font-size: 4rem;
+}
+.error404 p {
+    font-size: 1.25rem;
+}
+.error404 a {
+    font-size: 1.25rem;
+}
+
 /* RangLista */
 .RangLista {
     margin-top: 6rem;
@@ -143,24 +165,68 @@ footer img {
     color: white !important;
 }
 
-/* Admin */
-.Admin {
-    margin-top: 75px;
-    margin-bottom: 75px;
+/* Pocetna */
+.HeroSection {
+    background-image: url("images/Background.png");
+    background-position: center center;
+    background-size: cover;
+    min-height: 100vh;
+    position: relative;
+    color: white;
 }
-.Admin h1 {
-    font-size: 48px;
+.NatureOverlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    min-height: 100vh;
+    padding-top: 0.01%;
+    z-index: 1;
+}
+.HeroItems {
+    padding-top: 15rem !important;
+    padding-bottom: 5rem !important;
+    text-align: center;
+}
+.HeroItems img {
+    width: 208px;
+}
+.HeroItems h1 {
+    font-size: 3rem !important;
+    font-weight: 700 !important;
+}
+.HeroItems p {
+    max-width: 80ch;
+    margin-left: auto;
+    margin-right: auto;
+}
+.HeroCTA {
+    font-size: 1.5rem;
+    margin-top: 5rem;
+}
+.HeroItems button {
+    font-size: 1.5rem;
+}
+
+/* Admin */
+.AdminSection {
+    margin-top: 6rem;
+    margin-bottom: 6rem;
+}
+.AdminSection h1 {
+    color: #001f3f !important;
     font-weight: 600;
 }
 .AdminForm {
-    background-color: #6785ff;
-    padding: 40px;
-    border-radius: 10px;
+    background-color: #001f3f;
+    padding: 2.5rem;
+    border-radius: 0.5rem;
 }
 .AdminForm h2 {
-    color: #ccff34 !important;
+    color: #6ddaf5 !important;
     font-weight: 600 !important;
-    margin-bottom: 25px !important;
+    margin-bottom: 1.5rem !important;
+}
+.AdminForm th {
+    background-color: #6ddaf5 !important;
+    color: #001f3f !important;
 }
 .AdminForm label {
     color: #ffffff !important;
@@ -168,15 +234,6 @@ footer img {
 .adminHelp {
     color: white !important;
     margin: 0 !important;
-}
-
-/* 404 */
-.error404 {
-    margin-top: 250px;
-    margin-bottom: 250px;
-}
-.paragraph404 {
-    font-size: 22px !important;
 }
 
 /* Pocetak Kviza */
@@ -300,98 +357,8 @@ footer img {
     padding-bottom: 10px !important;
 }
 
-/* Pocetna */
-.Nature {
-    background-image: url("images/Background.png");
-    min-height: 100vh;
-    background-size: cover;
-    position: relative;
-    color: white;
-}
-.Nature h1 {
-    font-size: 56px !important;
-    font-weight: 800 !important;
-}
-.NatureOverlay {
-    background-color: rgba(0, 0, 0, 0.5);
-    min-height: 100vh;
-    padding-top: 10%;
-    padding-bottom: 10%;
-}
-.HeroSubtitle {
-    font-size: 20px;
-    font-weight: 500;
-}
-.Weather h2 {
-    font-size: 38px;
-    font-weight: 600;
-}
-.WeatherArray {
-    font-size: 20px;
-    line-height: 1.25;
-}
-.WeatherArray span {
-    font-weight: 600;
-}
-.Pocetna {
-    margin-top: 75px;
-    margin-bottom: 75px;
-}
-.Pocetna h2 {
-    font-size: 50px;
-    font-weight: 600;
-}
-.Pocetna p {
-    font-size: 22px;
-}
-.wow {
-    background-color: #6785ff;
-    color: #ccff34;
-    border-radius: 10px;
-    padding: 6px;
-    font-size: 20px;
-    font-weight: 500;
-}
-.Hook {
-    margin-bottom: 100px;
-}
-.Hook p {
-    margin-top: 25%;
-}
-.HookSlika {
-    text-align: end;
-}
-.HookSlika img {
-    width: 370px;
-    border-radius: 10px;
-}
-.Funkcionalnost {
-    margin-bottom: 150px;
-}
-.Tim {
-    margin-bottom: 150px;
-}
-.David .card, .Aleksa .card, .Stefke .card, .Mizdrak .card {
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    cursor: default;
-}
-.card-title {
-    font-size: 24px !important;
-    font-weight: 600 !important;
-}
-.Aplikacija {
-    margin-bottom: 150px;
-}
-.Dusan .card, .Emilija .card, .Filip .card {
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    cursor: default;
-}
-
 /* Manji ekrani */
-@media only screen and (max-width: 992px) {
-    .navBtn {
-        width: 100%;
-    }
+@media only screen and (max-width: 991px) {
     .btnLogin {
         margin-top: 5px;
     }
@@ -402,12 +369,12 @@ footer img {
         display: block;
         order: -1; 
         text-align: center;
-    }   
+    }
     .ms-auto.d-flex {
         flex-direction: column;
         align-items: center;
     }
-    .btnLogin {
+    .btnLogin button {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -416,19 +383,14 @@ footer img {
     .btnLogin svg {
         margin-right: 5px !important;
     }
-    .AdminForm {
-        padding-left: 20px !important;
-        padding-right: 20px !important;
+
+    .HeroSection {
+        background-attachment: fixed;
     }
-    .Nature h1 {
-        font-size: 48px !important;
-        font-weight: 700 !important;
-    }
-    .David {
-        margin-bottom: 30px;
-    }
-    .Aleksa {
-        margin-bottom: 30px;
+    .HeroItems {
+        padding-top: 10rem !important;
+        padding-bottom: 5rem !important;
+        text-align: center;
     }
 }
 
@@ -440,35 +402,10 @@ footer img {
         max-width: 100%;
         text-align: center;
     }
-    
-    
-    
-    .Hook p {
-        margin-top: 5%;
-        margin-bottom: 5%;
+
+    .HeroItems {
+        padding-top: 8rem !important;
+        padding-bottom: 5rem !important;
         text-align: center;
-    }
-    .Pocetna h2 {
-        font-size: 42px;
-        font-weight: 600;
-        text-align: center;
-    }
-    .Pocetna p {
-        font-size: 22px;
-    }
-    .HookSlika img {
-        width: 300px;
-    }
-    .HookSlika {
-        text-align: center;
-    }
-    .Stefke {
-        margin-bottom: 30px;
-    }
-    .Dusan {
-        margin-bottom: 30px;
-    }
-    .Emilija {
-        margin-bottom: 30px;
     }
 }
