@@ -21,16 +21,16 @@ const registerValidation = [
   body('lozinka')
     .notEmpty().withMessage('Lozinka je obavezno polje')
     .isLength({ min: 6 }).withMessage('Lozinka mora imati bar 6 karaktera')
-    .matches(/(?=.*[A-Z])(?=.*[0-9])(?=.*[\W_])/).withMessage('Lozinka mora da ima bar jedno veliko slovo, bar jedan broj i bar jedan specijalan karakter'),
+    .matches(/(?=.*[A-Z])(?=.*[0-9])/).withMessage('Lozinka mora da ima bar jedno veliko slovo i bar jedan broj'),
 
   // Validation for nickname
   body('nickname')
     .notEmpty().withMessage('Nickname je obavezno polje')
-    .isLength({ min: 3 }).withMessage('Nickname mora imati bar 3 karaktera'),
+    .isLength({ min: 3, max: 12 }).withMessage('Nickname mora imati između 3 i 12 karaktera'),
 
   // Validation for date of birth
   body('date')
-    .notEmpty().withMessage('Datum je obavezno polje')
+    .notEmpty().withMessage('Datum rođenja je obavezno polje')
     .isISO8601()
     .withMessage('Datum rođenja mora biti u formatu MM-DD-YYYY')
     .custom((value) => {

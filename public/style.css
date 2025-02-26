@@ -4,21 +4,28 @@
     font-weight: 400;
 }
 .dugme {
-    background-color: #ccff34 !important;
-    color: #6785ff !important;
+    background-color: #6ddaf5 !important;
+    color: #001f3f !important;
 }
 .dugme:hover {
-    background-color: #bfff00 !important;
+    background-color: #6aa7f3 !important;
 }
-
-h1 {
-    font-weight: 600 !important;
+.a-dugme {
+    text-decoration: none !important;
 }
 
 /* Navigacija */
 nav {
-    background-color: #6785ff;
-    box-shadow: 0 8px 18px rgba(103, 133, 255, 0.5);
+    background-color: #001f3f;
+    box-shadow: 0rem 0rem 0.25rem 0.25rem rgba(0, 31, 63, 0.5);
+    padding: 0.75rem !important;
+    position: absolute;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    z-index: 1000;
+    border-radius: 0.5rem;
 }
 .navLogo {
     width: 164px;
@@ -29,31 +36,22 @@ nav {
 }
 .username {
     color: white !important;
-    margin-right: 15px;
-}
-.navBtn {
-    background-color: #ccff34 !important;
-    color: #6785ff !important;
-}
-.navBtn:hover {
-    background-color: #bfff00 !important;
-}
-.btnLogin {
-    text-decoration: none !important;
-    color: #6785ff !important;
+    margin-right: 1rem;
 }
 
 /* Footer */
 footer {
-    background-color: #6785ff;
+    background-color: #001f3f;
+    padding-top: 5rem;
+    padding-bottom: 3rem;
 }
 footer p {
     color: white;
-    font-size: 18px;
-    margin: 0;
+    font-size: 1.25rem;
 }
 footer img {
     width: 340px;
+    height: auto;
 }
 
 /* Scrollbar */
@@ -72,30 +70,34 @@ footer img {
 
 /* Prijava */
 .PrijavaSection {
-    margin-top: 150px;
-    margin-bottom: 150px;
+    margin-top: 10rem;
+    margin-bottom: 10rem;
 }
-.Prijava {
-    background-color: #6785ff;
-    padding: 40px;
-    border-radius: 10px;
+.PrijavaDiv {
+    background-color: #001f3f;
+    padding: 2.5rem;
+    border-radius: 0.5rem;
     max-width: 410px;
     margin-left: auto;
     margin-right: auto;
 }
-.Prijava h1 {
-    color: #ccff34 !important;
+.PrijavaDiv h1 {
+    color: #6ddaf5 !important;
     font-weight: 600;
-    margin-bottom: 25px;
 }
-.Prijava label {
-    color: #ffffff !important;
-    margin-bottom: 0;
+.PrijavaDiv label {
+    color: white !important;
 }
-.Prijava input {
+.PrijavaDiv input {
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
     max-width: 326px;
+}
+
+/* Error */
+.error {
+    color: rgb(209, 24, 25) !important;
 }
 
 /* Prijava & Registracija */
@@ -103,34 +105,28 @@ footer img {
     color: white;
 }
 .PrijavaRegistracija a {
-    color: #ccff34;
+    color: #6ddaf5;
 }
 
 /* Registracija */
-.FormaSection {
-    margin-top: 150px;
-    margin-bottom: 150px;
+.RegistracijaSection {
+    margin-top: 10rem;
+    margin-bottom: 10rem;
 }
-.Forma {
-    background-color: #6785ff;
-    padding: 40px;
-    border-radius: 10px;
+.RegistracijaDiv {
+    background-color: #001f3f;
+    padding: 2.5rem;
+    border-radius: 0.5rem;
 }
-.Forma h1 {
-    color: #ccff34 !important;
+.RegistracijaDiv h1 {
+    color: #6ddaf5 !important;
     font-weight: 600;
-    margin-bottom: 25px;
 }
-form label {
-    color: #ffffff !important;
+.RegistracijaDiv label {
+    color: white !important;
 }
 .req {
     color: rgb(209, 24, 25);
-}
-
-/* Error */
-.error {
-    color: rgb(209, 24, 25) !important;
 }
 
 /* Admin */
@@ -301,7 +297,7 @@ form label {
 
 /* Pocetna */
 .Nature {
-    background-image: url("Nature.jpg");
+    background-image: url("images/Background.png");
     min-height: 100vh;
     background-size: cover;
     position: relative;
@@ -431,7 +427,17 @@ form label {
     }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
+    .RegistracijaDiv {
+        text-align: center;
+    }
+    .RegistracijaDiv input {
+        max-width: 100%;
+        text-align: center;
+    }
+    
+    
+    
     .Hook p {
         margin-top: 5%;
         margin-bottom: 5%;

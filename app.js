@@ -8,11 +8,9 @@ app.set("view engine", "ejs");
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
 
-
 app.listen(process.env.PORT, () =>
 {
-    console.log(`server je pokrenut na portu ${process.env.PORT}`);
+    console.log(`Server je pokrenut na portu ${process.env.PORT}`);
 })
+
 app.use(routes);
-
-

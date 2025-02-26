@@ -1,9 +1,10 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
-            <img src="Logo.png" class="navLogo" alt="GeoGuess">
+            <img src="images/Logo.png" class="navLogo" alt="GeoQuest">
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -21,37 +22,39 @@
                     <a class="nav-link navLink" href="/register">Registracija</a>
                 </li>
                 <% if (user.admin) { %>
-                <li class="nav-item">
-                    <a class="nav-link navLink" href="/admin">Admin</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link navLink" href="/admin">Admin</a>
+                    </li>
                 <% } %>
             </ul>
-            <% if (user != "") { %>
-            <div class="ms-auto d-flex flex-wrap justify-content-center align-items-center">
-                <div class="username">
-                    <%= user.username %>
+            <% if (user !="" ) { %>
+                <div class="ms-auto d-flex flex-wrap justify-content-center align-items-center">
+                    <div class="username">
+                        <%= user.username %>
+                    </div>
+                    <a href="/logout" class="a-dugme">
+                        <button type="button" class="btn dugme">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-person-fill me-1" viewBox="0 0 16 16">
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                            </svg>
+                            Log out
+                        </button>
+                    </a>
                 </div>
-                <a href="/logout">
-                <button type="button" class="btn navBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill me-1" viewBox="0 0 16 16">
-                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                    </svg>
-                    Log out
-                </button>
-                </a>
-            </div>
             <% } %>
-            <% if (user == "") { %>
-            <div class="ms-auto d-flex flex-wrap justify-content-center align-items-center">
-                <a href="/login" class="btnLogin">
-                    <button type="button" class="btn btnLogin navBtn ms-auto d-flex justify-content-center align-items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill me-1" viewBox="0 0 16 16">
-                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                        </svg>
-                        Log in
-                    </button>
-                </a>
-            </div>
+            <% if (user=="" ) { %>
+                <div class="ms-auto d-flex flex-wrap justify-content-center align-items-center">
+                    <a href="/login" class="btnLogin a-dugme">
+                        <button type="button" class="btn dugme ms-auto d-flex justify-content-center align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-person-fill me-1" viewBox="0 0 16 16">
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                            </svg>
+                            Log in
+                        </button>
+                    </a>
+                </div>
             <% } %>
         </div>
     </div>

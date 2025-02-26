@@ -88,7 +88,7 @@ router.get("/", isAuthenticated, async (req, res) => {
 
                 // 4. Render the index page with the city and weather data
                 res.render("index", {
-                    title: "GeoGuess",
+                    title: "GeoQuest",
                     user: req.session.user,
                     city: { original: city.glavniGrad, translated: translatedCity },
                     weather: weatherData,
@@ -175,7 +175,7 @@ JOIN Drzava ON RandomPitanja.DrzavaID = Drzava.DrzavaID;
                     // Kada se svi odgovori dodaju, renderuj kviz
                     if (questionsWithAnswers.length === results.length) {
                         res.render("kviz", {
-                            title: "GeoGuess Kviz",
+                            title: "GeoQuest Kviz",
                             user: req.session.user,
                             questions: questionsWithAnswers
                         });
@@ -214,7 +214,7 @@ JOIN Drzava ON RandomPitanja.DrzavaID = Drzava.DrzavaID;
                     // Kada se svi odgovori dodaju, renderuj kviz
                     if (questionsWithAnswers.length === results.length) {
                         res.render("kviz", {
-                            title: "GeoGuess Kviz",
+                            title: "GeoQuest Kviz",
                             user: req.session.user,
                             questions: questionsWithAnswers
                         });
@@ -253,7 +253,7 @@ JOIN Drzava ON RandomPitanja.DrzavaID = Drzava.DrzavaID;
                     // Kada se svi odgovori dodaju, renderuj kviz
                     if (questionsWithAnswers.length === results.length) {
                         res.render("kviz", {
-                            title: "GeoGuess Kviz",
+                            title: "GeoQuest Kviz",
                             user: req.session.user,
                             questions: questionsWithAnswers
                         });
@@ -294,7 +294,7 @@ JOIN Drzava ON RandomPitanja.DrzavaID = Drzava.DrzavaID;
                     // Kada se svi odgovori dodaju, renderuj kviz
                     if (questionsWithAnswers.length === results.length) {
                         res.render("kviz", {
-                            title: "GeoGuess Kviz",
+                            title: "GeoQuest Kviz",
                             user: req.session.user,
                             questions: questionsWithAnswers
                         });
@@ -343,14 +343,14 @@ router.get("/admin", (req, res) => {
             return res.status(500).send("Internal Server Error");
         }
         console.log(results);
-        res.render("admin", { title: "GeoGuess Admin", korisnici: results, user: req.session.user });
+        res.render("admin", { title: "GeoQuest Admin", korisnici: results, user: req.session.user });
     });
 });
 router.get("/login", (req, res) => {
     if (req.session.user) {
         return res.redirect("/");
     }
-    res.render("login",{title: "GeoGuess Prijava", user: "", error: ""});
+    res.render("login",{title: "GeoQuest Prijava", user: "", error: ""});
 });
 
 router.get("/ranglista", (req, res) => {
@@ -371,7 +371,7 @@ router.get("/ranglista", (req, res) => {
             return res.status(500).send("Internal Server Error");
         }
         console.log(results);
-        res.render("ranglista", { title: "GeoGuess Rang Lista", rezultati: results, user: req.session.user });
+        res.render("ranglista", { title: "GeoQuest Rang Lista", rezultati: results, user: req.session.user });
     });
 });
 
@@ -399,7 +399,7 @@ router.post("/login", (req, res) => {
             }
         }
 
-        res.render("login", { error: "Netacna lozinka ili korisnicko ime", title: "GeoGuess Prijava", user: "" });
+        res.render("login", { error: "Netačna lozinka ili korisničko ime", title: "GeoQuest Prijava", user: "" });
     });
 });
 
@@ -420,7 +420,7 @@ router.get("/register", (req, res) => {
     {
         username = req.session.user;
     }
-    res.render("register", { error: "",title: "GeoGuess Registracija", user: username, errors: [] }); // Pretpostavljamo da postoji odgovarajuća view datoteka
+    res.render("register", { error: "",title: "GeoQuest Registracija", user: username, errors: [] }); // Pretpostavljamo da postoji odgovarajuća view datoteka
 });
 
 // POST: Obrada podataka za registraciju
@@ -433,7 +433,7 @@ router.post('/register', registerValidation, async (req, res) => {
         return res.status(400).render('register', {
             errors: errors.array(), // Pass validation errors
             formData: req.body, // Retain form input data
-            title: 'GeoGuess Register', // Page title
+            title: 'GeoQuest Register', // Page title
             user: req.session.user || '', // Pass session user (if available)
             error: null // No global error message
         });
@@ -456,7 +456,7 @@ router.post('/register', registerValidation, async (req, res) => {
             return res.status(400).render('register', {
                 errors: [], // No validation errors
                 formData: req.body, // Retain form input data
-                title: 'GeoGuess Registracija', 
+                title: 'GeoQuest Registracija', 
                 user: req.session.user || '',
                 error: 'Email ili korisničko ime već postoje!' // Global error message
             });
@@ -489,7 +489,7 @@ router.post('/register', registerValidation, async (req, res) => {
         res.status(500).render('register', {
             errors: [], // No validation errors
             formData: req.body, // Retain form input data
-            title: 'GeoGuess Registracija',
+            title: 'GeoQuest Registracija',
             user: req.session.user || '',
             error: 'Došlo je do greške. Pokušajte ponovo.' // General error message
         });
@@ -595,7 +595,7 @@ router.post('/adminDeleteQuestion', async (req, res) => {
         });
         if (quest.length === 0) {
             // User not found
-            return  res.render("admin", { error: "Pitanje nije pronađeno", title: "GeoGuess Prijava", user: req.session.user });;
+            return  res.render("admin", { error: "Pitanje nije pronađeno", title: "GeoQuest Prijava", user: req.session.user });;
         }
 
         // Delete the user
@@ -767,7 +767,7 @@ router.use((req,res) => {
     {
         username = req.session.user;
     }
-    res.status(404).render("404", {title: "GeoGuess 404", user: username});
+    res.status(404).render("404", {title: "GeoQuest 404", user: username});
 })
 
 module.exports = router;
