@@ -7,8 +7,8 @@
     </header>
 
     <section class="RangLista container">
-        <h1 class="text-center">Rang lista</h1>
-        <div class="table-responsive mt-4">
+        <h1 class="text-center mb-4">Rang lista</h1>
+        <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead class="HeadTable table">
                     <tr>
@@ -24,8 +24,8 @@
                             <tr>
                                 <td><%= index + 1 %></td>
                                 <td><%= rezultat.nickname %></td>
-                                <td><%= rezultat.bodovi %></td>
-                                <td><%= rezultat.datum %></td>
+                                <td><%= rezultat.najbolji_bodovi %></td>
+                                <td><%= new Date(rezultat.datum).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) %></td>
                             </tr>
                         <% }); %>
                     <% } else { %>

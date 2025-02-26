@@ -129,6 +129,20 @@ footer img {
     color: rgb(209, 24, 25);
 }
 
+/* RangLista */
+.RangLista {
+    margin-top: 6rem;
+    margin-bottom: 6rem;
+}
+.RangLista h1 {
+    color: #001f3f !important;
+    font-weight: 600;
+}
+.RangLista th {
+    background-color: #001f3f !important;
+    color: white !important;
+}
+
 /* Admin */
 .Admin {
     margin-top: 75px;
@@ -154,15 +168,6 @@ footer img {
 .adminHelp {
     color: white !important;
     margin: 0 !important;
-}
-
-/* RangLista */
-.RangLista {
-    margin-top: 100px;
-    margin-bottom: 100px;
-}
-.RangLista th {
-    background-color: #6785ff !important;
 }
 
 /* 404 */

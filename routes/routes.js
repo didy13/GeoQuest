@@ -358,10 +358,11 @@ router.get("/ranglista", (req, res) => {
         return res.redirect("/login");
     }
     const query = `
-        SELECT k.nickname, r.bodovi, r.datum
+        SELECT k.nickname, MAX(r.bodovi) AS najbolji_bodovi, MAX(r.datum) AS datum
         FROM RangLista r
         INNER JOIN Korisnik k ON r.KorisnikID = k.KorisnikID
-        ORDER BY r.bodovi DESC, r.datum DESC
+        GROUP BY k.KorisnikID
+        ORDER BY najbolji_bodovi DESC
         LIMIT 10
     `;
 
