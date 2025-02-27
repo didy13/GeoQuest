@@ -83,7 +83,7 @@ router.get("/", isAuthenticated, async (req, res) => {
                 }
 
                 // 4. Fetch total users count
-                const queryUserCount = "SELECT COUNT(*) AS userCount FROM Korisnik";
+                const queryUserCount = "SELECT FLOOR(COUNT(*)/10)*10 AS userCount FROM Korisnik";
                 connection.query(queryUserCount, (err, countResults) => {
                     if (err) {
                         console.error('Error fetching user count:', err);
