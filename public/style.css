@@ -269,23 +269,23 @@ footer img {
 
 /* Kviz */
 .Kviz {
-    margin-top: 75px;
-    margin-bottom: 75px;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
 }
 .question {
-    font-size: 36px;
+    color: #001f3f !important;
+    font-size: 2rem;
     font-weight: 600;
 }
 .option {
     display: block;
-    margin: 10px auto;
-    font-size: 18px;
+    margin: 0.75rem auto;
     cursor: pointer;
-    padding: 15px;
+    padding: 0.75rem;
     background-color: #f9f9f9;
     color: #343a40;
-    border: 2px solid #ccc;
-    border-radius: 10px;
+    border: 0.125rem solid #ccc;
+    border-radius: 0.75rem;
     transition: all 0.3s ease;
 }
 .option:hover {
@@ -295,7 +295,7 @@ footer img {
 .options {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.75rem;
 }
 .option.correct {
     background-color: #d4edda;
@@ -317,61 +317,62 @@ footer img {
     align-items: center;
 }
 .progress {
-    height: 10px;
+    height: 0.75rem;
     background-color: #e9ecef;
-    border-radius: 10px;
-    margin: 20px 0;
+    border-radius: 0.75rem;
+    margin: 1.25rem 0;
     overflow: hidden;
 }
 .progress-bar {
     height: 100%;
-    background-color: #6785ff !important;
+    background-color: #001f3f !important;
     transition: width 0.4s ease;
 }
 .timer {
-    font-size: 24px !important;
-    margin-top: 10px;
+    font-size: 1.5rem !important;
+    margin-top: 0.75rem;
 }
+.KvizDugme {
+    font-size: 1.5rem !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+}
+
+/* Rezultat */
 .results {
     margin-left: auto;
     margin-right: auto;
     max-width: 600px;
-    background: #6785ff;
+    background: #001f3f;
     color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 10px 18px rgba(103, 133, 255, 0.7);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.75rem 1rem rgba(0, 31, 63, 0.7);
     text-align: center;
 }
-.score {
-    font-size: 36px;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
-.scoreParagraph {
-    font-size: 20px;
-}
 .result-icon {
-    font-size: 3rem;
-    margin-bottom: 15px;
+    font-size: 4rem !important;
 }
 .result-icon i {
-    color: #ccff34;
-    font-size: 4rem;
+    color: #6ddaf5 !important;
+    font-size: 4rem !important;
 }
 .result-icon i.text-success {
-    color: #ccff34 !important;
+    color: #6ddaf5 !important;
+    font-size: 4rem !important;
 }
 .result-icon i.text-danger {
-    color: #dc3545;
-    font-size: 4rem;
+    color: #dc3545 !important;
+    font-size: 4rem !important;
 }
-.dugmeKviz {
-    font-size: 24px !important;
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
+.score {
+    font-size: 2rem;
+    font-weight: 500;
+}
+.scoreParagraph {
+    font-size: 1.25rem;
 }
 
 /* Manji ekrani */
@@ -400,7 +401,7 @@ footer img {
     .btnLogin svg {
         margin-right: 5px !important;
     }
-    
+
     .HeroSection {
         background-attachment: fixed;
     }

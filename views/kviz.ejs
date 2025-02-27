@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="quiz-footer text-center mt-5">
-                    <button class="btn dugme dugmeKviz" id="next-btn" style="display: none;">Sledeće pitanje</button>
+                    <button class="btn dugme KvizDugme" id="next-btn" style="display: none;">Sledeće pitanje</button>
                 </div>
             </div>
         </div>
@@ -160,7 +160,8 @@
                 timeLeft--;
                 const minutes = Math.floor(timeLeft / 60);
                 const seconds = timeLeft % 60;
-                timerEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+                timerEl.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 
                 if (timeLeft === 0) {
                     clearInterval(timer);
@@ -176,22 +177,40 @@
         }
 
         function showResults() {
-            
-                score = Math.floor(score*(0.5 + (1.5 * timeLeft) /600));
-            
+            // Prilagođeni način računanja rezultata na osnovu vremena
+            score = Math.floor(score * (0.5 + (1.5 * timeLeft) / 600));
+
+            // Nova logika za ocenjivanje rezultata
+            let resultMessage;
+            let iconClass;
+            let iconText;
+
+            if (score <= 299) {
+                // Ako je rezultat manji od 300, fail
+                resultMessage = "Više sreće drugi put!";
+                iconClass = "fa-times-circle";
+                iconText = "text-danger";
+            } else {
+                // Ako je rezultat 300 ili veći, uspeh
+                resultMessage = "Svaka čast!";
+                iconClass = "fa-trophy";
+                iconText = "text-success";
+            }
+
             quizContainer.innerHTML = `
                 <div class="results">
-                    <div class="result-icon">
-                        <i class="fas ${score > quizData.length / 2 ? 'fa-trophy text-success' : 'fa-times-circle text-danger'}"></i>
+                    <div class="result-icon mb-3">
+                        <i class="fas ${iconClass} ${iconText}"></i>
                     </div>
-                    <div class="score">Tvoj rezultat: ${score}/600</div>
-                    <p class="scoreParagraph">Preostalo vremena: ${Math.floor(timeLeft / 60)}:${timeLeft % 60}</p>
-                    <p class="scoreParagraph">${score > quizData.length / 2 ? 'Svaka čast!' : 'Više sreće drugi put!'}</p>
-                    <button class="btn dugme dugmeKviz mt-3" onclick="location.reload()">Ponovo pokrenite kviz</button>
+                    <div class="score mb-3">Tvoj rezultat: ${score}/600</div>
+                    <p class="scoreParagraph">Preostalo vremena: ${String(Math.floor(timeLeft / 60)).padStart(2, '0')}:${String(timeLeft % 60).padStart(2, '0')}</p>
+                    <p class="scoreParagraph">${resultMessage}</p>
+                    <button class="btn dugme KvizDugme mt-3" onclick="location.reload()">Ponovo pokrenite kviz</button>
                 </div>
             `;
             sendResultsToServer();
         }
+
         function sendResultsToServer() {
             const resultData = {
                 score: score,
