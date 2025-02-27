@@ -21,34 +21,29 @@
         </div>
     </section>
 
-    <div class="Weather container mt-5">
+    <section class="text-center container mt-5 mb-5">
         <h2 class="mb-1">Vreme u <%= city.original %></h2>
         <% if (weather) { %>
             <div>
                 <% if (weather.weather.icon && weather.weather.icon.url) { %>
-                    <div class="weather-icon mb-3">
+                    <div class="mb-3">
                         <img src="<%= weather.weather.icon.url %>" alt="<%= weather.weather.description || 'N/A' %>" style="width: 100px; height: 100px;">
                     </div>
                 <% } else { %>
                     <p>Nije dostupna ikona da opiše trenutno vreme</p>
                 <% } %>
 
-                <p class="WeatherArray"><span>Temperatura:</span> <%= weather.weather.temp && weather.weather.temp.cur ? weather.weather.temp.cur : 'N/A' %>°C</p>
-                <p class="WeatherArray"><span>Subjektivni osećaj:</span> <%= weather.weather.feelsLike && weather.weather.feelsLike.cur ? weather.weather.feelsLike.cur : 'N/A' %>°C</p>
-                <p class="WeatherArray"><span>Vlažnost vazduha:</span> <%= weather.weather.humidity !== undefined ? weather.weather.humidity : 'N/A' %>%</p>
-                <p class="WeatherArray"><span>Pritisak:</span> <%= weather.weather.pressure !== undefined ? weather.weather.pressure : 'N/A' %> hPa</p>
-                <p class="WeatherArray"><span>Brzina vetra:</span> <%= weather.weather.wind && weather.weather.wind.speed ? weather.weather.wind.speed : 'N/A' %> m/s</p>
-                <p class="WeatherArray"><span>Vidljivost:</span> <%= weather.weather.visibility ? weather.weather.visibility / 1000 : 'N/A' %> km</p>
+                <p><span>Temperatura:</span> <%= weather.weather.temp && weather.weather.temp.cur ? weather.weather.temp.cur : 'N/A' %>°C</p>
+                <p><span>Subjektivni osećaj:</span> <%= weather.weather.feelsLike && weather.weather.feelsLike.cur ? weather.weather.feelsLike.cur : 'N/A' %>°C</p>
+                <p><span>Vlažnost vazduha:</span> <%= weather.weather.humidity !== undefined ? weather.weather.humidity : 'N/A' %>%</p>
+                <p><span>Pritisak:</span> <%= weather.weather.pressure !== undefined ? weather.weather.pressure : 'N/A' %> hPa</p>
+                <p><span>Brzina vetra:</span> <%= weather.weather.wind && weather.weather.wind.speed ? weather.weather.wind.speed : 'N/A' %> m/s</p>
+                <p><span>Vidljivost:</span> <%= weather.weather.visibility ? weather.weather.visibility / 1000 : 'N/A' %> km</p>
             </div>
         <% } else { %>
             <p>Trenutno ne možemo prikazati podatke o vremenu.</p>
         <% } %>
-    </div>
-
-    <div class="Aplikacija">
-        <h2 class="text-center mb-3">Zašto smo izabrali ovu aplikaciju? 🤔</h2>
-        <p class="text-center">Inspirisani potrebom da se mladi ljudi edukuju o osnovama geografije, odlučili smo da napravimo aplikaciju koja kroz igru podiže svest o važnosti poznavanja sveta. GeoGuess nije samo igra, već i način da naučite nešto novo i postanete pravi geograf!</p>
-    </div>
+    </section>
 
     <%- include("./partials/footer.ejs") %>
 </body>

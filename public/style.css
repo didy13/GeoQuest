@@ -243,17 +243,28 @@ footer img {
 }
 
 /* Pocetak Kviza */
-.pocetakKviza {
-    margin-top: 75px;
-    margin-bottom: 75px;
+.PocetakKviza {
+    margin-top: 6rem;
+    margin-bottom: 6rem;
     text-align: center;
 }
-.kvizDugme {
-    font-size: 36px !important;
-    padding-left: 50px !important;
-    padding-right: 50px !important;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
+.PocetakKviza h1 {
+    color: #001f3f !important;
+    font-weight: 600;
+}
+.PocetakKviza p {
+    color: #001f3f !important;
+    margin: 0;
+}
+.PocetakKviza span {
+    font-weight: 700;
+}
+.KreniKvizDugme {
+    font-size: 2rem !important;
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
 }
 
 /* Kviz */
@@ -389,7 +400,7 @@ footer img {
     .btnLogin svg {
         margin-right: 5px !important;
     }
-
+    
     .HeroSection {
         background-attachment: fixed;
     }

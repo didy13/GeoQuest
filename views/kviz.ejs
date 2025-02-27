@@ -6,33 +6,31 @@
         <%- include("./partials/nav.ejs") %>
     </header>
 
-    <section class="pocetakKviza container" id="start-container">
-        <div>
-            <div class="mb-4 text-center">
-                <h1>Dobrodošli u GeoGuess Kviz! 🌍</h1>
-                <p>Spremite se da testirate svoje znanje o geografiji i osvajate bodove!</p>
-            </div>
-            <div>
-                <h2>Pravila kviza:</h2>
-                <p class="mb-3"><strong>Vreme za igru:</strong> Imate tačno <strong>10 minuta</strong> da završite kviz. Ako ne završite na vreme, vaš rezultat će se automatski predati.</p>
-                <p><strong>Pitanja:</strong> Kviz se sastoji od <strong>30 pitanja</strong>, podeljenih u tri težine:</p>
-                <p class="mb-3">
-                    <strong>•</strong> 10 lakih pitanja<br>
-                    <strong>•</strong> 10 srednjih pitanja<br>
-                    <strong>•</strong> 10 teških pitanja
-                </p>
-                <p class="mb-3"><strong>Bodovanje:</strong> Što brže odgovorite na pitanje, više bodova osvajate. Pazite na vreme, jer svaki sekund se računa!</p>
-                <p><strong>Teme pitanja:</strong> Možete očekivati pitanja o:</p>
-                <p>
-                    <strong>•</strong> Prepoznavanju zastava<br>
-                    <strong>•</strong> Glavnim gradovima<br>
-                    <strong>•</strong> Broju stanovnika<br>
-                    <strong>•</strong> Kontinentima i još mnogo toga!
-                </p>
-            </div>
+    <section class="PocetakKviza container" id="start-container">
+        <div class="mb-4">
+            <h1>Dobrodošli u GeoQuest Kviz! 🌍</h1>
+            <p>Spremni za geo-izazov? Testirajte svoje znanje i osvojite bodove!</p>
         </div>
-        <button class="btn dugme mt-4 kvizDugme" onclick="startQuiz()">Kreni Kviz</button>
+        <div class="mb-4">
+            <h2>Kako igra funkcioniše?</h2>
+            <p><span>Vreme:</span> Imate tačno <span>10 minuta</span> da završite kviz. Ako ne završite na vreme, vaš rezultat će se automatski predati.</p>
+            <p><span>Bodovanje:</span> Što brže odgovorite, više bodova osvajate. Svaka sekunda je važna!</p>
+            <p><span>Pitanja:</span> Kviz sadrži <span>30 pitanja</span> podeljenih u tri nivoa težine:</p>
+            <p><span>•</span> 10 lakih</p>
+            <p><span>•</span> 10 srednjih</p>
+            <p><span>•</span> 10 teških</p>
+        </div>
+        <div class="mb-4">
+            <h2>O čemu će biti pitanja?</h2>
+            <p><span>•</span> Prepoznavanje zastava</p>
+            <p><span>•</span> Glavni gradovi sveta</p>
+            <p><span>•</span> Broj stanovnika država</p>
+            <p><span>•</span> Kontinenti i još mnogo toga!</p>
+        </div>
+        <p><span>Spremni? Pritisnite dugme i neka kviz počne!</span></p>
+        <button class="btn dugme KreniKvizDugme mt-3" onclick="startQuiz()">Kreni Kviz</button>
     </section>
+
     <section class="Kviz">
         <div class="container">
             <div class="quiz-container" id="quiz" style="display: none;">
