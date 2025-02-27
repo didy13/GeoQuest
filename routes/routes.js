@@ -35,64 +35,73 @@ const isAuthenticated = (req, res, next) =>
     }
 }
 
-
-router.get("/", isAuthenticated, async (req, res) => {
+router.get("/", isAuthenticated, async (req, res) => {    
     try {
         // 1. Fetch a random city from your database
-        const query = "SELECT glavniGrad FROM Drzava ORDER BY RAND() LIMIT 1"; // Replace with your actual table and column names
-        connection.query(query, async (err, results) => {
+        const queryCity = "SELECT glavniGrad FROM Drzava ORDER BY RAND() LIMIT 1";
+        connection.query(queryCity, async (err, results) => {
             if (err) {
                 console.error('Error fetching city from DB:', err);
                 return res.status(500).send('Error fetching city');
             }
 
-            const city = results[0]; // Assuming the city name is in the `glavniGrad` column
+            const city = results[0];
             console.log(city.glavniGrad);
             if (!city) {
                 return res.status(404).redirect('/');
             }
 
             try {
-                // 2. Translate the city name to English (if necessary)
+                // 2. Translate the city name to English
                 const translatedCity = await translate(city.glavniGrad, { to: 'en' })
                     .then(res => res.text)
                     .catch(err => {
                         console.error('Error translating city name:', err);
                         throw new Error('Translation failed');
                     });
-                    console.log(translatedCity);
-                // 3. Fetch weather data using OpenWeatherAPI
-                const apiKey = '6b3f90733d55f97c9970464fd39a253e'; // Replace with your actual API key
+                console.log(translatedCity);
+
+                // 3. Fetch weather data
+                const apiKey = '6b3f90733d55f97c9970464fd39a253e';
                 const weather = new OpenWeatherAPI({
                     key: apiKey,
                     locationName: translatedCity,
-                    units: "metric" // Use "metric" for Celsius, or "imperial" for Fahrenheit
+                    units: "metric"
                 });
+
                 let weatherData = null;
                 try {
-                    // Pokušaj preuzimanja podataka o vremenu
                     weatherData = await weather.getCurrent();
-                
-                    // Proveri da li podaci postoje i da li su u ispravnom formatu
                     if (weatherData && weatherData.weather) {
-                        console.log('Podaci o vremenu su uspešno preuzeti:', weatherData);
-                        // Dalja obrada podataka...
+                        console.log('Weather data fetched:', weatherData);
                     } else {
-                        console.log('Nema podataka o vremenu');
+                        console.log('No weather data available');
                     }
                 } catch (error) {
-                    // Ako dođe do greške (npr. nevalidne koordinate, loša mreža, API greška)
-                    console.error('Greška pri preuzimanju vremenskih podataka:', error);
+                    console.error('Error fetching weather data:', error);
                     weatherData = null;
                 }
 
-                // 4. Render the index page with the city and weather data
-                res.render("index", {
-                    title: "GeoQuest",
-                    user: req.session.user,
-                    city: { original: city.glavniGrad, translated: translatedCity },
-                    weather: weatherData,
+                // 4. Fetch total users count
+                const queryUserCount = "SELECT COUNT(*) AS userCount FROM Korisnik";
+                connection.query(queryUserCount, (err, countResults) => {
+                    if (err) {
+                        console.error('Error fetching user count:', err);
+                        return res.status(500).send('Error fetching user count');
+                    }
+
+                    const userCount = countResults[0].userCount;
+
+                    // 5. Render the page with all data
+                    res.render("index", {
+                        title: "GeoQuest",
+                        user: req.session.user,
+                        city: { original: city.glavniGrad, translated: translatedCity },
+                        weather: weatherData,
+                        userCount: userCount
+                    });
                 });
+
             } catch (weatherError) {
                 console.error('Error fetching weather data:', weatherError);
                 return res.status(500).send('Error fetching weather data');
@@ -103,6 +112,7 @@ router.get("/", isAuthenticated, async (req, res) => {
         return res.status(500).send('Internal server error');
     }
 });
+
 router.get("/kviz", (req, res) => {
     if (!req.session.user) {
         return res.redirect("/");

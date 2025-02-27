@@ -165,6 +165,37 @@ footer img {
     color: white !important;
 }
 
+/* Admin */
+.AdminSection {
+    margin-top: 6rem;
+    margin-bottom: 6rem;
+}
+.AdminSection h1 {
+    color: #001f3f !important;
+    font-weight: 600;
+}
+.AdminForm {
+    background-color: #001f3f;
+    padding: 2.5rem;
+    border-radius: 0.5rem;
+}
+.AdminForm h2 {
+    color: #6ddaf5 !important;
+    font-weight: 600 !important;
+    margin-bottom: 1.5rem !important;
+}
+.AdminForm th {
+    background-color: #6ddaf5 !important;
+    color: #001f3f !important;
+}
+.AdminForm label {
+    color: #ffffff !important;
+}
+.AdminHelp {
+    color: white !important;
+    margin: 0 !important;
+}
+
 /* Pocetna */
 .HeroSection {
     background-image: url("images/Background.png");
@@ -197,43 +228,18 @@ footer img {
     margin-left: auto;
     margin-right: auto;
 }
+.HeroItems span {
+    color: #6ddaf5;
+    font-weight: bold;
+}
 .HeroCTA {
     font-size: 1.5rem;
+    font-weight: 500;
     margin-top: 5rem;
 }
 .HeroItems button {
     font-size: 1.5rem;
-}
-
-/* Admin */
-.AdminSection {
-    margin-top: 6rem;
-    margin-bottom: 6rem;
-}
-.AdminSection h1 {
-    color: #001f3f !important;
-    font-weight: 600;
-}
-.AdminForm {
-    background-color: #001f3f;
-    padding: 2.5rem;
-    border-radius: 0.5rem;
-}
-.AdminForm h2 {
-    color: #6ddaf5 !important;
-    font-weight: 600 !important;
-    margin-bottom: 1.5rem !important;
-}
-.AdminForm th {
-    background-color: #6ddaf5 !important;
-    color: #001f3f !important;
-}
-.AdminForm label {
-    color: #ffffff !important;
-}
-.adminHelp {
-    color: white !important;
-    margin: 0 !important;
+    font-weight: 500 !important;
 }
 
 /* Pocetak Kviza */

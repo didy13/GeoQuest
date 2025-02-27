@@ -92,16 +92,16 @@
             const allAnswers = [...question.answers, question.tacanOdgovor];
             allAnswers.sort(() => Math.random() - 0.5);
             const kontinentiAnswers = ["Evropa", "Azija", "Afrika", "Južna Amerika", "Severna Amerika", "Australija i Okeanija"]
-            if(question.tipPitanja !== "Kontinent"){
+            if(question.tipPitanja !== "Kontinent") {
             allAnswers.forEach((option) => {
                     const button = document.createElement('button');
-                    if(!isNaN(option)){
+                    if(!isNaN(option)) {
                         button.textContent = option;
                     }
-                    else if(option.includes("https")){
+                    else if(option.includes("https")) {
                         button.innerHTML = '<img width="100" height="100" src="' + option + '">';
                     }
-                    else{
+                    else {
                         button.textContent = option;
                     }
                     button.classList.add('option');
@@ -109,7 +109,7 @@
                     optionsEl.appendChild(button);
                 });
             }
-            else{
+            else {
                 kontinentiAnswers.forEach((option) => {
                     const button = document.createElement('button');
                     button.textContent = option;
@@ -118,7 +118,7 @@
                     optionsEl.appendChild(button);
                 });
             }
-
+            
             nextBtn.style.display = 'none';
             updateProgress();
         }
@@ -142,7 +142,7 @@
                 if(question.tezina === "Lako"){
                     score+=5;
                 }
-                else if(question.tezina === "Srednje"){
+                else if(question.tezina === "Srednje") {
                     score+=10;
                 }
                 else{
@@ -195,28 +195,29 @@
             sendResultsToServer();
         }
         function sendResultsToServer() {
-    const resultData = {
-        score: score,         // Rezultat korisnika
-        time: timeLeft,
-        user: `<%= user.username%>`  // Vreme koje je prošlo
-    };
-    console.log(resultData)
-    // Slanje POST zahteva na server
-    fetch('/api/quiz/results', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(resultData),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Rezultati su uspešno poslati na server:', data);
-    })
-    .catch(error => {
-        console.error('Došlo je do greške pri slanju rezultata:', error);
-    });
-}
+            const resultData = {
+                score: score,
+                time: timeLeft,
+                user: `<%= user.username%>`
+            };
+            console.log(resultData)
+            // Slanje POST zahteva na server
+            fetch('/api/quiz/results', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(resultData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Rezultati su uspešno poslati na server:', data);
+            })
+            .catch(error => {
+                console.error('Došlo je do greške pri slanju rezultata:', error);
+            });
+        }
+
         nextBtn.addEventListener('click', () => {
             currentQuestion++;
             if (currentQuestion < quizData.length) {
@@ -225,29 +226,6 @@
                 showResults();
             }
         });
-        function sendResultsToServer() {
-    const resultData = {
-        score: score,         // Rezultat korisnika
-        time: timeLeft,
-        user: `<%= user.username%>`  // Vreme koje je prošlo
-    };
-    console.log(resultData)
-    // Slanje POST zahteva na server
-    fetch('/api/quiz/results', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(resultData),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Rezultati su uspešno poslati na server:', data);
-    })
-    .catch(error => {
-        console.error('Došlo je do greške pri slanju rezultata:', error);
-    });
-}
     </script>
 </body>
 
