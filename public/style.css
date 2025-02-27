@@ -307,6 +307,9 @@ footer img {
 .DaLiSteZnaliDugme:hover {
     background-color: #003c77 !important;
 }
+.Videos {
+    text-align: end;
+}
 .StaNasiKorisniciKazu {
     margin-top: 8rem !important;
     margin-bottom: 8rem !important;
@@ -464,6 +467,12 @@ footer img {
 }
 
 /* Manji ekrani */
+@media only screen and (max-width: 1400px) {
+    .Video2 {
+        display: none;
+    }
+}
+
 @media only screen and (max-width: 991px) {
     .btnLogin {
         margin-top: 5px;
@@ -512,6 +521,16 @@ footer img {
     .HeroItems {
         padding-top: 8rem !important;
         padding-bottom: 5rem !important;
+        text-align: center;
+    }
+    .DaLiSteZnali {
+        text-align: center !important;
+    }
+    .Videos {
+        text-align: center !important;
+        margin-top: 2rem !important;
+    }
+    .FAQ h2 {
         text-align: center;
     }
 }
