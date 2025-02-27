@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <%- include("./partials/head.ejs") %>
-<body class="homeBody">
+<body class="HomePage">
 
     <section class="HeroSection">
         <div class="NatureOverlay">
@@ -21,13 +21,81 @@
         </div>
     </section>
 
-    <section class="text-center container mt-5 mb-5">
+    <section class="container ZastoGeoQuest">
+        <div class="row text-center">
+            <div class="col-12">
+                <h2>Zašto <span class="LightBlueSpan">GeoQuest?</span></h2>
+                <p>GeoQuest nije samo kviz — to je edukativna platforma koja spaja zabavu i učenje! Naša misija je da pomognemo korisnicima da unaprede svoje geografsko znanje kroz interaktivne izazove i kvizove.</p>
+
+                <p>Da li ste ikada želeli da testirate svoje znanje o zemljama, njihovim glavnim gradovima, zastavama ili kontinente? GeoQuest nudi sve ovo i mnogo više! S više od <span>1000 pitanja</span> koja pokrivaju širok spektar geografskih tema, naš kviz je savršen način da proverite koliko dobro poznajete svet oko sebe.</p>
+
+                <p>GeoQuest je više od običnog testa. Kroz zanimljive i edukativne izazove, možete naučiti mnoge geografske činjenice, od prepoznavanja zastava do saznanja o broju stanovnika zemalja. Pored toga, naš kviz je dizajniran tako da bude dostupan svima, bez obzira na nivo znanja, i omogućava vam da se igramo i učimo u bilo kom trenutku!</p>
+            </div>
+        </div>
+    </section>
+    
+
+    <section class="container DaLiSteZnali">
+        <div class="row d-flex align-items-center">
+            <div class="col-md-6 col-12 text-start">
+                <h2 class="mb-2">Da li ste znali?</h2>
+                <p class="mb-2">Da li ste znali da čak <span>50% ljudi</span> iz Srbije ne može tačno da kaže sa koliko država se Srbija graniči?</p>
+                <p class="mb-5">Da li ste znali da mnogi ljudi u Beogradu ne znaju koja reka protiče ispod <span>Brankovog mosta</span>? Pogledajte video i testirajte svoje geografsko znanje!</p>
+                <p class="DaLiSteZnaliCTA">Testirajte svoje geografsko znanje i proverite da li ste među onima koji znaju!</p>
+                <a href="/kviz" class="a-dugme">
+                    <button type="button" class="btn dugme DaLiSteZnaliDugme">Kreni kviz</button>
+                </a>
+            </div>
+            <div class="col-md-6 col-12 text-end">
+                <video width="281" height="500" controls>
+                    <source src="videos/GraniceSrbije.mp4" type="video/mp4">
+                    <source src="videos/GraniceSrbije.ogg" type="video/ogg">
+                    Your browser does not support the video tag.
+                </video>
+                <video width="281" height="500" controls>
+                    <source src="videos/BrankovMost.mp4" type="video/mp4">
+                    <source src="videos/BrankovMost.ogg" type="video/ogg">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <section class="container StaNasiKorisniciKazu">
+        <div class="row text-center">
+            <div class="col-12">
+                <h2>Šta naši korisnici kažu</h2>
+                <div class="card-group mt-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">"Nikad nisam bio toliko zabavljen učestvujući u kvizu o geografiji! Sjajan način da se testiram i naučim nove stvari."</p>
+                            <p class="card-footer"><strong>Filip, 18, Kovačica</strong></p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">"Ovo je moj omiljeni način da poboljšam svoje znanje o državama i glavnim gradovima. Svakodnevno igram sa prijateljima!"</p>
+                            <p class="card-footer"><strong>Aleksandra, 22, Pančevo</strong></p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">"Pored toga što je zabavno, GeoQuest je sjajan alat za učenje i pripremu za geografske testove. Sve preporuke!"</p>
+                            <p class="card-footer"><strong>Dušan, 18, Starčevo</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="col-12 text-center Vreme">
         <h2 class="mb-1">Vreme u <%= city.original %></h2>
         <% if (weather) { %>
             <div>
                 <% if (weather.weather.icon && weather.weather.icon.url) { %>
-                    <div class="mb-3">
-                        <img src="<%= weather.weather.icon.url %>" alt="<%= weather.weather.description || 'N/A' %>" style="width: 100px; height: 100px;">
+                    <div>
+                        <img src="<%= weather.weather.icon.url %>" alt="<%= weather.weather.description || 'N/A' %>">
                     </div>
                 <% } else { %>
                     <p>Nije dostupna ikona da opiše trenutno vreme</p>
@@ -43,6 +111,76 @@
         <% } else { %>
             <p>Trenutno ne možemo prikazati podatke o vremenu.</p>
         <% } %>
+    </section>
+
+    <section class="container FAQ">
+        <div class="row">
+            <div class="col-12">
+                <h2>Česta pitanja</h2>
+                <div class="accordion mt-4" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading1">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                                Ko su The Šmekeri?
+                            </button>
+                        </h2>
+                        <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                The Šmekeri su Aleksa Stankić, David Koloski, Stefan Mizdrak i Stefan Sofronijević, tim koji je stvorio GeoQuest!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                Kako je nastala ova aplikacija?
+                            </button>
+                        </h2>
+                        <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                GeoQuest je nastao kao deo domaćeg zadatka na FON-ovom hakatonu, gde smo sa našim projektom stigli do finala. Odučili smo da nastavim da radimo na njemu, da ga unapređujemo i održavamo!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading3">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                Da li je GeoQuest besplatan?
+                            </button>
+                        </h2>
+                        <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Da, GeoQuest je potpuno besplatan za korišćenje!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading4">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                Koliko traje jedan kviz?
+                            </button>
+                        </h2>
+                        <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Kviz traje 10 minuta, i to je dovoljno vremena da se dokažete u svim nivoima pitanja.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading5">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                Kakva pitanja mogu da očekujem?
+                            </button>
+                        </h2>
+                        <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Pitanja su podeljena u tri nivoa: laka, srednja i teška. Pitanja obuhvataju teme kao što su zastave, glavni gradovi, brojevi stanovnika, kontinenti i mnoge druge geografske zanimljivosti.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <%- include("./partials/footer.ejs") %>

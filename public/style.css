@@ -241,6 +241,94 @@ footer img {
     font-size: 1.5rem;
     font-weight: 500 !important;
 }
+.HomePage {
+    background-color: #001f3f;
+}
+.HomePage h2 {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 600 !important;
+}
+.HomePage p {
+    color: white;
+}
+.ZastoGeoQuest {
+    margin-top: 8rem !important;
+    margin-bottom: 8rem !important;
+}
+.LightBlueSpan {
+    color: #6ddaf5;
+    font-size: 2.5rem;
+    font-weight: 600 !important;
+}
+.ZastoGeoQuest p {
+    max-width: 100ch !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+.ZastoGeoQuest span {
+    color: #6ddaf5;
+    font-weight: bold;
+}
+.DaLiSteZnali {
+    background-color: #6ddaf5;
+    margin-top: 8rem !important;
+    margin-bottom: 8rem !important;
+    border-radius: 0.5rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+}
+.DaLiSteZnali h2 {
+    color: #001f3f;
+    font-size: 2.5rem !important;
+    font-weight: 600 !important;
+}
+.DaLiSteZnali p {
+    color: #001f3f;
+}
+.DaLiSteZnali span {
+    color: #001f3f;
+    font-weight: bold;
+}
+.DaLiSteZnaliCTA {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+.DaLiSteZnali video {
+    border-radius: 0.5rem;
+}
+.DaLiSteZnaliDugme {
+    background-color: #001f3f !important;
+    color: #6ddaf5 !important;
+    font-size: 1.25rem !important;
+}
+.DaLiSteZnaliDugme:hover {
+    background-color: #003c77 !important;
+}
+.StaNasiKorisniciKazu {
+    margin-top: 8rem !important;
+    margin-bottom: 8rem !important;
+}
+.card {
+    background-color: #6ddaf5 !important;
+}
+.card-text {
+    color: #001f3f !important;
+}
+.card-footer {
+    border: 2px solid #001f3f !important;
+    color: #001f3f !important;
+}
+.FAQ {
+    margin-top: 8rem !important;
+    margin-bottom: 8rem !important;
+}
+.Vreme {
+    margin-top: 8rem !important;
+    margin-bottom: 8rem !important;
+}
 
 /* Pocetak Kviza */
 .PocetakKviza {
