@@ -311,13 +311,13 @@ footer img {
     margin-top: 8rem !important;
     margin-bottom: 8rem !important;
 }
-.card {
+.cardCSS {
     background-color: #6ddaf5 !important;
 }
-.card-text {
+.cardText {
     color: #001f3f !important;
 }
-.card-footer {
+.cardFooter {
     border: 2px solid #001f3f !important;
     color: #001f3f !important;
 }
