@@ -491,6 +491,30 @@ footer img {
 .scoreParagraph {
     font-size: 1.25rem;
 }
+.place1 td {
+    background-color: rgb(235, 174, 0);
+    background: linear-gradient(90deg, #fff087, #eccf02, #fff087);
+	background-size: 300% 300%;
+	animation: linear-gradient 5s linear infinite;
+}
+@keyframes linear-gradient {
+	0% {
+		background-position: 0% 50%
+	}
+
+	100% {
+		background-position: 300% 300%
+	}
+}
+    
+.place2 td {
+    background-color: rgb(192, 191, 191) !important;
+}
+.place3 td {
+    background-color: rgb(206, 137, 70) !important;
+}
+
+
 
 /* Manji ekrani */
 @media only screen and (max-width: 1400px) {

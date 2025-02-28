@@ -113,6 +113,7 @@ router.get("/", isAuthenticated, async (req, res) => {
     }
 });
 
+
 router.get("/kviz", (req, res) => {
     
     
@@ -331,9 +332,14 @@ router.post('/api/quiz/results', async (req, res) => {
     }
 });
 router.get("/admin", (req, res) => {
-    if (!req.session.user.admin) {
+
+    if(!req.session.user || req.session.user.admin === undefined){
         return res.redirect("/");
     }
+    else if (!req.session.user.admin || !req.session.user) {
+        return res.redirect("/");
+    }
+    
     const query = `
         SELECT *
         FROM Korisnik 
@@ -572,26 +578,32 @@ router.post('/upgrade/:id', async (req, res) => {
     }
 });
 
+router.get("/pitanja", async(req, res) => {
+    
+    const query = `
+        SELECT * FROM Pitanje;
+    `;
 
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error("Error fetching leaderboard:", err);
+            return res.status(500).send("Internal Server Error");
+        }
+        console.log(results);
+        res.json(results);
+    });
+});
 
 router.post('/adminDeleteQuestion', async (req, res) => {
-    const { imeDrzave, tipPitanja } = req.body;
+    const { ID } = req.body;
 
-    if (!imeDrzave && !tipPitanja) {
-        return res.send(`
-            <script>
-                alert('Morate popuniti ime države i tip pitanja!');
-                window.location.href = '/admin'; // Redirect after the alert
-            </script>
-        `);
-        
-    }
+    
 
     try {
         // Check if the user exists
-        const checkQuery = "SELECT * FROM Pitanje as p JOIN Drzava as d ON p.DrzavaID = d.DrzavaID WHERE  d.naziv = ? AND p.tipPitanja = ?";
+        const checkQuery = "SELECT * FROM Pitanje as p JOIN Drzava as d ON p.DrzavaID = d.DrzavaID WHERE  p.PitanjeID = ?";
         const quest = await new Promise((resolve, reject) => {
-            connection.query(checkQuery, [imeDrzave, tipPitanja], (err, results) => {
+            connection.query(checkQuery, [ID], (err, results) => {
                 if (err) return reject(err);
                 resolve(results);
             });
@@ -602,9 +614,9 @@ router.post('/adminDeleteQuestion', async (req, res) => {
         }
 
         // Delete the user
-        const deleteQuery = "DELETE p FROM Pitanje as p JOIN Drzava as d ON p.DrzavaID = d.DrzavaID WHERE d.naziv = ? AND p.tipPitanja = ?";
+        const deleteQuery = "DELETE p FROM Pitanje as p JOIN Drzava as d ON p.DrzavaID = d.DrzavaID WHERE p.PitanjeID = ?";
         await new Promise((resolve, reject) => {
-            connection.query(deleteQuery, [imeDrzave, tipPitanja], (err, results) => {
+            connection.query(deleteQuery, [ID], (err, results) => {
                 if (err) return reject(err);
                 resolve(results);
             });

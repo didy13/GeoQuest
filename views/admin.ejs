@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include("./partials/head.ejs") %>
+<script src="jquery-3.7.1.min.js"></script>
 <body>
     <header>
         <%- include("./partials/nav.ejs") %>
@@ -144,10 +145,9 @@
         <div class="AdminForm">
             <h2>Obriši pitanje</h2>
             <form action="/adminDeleteQuestion" method="POST">
-                <label for="NazivDržave" class="mb-1">Naziv države:</label>
-                <input type="text" name="imeDrzave" placeholder="Unesite naziv države..." class="form-control mb-4">
-                <label for="TipPitanja" class="mb-1">Tip pitanja:</label>
-                <input type="text" name="tipPitanja" placeholder="Unesite tip pitanja..." class="form-control">
+                <label for="ID" class="mb-1">Izaberite pitanje za brisanje:</label>
+                <select id="pitanja" name="ID" class="form-control mb-4">
+                </select>
                 <input type="submit" class="btn dugme mt-4" value="Obriši">
             </form>
         </div>
@@ -155,4 +155,36 @@
     
     <%- include("./partials/footer.ejs") %>
 </body>
+<script>
+    const arrayPitanja = [];
+    function populateCombo() {
+        for (const pitanje of arrayPitanja) {
+            $("#pitanja").append(`<option value="${pitanje.PitanjeID}"> ${pitanje.PitanjeID} - ${pitanje.tekstPitanja} </option>`);
+        }
+    }
+    async function cmon() {
+        await quiz();
+        populateCombo();
+    }
+    
+    
+    async function quiz() {
+        try {
+            const response = await fetch('/pitanja'); // Fetch data from backend
+            const data = await response.json(); // Convert response to JSON
+            if (Array.isArray(data)) {
+                arrayPitanja.push(...data); // ✅ Spread syntax to add multiple items correctly
+            } else {
+                arrayPitanja.push(data); // ✅ Push single object if not an array
+            }
+
+
+            console.log("Questions Loaded:", arrayPitanja); // Debugging (Optional)
+            
+        } catch (error) {
+            console.error("Error loading quiz data:", error );
+        }
+        }
+        cmon();
+</script>
 </html>
