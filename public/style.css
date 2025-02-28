@@ -430,6 +430,32 @@ footer img {
     padding-top: 0.75rem !important;
     padding-bottom: 0.75rem !important;
 }
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #001f3f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.preloader.show {
+    opacity: 1;
+    visibility: visible;
+}
+.preloader-content p {
+    color: #6ddaf5;
+    font-size: 24px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
 
 /* Rezultat */
 .results {

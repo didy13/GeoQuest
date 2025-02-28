@@ -2,6 +2,12 @@
 <html lang="en">
 <%- include("./partials/head.ejs") %>
 <body>
+    <div id="preloader" class="preloader">
+        <div class="preloader-content">
+            <p id="preloader-text"></p> <!-- Početno prazno -->
+        </div>
+    </div>         
+
     <header>
         <%- include("./partials/nav.ejs") %>
     </header>
@@ -264,7 +270,53 @@
             });
         }
 
-        
+        async function startQuiz() {
+            // Prikazivanje preloadera sa fade-in efektom
+            const preloader = document.getElementById('preloader');
+            preloader.classList.add('show');  // Dodajemo klasu za prikaz preloadera sa fade-in efektom
+
+            // Postavljanje početnog praznog teksta
+            const preloaderText = document.getElementById('preloader-text');
+            preloaderText.textContent = ''; // Na početku je tekst prazan
+
+            const languages = [
+                "Geografija",    // Serbian
+                "Geography",     // English
+                "Geografie",     // German
+                "Γεωγραφία",     // Greek
+                "Geografía",     // Spanish
+                "Géographie"     // French
+            ];
+
+            let currentIndex = 0;
+
+            // Funkcija za menjanje teksta u preloaderu
+            function changeText() {
+                preloaderText.style.opacity = 0; // Fade out efekat
+
+                setTimeout(() => {
+                    preloaderText.textContent = languages[currentIndex]; // Postavi sledeću reč
+                    currentIndex = (currentIndex + 1) % languages.length; // Idemo na sledeći jezik, i vraćamo se na početak kad dođemo do kraja liste
+                    preloaderText.style.opacity = 1; // Fade in efekat
+                }, 0); // Smenjujemo odmah bez čekanja između fade efekata
+            }
+
+            // Menjaj tekst svakih 300ms (brže)
+            const textChangeInterval = setInterval(changeText, 300);
+
+            // Učitaj podatke o kvizu
+            await quiz();
+
+            // Sakrij preloader sa fade-out efektom
+            preloader.classList.remove('show');  // Uklanjamo klasu koja pokazuje preloader, što uzrokuje fade-out
+            clearInterval(textChangeInterval); // Zaustavi menjanje teksta nakon što se učita kviz
+
+            // Sakrij startni ekran i prikaži kviz
+            startContainer.style.display = 'none';
+            quizContainer.style.display = 'block';
+            loadQuestion();
+            startTimer();
+        }
     </script>
 </body>
 
