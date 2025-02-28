@@ -114,44 +114,43 @@ router.get("/", isAuthenticated, async (req, res) => {
 });
 
 router.get("/kviz", (req, res) => {
-    if (!req.session.user) {
-        return res.redirect("/");
-    }
-
-    const query = `
+    
+    
+        try {
+            const query = `
         SELECT 
-    RandomPitanja.PitanjeID AS PitanjeID,
-    RandomPitanja.tekstPitanja AS tekstPitanja, 
-    RandomPitanja.tipPitanja AS tipPitanja, 
-    RandomPitanja.tezina AS tezina, 
-    Drzava.naziv AS drzavaNaziv, 
-    CASE 
+        RandomPitanja.PitanjeID AS PitanjeID,
+        RandomPitanja.tekstPitanja AS tekstPitanja, 
+        RandomPitanja.tipPitanja AS tipPitanja, 
+        RandomPitanja.tezina AS tezina, 
+        Drzava.naziv AS drzavaNaziv, 
+        CASE 
         WHEN RandomPitanja.tipPitanja = 'Glavni grad' THEN Drzava.glavniGrad
         WHEN RandomPitanja.tipPitanja = 'Populacija' THEN Drzava.brojStanovnika
         WHEN RandomPitanja.tipPitanja = 'Zastava' THEN Drzava.zastava
         WHEN RandomPitanja.tipPitanja = 'Kontinent' THEN Drzava.kontinent
-    END AS tacanOdgovor
-FROM (
-    SELECT * FROM (SELECT * FROM Pitanje WHERE tezina = 'Lako' ORDER BY RAND() LIMIT 10) AS LakoPitanja
-    UNION ALL
-    SELECT * FROM (SELECT * FROM Pitanje WHERE tezina = 'Srednje' ORDER BY RAND() LIMIT 10) AS SrednjePitanja
-    UNION ALL
-    SELECT * FROM (SELECT * FROM Pitanje WHERE tezina = 'Teško' ORDER BY RAND() LIMIT 10) AS TeskoPitanja
-) AS RandomPitanja
-JOIN Drzava ON RandomPitanja.DrzavaID = Drzava.DrzavaID;
-
-
-    `;
-
-    connection.query(query, (err, results) => {
+        END AS tacanOdgovor
+        FROM (
+        SELECT * FROM (SELECT * FROM Pitanje WHERE tezina = 'Lako' ORDER BY RAND() LIMIT 10) AS LakoPitanja
+        UNION ALL
+        SELECT * FROM (SELECT * FROM Pitanje WHERE tezina = 'Srednje' ORDER BY RAND() LIMIT 10) AS SrednjePitanja
+        UNION ALL
+        SELECT * FROM (SELECT * FROM Pitanje WHERE tezina = 'Teško' ORDER BY RAND() LIMIT 10) AS TeskoPitanja
+        ) AS RandomPitanja
+        JOIN Drzava ON RandomPitanja.DrzavaID = Drzava.DrzavaID;
+        
+        
+        `;
+        
+        connection.query(query, (err, results) => {
         if (err) {
             console.error("Error fetching questions:", err);
             return res.status(500).send("Server Error");
         }
-
+        
         // Uzmi 3 nasumična netačna odgovora za svako pitanje
         const questionsWithAnswers = [];
-
+        
         results.forEach((question) => {
             switch(question.tipPitanja){
                 case "Glavni grad":
@@ -166,29 +165,25 @@ JOIN Drzava ON RandomPitanja.DrzavaID = Drzava.DrzavaID;
                         RAND()
                     LIMIT 3;
                 `;
-
+        
                 connection.query(incorrectQuery1, [question.PitanjeID, question.tipPitanja], (err, incorrectResults) => {
                     if (err) {
                         console.error("Error fetching incorrect answers:", err);
                         return res.status(500).send("Server Error");
                     }
-
+        
                     // Kombinuj tačan odgovor sa netačnim
                     const answers = [...incorrectResults.map(r => r.netacanOdgovor)];
                     // Randomizuj odgovore
                     const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
-
+        
                     questionsWithAnswers.push({
                         ...question,
                         answers: shuffledAnswers
                     });
                     // Kada se svi odgovori dodaju, renderuj kviz
                     if (questionsWithAnswers.length === results.length) {
-                        res.render("kviz", {
-                            title: "GeoQuest Kviz",
-                            user: req.session.user,
-                            questions: questionsWithAnswers
-                        });
+                        res.json(questionsWithAnswers);
                     }
                     
                 });
@@ -205,29 +200,25 @@ JOIN Drzava ON RandomPitanja.DrzavaID = Drzava.DrzavaID;
                         RAND()
                     LIMIT 3;
                 `;
-
+        
                 connection.query(incorrectQuery2, [question.PitanjeID, question.tipPitanja], (err, incorrectResults) => {
                     if (err) {
                         console.error("Error fetching incorrect answers:", err);
                         return res.status(500).send("Server Error");
                     }
-
+        
                     // Kombinuj tačan odgovor sa netačnim
                     const answers = [...incorrectResults.map(r => r.netacanOdgovor)];
                     // Randomizuj odgovore
                     const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
-
+        
                     questionsWithAnswers.push({
                         ...question,
                         answers: shuffledAnswers
                     });
                     // Kada se svi odgovori dodaju, renderuj kviz
                     if (questionsWithAnswers.length === results.length) {
-                        res.render("kviz", {
-                            title: "GeoQuest Kviz",
-                            user: req.session.user,
-                            questions: questionsWithAnswers
-                        });
+                        res.json(questionsWithAnswers);
                     }
                   
                 });
@@ -244,32 +235,28 @@ JOIN Drzava ON RandomPitanja.DrzavaID = Drzava.DrzavaID;
                         RAND()
                     LIMIT 3;
                 `;
-
+        
                 connection.query(incorrectQuery3, [question.PitanjeID, question.tipPitanja], (err, incorrectResults) => {
                     if (err) {
                         console.error("Error fetching incorrect answers:", err);
                         return res.status(500).send("Server Error");
                     }
-
+        
                     // Kombinuj tačan odgovor sa netačnim
                     const answers = [...incorrectResults.map(r => r.netacanOdgovor)];
                     // Randomizuj odgovore
                     const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
-
+        
                     questionsWithAnswers.push({
                         ...question,
                         answers: shuffledAnswers
                     });
                     // Kada se svi odgovori dodaju, renderuj kviz
                     if (questionsWithAnswers.length === results.length) {
-                        res.render("kviz", {
-                            title: "GeoQuest Kviz",
-                            user: req.session.user,
-                            questions: questionsWithAnswers
-                        });
+                        res.json(questionsWithAnswers);
                     }
                     
-
+        
                   
                 });
                 break;
@@ -285,40 +272,45 @@ JOIN Drzava ON RandomPitanja.DrzavaID = Drzava.DrzavaID;
                         RAND()
                     LIMIT 3;
                 `;
-
+        
                 connection.query(incorrectQuery4, [question.PitanjeID, question.tipPitanja], (err, incorrectResults) => {
                     if (err) {
                         console.error("Error fetching incorrect answers:", err);
                         return res.status(500).send("Server Error");
                     }
-
+        
                     // Kombinuj tačan odgovor sa netačnim
                     const answers = [...incorrectResults.map(r => r.netacanOdgovor)];
                     // Randomizuj odgovore
                     const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
-
+        
                     questionsWithAnswers.push({
                         ...question,
                         answers: shuffledAnswers
                     });
                     // Kada se svi odgovori dodaju, renderuj kviz
                     if (questionsWithAnswers.length === results.length) {
-                        res.render("kviz", {
-                            title: "GeoQuest Kviz",
-                            user: req.session.user,
-                            questions: questionsWithAnswers
-                        });
+                        res.json(questionsWithAnswers);
                     }
-                    
-
-                  
                 });
-            }
-            
-            
+            } 
         });
+        });
+        } catch (error) {
+            console.error("Error loading quiz data:", error);
+        }
     });
-});
+
+    router.get("/kviz-stranica", (req, res) => {
+        if (!req.session.user) {
+            return res.redirect("/");
+        }
+        res.render("kviz", {
+            title: "GeoQuest Kviz",
+            user: req.session.user
+        });
+
+    })
 router.post('/api/quiz/results', async (req, res) => {
     const { user , score } = req.body;
     const query = 'INSERT INTO RangLista (KorisnikID, bodovi, datum) SELECT KorisnikID, ?, NOW() FROM Korisnik WHERE nickname = ?;';

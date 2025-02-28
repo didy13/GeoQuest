@@ -60,7 +60,26 @@
     <%- include("./partials/footer.ejs") %>
     
     <script>
-        const quizData = JSON.parse('<%- JSON.stringify(questions) %>');
+        const quizData = [];
+        async function quiz() {
+        try {
+            const response = await fetch('/kviz'); // Fetch data from backend
+            const data = await response.json(); // Convert response to JSON
+            
+            if (Array.isArray(data)) {
+                quizData.push(...data); // ✅ Spread syntax to add multiple items correctly
+            } else {
+                quizData.push(data); // ✅ Push single object if not an array
+            }
+
+
+            console.log("Quiz Data Loaded:", quizData); // Debugging (Optional)
+            
+        } catch (error) {
+            console.error("Error loading quiz data:", error );
+        }
+        }
+       
         let currentQuestion = 0;
         let score = 0;
         let timer;
@@ -75,7 +94,17 @@
         const quizContainer = document.getElementById('quiz');
         const startContainer = document.getElementById('start-container');
 
-        function startQuiz() {
+        nextBtn.addEventListener('click', () => {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        });
+
+        async function startQuiz() {
+            await quiz();
             startContainer.style.display = 'none';
             quizContainer.style.display = 'block';
             loadQuestion();
@@ -235,14 +264,7 @@
             });
         }
 
-        nextBtn.addEventListener('click', () => {
-            currentQuestion++;
-            if (currentQuestion < quizData.length) {
-                loadQuestion();
-            } else {
-                showResults();
-            }
-        });
+        
     </script>
 </body>
 
