@@ -594,6 +594,22 @@ router.get("/pitanja", async(req, res) => {
     });
 });
 
+router.get("/drzava", async(req, res) => {
+    
+    const query = `
+        SELECT * FROM Drzava;
+    `;
+
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error("Error fetching leaderboard:", err);
+            return res.status(500).send("Internal Server Error");
+        }
+        console.log(results);
+        res.json(results);
+    });
+});
+
 router.post('/adminDeleteQuestion', async (req, res) => {
     const { ID } = req.body;
 

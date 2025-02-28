@@ -65,39 +65,43 @@
         <div class="AdminForm mb-5">
             <h2>Promeni pitanje</h2>
             <form action="/adminUpdateQuestion" method="POST">
+                <label for="ID" class="mb-1">Izaberite pitanje za izmenu:</label>
+                <select id="pitanja2" name="ID" class="form-control mb-4">
+                    
+                </select>
                 <div class="row mb-4">
                     <div class="col-12 col-sm-6">
                         <label for="TekstPitanja" class="mb-1">Tekst pitanja:</label>
-                        <input type="text" name="tekstPitanja" placeholder="Unesite tekst pitanja..." class="form-control">
-                        <p class="AdminHelp mt-1">Ovo polje služi za promeni pitanja.</p>
+                        <input id="updateTekstPitanja" type="text" name="tekstPitanja" placeholder="Unesite tekst pitanja..." class="form-control">
+                        
                     </div>
                     <div class="col-12 col-sm-6 topMarginSmall">
                         <label for="Težina" class="mb-1">Težina pitanja:</label>
-                        <select class="form-control">
+                        <select id="updateTezina" class="form-control">
                             <option default hidden></option>
                             <option value="Lako">Lako</option>
                             <option value="Srednje"> Srednje</option>
                             <option value="Teško">Teško</option>
                         </select>
-                        <p class="AdminHelp mt-1">Ovo polje služi za promeni pitanja.</p>
+                        
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 col-sm-6">
                         <label for="NazivDržave" class="mb-1">Naziv države:</label>
-                        <input type="text" name="imeDrzave" placeholder="Unesite naziv države..." class="form-control">
-                        <p class="AdminHelp mt-1">Ovo polje služi za pretraživanje.</p>
+                        <input id="updateImeDrzave" type="text" name="imeDrzave" placeholder="Unesite naziv države..." class="form-control">
+                       
                     </div>
                     <div class="col-12 col-sm-6 topMarginSmall">
                         <label for="TipPitanja" class="mb-1">Tip pitanja:</label>
-                        <select name="tipPitanja" class="form-control">
+                        <select id="updateTipPitanja" name="tipPitanja" class="form-control">
                             <option default hidden></option>
                             <option value="Glavni grad">Glavni grad</option>
                             <option value="Zastava">Zastava</option>
                             <option value="Populacija">Populacija</option>
                             <option value="Kontinent">Kontinent</option>
                         </select>
-                        <p class="AdminHelp mt-1">Ovo polje služi za pretraživanje.</p>
+                        
                     </div>
                 </div>
                 <input type="submit" class="btn dugme mt-4" value="Promeni">
@@ -106,15 +110,16 @@
 
         <div class="AdminForm mb-5">
             <h2>Unesi pitanje</h2>
-            <form action="/adminInsertQuestion" method="POST">
+            <form id="insert" action="/adminInsertQuestion" method="POST">
+                
                 <div class="row mb-4">
                     <div class="col-12 col-sm-6">
                         <label for="TekstPitanja" class="mb-1">Tekst pitanja:</label>
-                        <input type="text" name="tekstPitanja" placeholder="Unesite tekst pitanja..." class="form-control">
+                        <input id="insertTekstPitanja" type="text" name="tekstPitanja" placeholder="Unesite tekst pitanja..." class="form-control">
                     </div>
                     <div class="col-12 col-sm-6 topMarginSmall">
                         <label for="Težina" class="mb-1">Težina pitanja:</label>
-                        <select name="tezina" class="form-control">
+                        <select id="insertTezina" name="tezina" class="form-control">
                             <option default hidden></option>
                             <option value="Lako">Lako</option>
                             <option value="Srednje"> Srednje</option>
@@ -125,11 +130,11 @@
                 <div class="row">
                     <div class="col-12 col-sm-6">
                         <label for="NazivDržave" class="mb-1">Naziv države:</label>
-                        <input type="text" name="imeDrzave" placeholder="Unesite naziv države..." class="form-control">
+                        <input id="insertImeDrzave" type="text" name="imeDrzave" placeholder="Unesite naziv države..." class="form-control">
                     </div>
                     <div class="col-12 col-sm-6 topMarginSmall">
                         <label for="TipPitanja" class="mb-1">Tip pitanja:</label>
-                        <select name="tipPitanja" class="form-control">
+                        <select id="insertTipPitanja" name="tipPitanja" class="form-control">
                             <option default hidden></option>
                             <option value="Glavni grad">Glavni grad</option>
                             <option value="Zastava">Zastava</option>
@@ -146,7 +151,8 @@
             <h2>Obriši pitanje</h2>
             <form action="/adminDeleteQuestion" method="POST">
                 <label for="ID" class="mb-1">Izaberite pitanje za brisanje:</label>
-                <select id="pitanja" name="ID" class="form-control mb-4">
+                <select id="pitanja1" name="ID" class="form-control mb-4">
+                    
                 </select>
                 <input type="submit" class="btn dugme mt-4" value="Obriši">
             </form>
@@ -158,19 +164,52 @@
 <script>
     const arrayPitanja = [];
     function populateCombo() {
+        let br=0;
         for (const pitanje of arrayPitanja) {
-            $("#pitanja").append(`<option value="${pitanje.PitanjeID}"> ${pitanje.PitanjeID} - ${pitanje.tekstPitanja} </option>`);
+            
+            $("#pitanja1").append(`<option id="${br}" value="${pitanje.PitanjeID}"> ${pitanje.PitanjeID} - ${pitanje.tekstPitanja} </option>`);
+            $("#pitanja2").append(`<option id="${br}" value="${pitanje.PitanjeID}"> ${pitanje.PitanjeID} - ${pitanje.tekstPitanja} </option>`);
+            br=br+1;
         }
     }
+    function populateInputs(){
+        $("#pitanja2").change(() => {
+            console.log(arrayPitanja[$("#pitanja2 option:selected").index()].tekstPitanja);
+            $("#updateTekstPitanja").val(arrayPitanja[$("#pitanja2 option:selected").index()].tekstPitanja);
+            
+            $("#updateTezina").val(arrayPitanja[$("#pitanja2 option:selected").index()].tezina);
+            $("#updateImeDrzave").val(arrayPitanja[$("#pitanja2 option:selected").index()].imeDrzave);
+            $("#updateTipPitanja").val(arrayPitanja[$("#pitanja2 option:selected").index()].tipPitanja);
+        })
+    }
     async function cmon() {
-        await quiz();
+        await pitanja();
         populateCombo();
+        populateInputs();
     }
     
     
-    async function quiz() {
+    async function pitanja() {
         try {
             const response = await fetch('/pitanja'); // Fetch data from backend
+            const data = await response.json(); // Convert response to JSON
+            if (Array.isArray(data)) {
+                arrayPitanja.push(...data); // ✅ Spread syntax to add multiple items correctly
+            } else {
+                arrayPitanja.push(data); // ✅ Push single object if not an array
+            }
+
+
+            console.log("Questions Loaded:", arrayPitanja); // Debugging (Optional)
+            
+        } catch (error) {
+            console.error("Error loading quiz data:", error );
+        }
+        }
+
+        async function drzava() {
+        try {
+            const response = await fetch('/drzava'); // Fetch data from backend
             const data = await response.json(); // Convert response to JSON
             if (Array.isArray(data)) {
                 arrayPitanja.push(...data); // ✅ Spread syntax to add multiple items correctly
