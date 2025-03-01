@@ -10,6 +10,7 @@ const { validationResult } = require('express-validator');
 const axios = require('axios');
 const { OpenWeatherAPI } = require("openweather-api-node")
 const translate = require('@iamtraction/google-translate');
+const NodeCache = require('node-cache');
 router.use(express.json());
 
 Korisnik.setConnection(connection);
@@ -35,83 +36,119 @@ const isAuthenticated = (req, res, next) =>
     }
 }
 
-router.get("/", isAuthenticated, async (req, res) => {    
+const cache = new NodeCache({ stdTTL: 300, checkperiod: 320 }); // Cache expires in 5 min
+
+router.get("/", isAuthenticated, async (req, res) => {
     try {
-        // 1. Fetch a random city from your database
-        const queryCity = "SELECT glavniGrad FROM Drzava ORDER BY RAND() LIMIT 1";
-        connection.query(queryCity, async (err, results) => {
-            if (err) {
-                console.error('Error fetching city from DB:', err);
-                return res.status(500).send('Error fetching city');
-            }
-
-            const city = results[0];
-            console.log(city.glavniGrad);
-            if (!city) {
-                return res.status(404).redirect('/');
-            }
-
-            try {
-                // 2. Translate the city name to English
-                const translatedCity = await translate(city.glavniGrad, { to: 'en' })
-                    .then(res => res.text)
-                    .catch(err => {
-                        console.error('Error translating city name:', err);
-                        throw new Error('Translation failed');
-                    });
-                console.log(translatedCity);
-
-                // 3. Fetch weather data
-                const apiKey = '6b3f90733d55f97c9970464fd39a253e';
-                const weather = new OpenWeatherAPI({
-                    key: apiKey,
-                    locationName: translatedCity,
-                    units: "metric"
+        let cityData = cache.get("randomCity");
+        if (!cityData) {
+            console.log("Fetching new city from DB...");
+            const queryCity = "SELECT glavniGrad FROM Drzava ORDER BY RAND() LIMIT 1";
+            const cityResults = await new Promise((resolve, reject) => {
+                connection.query(queryCity, (err, results) => {
+                    if (err) reject(err);
+                    else resolve(results);
                 });
+            });
 
-                let weatherData = null;
-                try {
-                    weatherData = await weather.getCurrent();
-                    if (weatherData && weatherData.weather) {
-                        console.log('Weather data fetched:', weatherData);
-                    } else {
-                        console.log('No weather data available');
-                    }
-                } catch (error) {
-                    console.error('Error fetching weather data:', error);
-                    weatherData = null;
-                }
+            if (!cityResults.length) return res.status(404).redirect('/');
 
-                // 4. Fetch total users count
-                const queryUserCount = "SELECT FLOOR(COUNT(*)/10)*10 AS userCount FROM Korisnik";
-                connection.query(queryUserCount, (err, countResults) => {
-                    if (err) {
-                        console.error('Error fetching user count:', err);
-                        return res.status(500).send('Error fetching user count');
-                    }
+            cityData = { original: cityResults[0].glavniGrad };
+            cache.set("randomCity", cityData);
+        }
 
-                    const userCount = countResults[0].userCount;
+        console.log("City:", cityData.original);
 
-                    // 5. Render the page with all data
-                    res.render("index", {
-                        title: "GeoQuest",
-                        user: req.session.user,
-                        city: { original: city.glavniGrad, translated: translatedCity },
-                        weather: weatherData,
-                        userCount: userCount
-                    });
-                });
+        // Serve only cached data initially
+        let translatedCity = cache.get(`translated-${cityData.original}`);
+        
 
-            } catch (weatherError) {
-                console.error('Error fetching weather data:', weatherError);
-                return res.status(500).send('Error fetching weather data');
-            }
+        res.render("index", {
+            title: "GeoQuest",
+            user: req.session.user,
+            city: { original: cityData.original, translated: translatedCity || null },
+            weather: null, // Will be loaded lazily
+            // Will be loaded lazily
         });
+
     } catch (error) {
-        console.error('Error in route:', error);
-        return res.status(500).send('Internal server error');
+        console.error("Error in route:", error);
+        res.status(500).send("Internal server error");
     }
 });
+
+router.get("/user-count", async(req,res) => {
+    try{
+        let userCount = cache.get("userCount");
+        if (!userCount) {
+            console.log("Fetching user count...");
+            const queryUserCount = "SELECT FLOOR(COUNT(*)/10)*10 AS userCount FROM Korisnik";
+            const countResults = await new Promise((resolve, reject) => {
+                connection.query(queryUserCount, (err, results) => {
+                    if (err) reject(err);
+                    else resolve(results);
+                });
+            });
+
+            userCount = countResults[0]?.userCount || 0;
+            cache.set("userCount", userCount, 600);
+        }
+
+        console.log("User Count:", userCount);
+        res.json({userCount:userCount});
+    }catch (error) {
+        console.error("Error fetching user count:", error);
+        res.status(500).json({ error: "Failed to fetch data" });
+    }
+
+});
+
+router.get("/api/weather", async (req, res) => {
+    try {
+        let cityData = cache.get("randomCity");
+        if (!cityData) return res.status(404).json({ error: "City not found" });
+
+        let translatedCity = cache.get(`translated-${cityData.original}`);
+        if (!translatedCity) {
+            console.log("Translating city...");
+            translatedCity = await translate(cityData.original, { to: "en" })
+                .then(res => res.text)
+                .catch(err => {
+                    console.error("Translation error:", err);
+                    return null;
+                });
+
+            if (translatedCity) cache.set(`translated-${cityData.original}`, translatedCity);
+        }
+
+        console.log("Translated City:", translatedCity);
+
+        let weatherData = cache.get(`weather-${translatedCity}`);
+        if (!weatherData) {
+            console.log("Fetching weather data...");
+            const apiKey = "6b3f90733d55f97c9970464fd39a253e";
+            const weather = new OpenWeatherAPI({ key: apiKey, locationName: translatedCity, units: "metric" });
+
+            try {
+                weatherData = await weather.getCurrent();
+                if (weatherData) cache.set(`weather-${translatedCity}`, weatherData, 600);
+            } catch (error) {
+                console.error("Weather API error:", error);
+                weatherData = null;
+            }
+        }
+
+        console.log("Weather Data:", weatherData);
+
+       
+
+        res.json({ weather: weatherData });
+    } catch (error) {
+        console.error("Error fetching weather:", error);
+        res.status(500).json({ error: "Failed to fetch data" });
+    }
+});
+
 
 
 router.get("/kviz", (req, res) => {

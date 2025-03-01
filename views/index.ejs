@@ -1,6 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
     <%- include("./partials/head.ejs") %>
+    <script>
+        const indexData = [];
+        async function userCount(){
+            try {
+                const response = await fetch('/user-count');
+                const data = await response.json();
+
+                if (Array.isArray(data)) {
+                    indexData.push(...data); // ✅ Spread syntax to add multiple items correctly
+                } else {
+                    indexData.push(data); // ✅ Push single object if not an array
+                }
+            }
+            catch(error){
+                console.error("Error loading user count:", error);
+            }
+        }
+        async function index() {
+        try {
+            const response = await fetch('/api/weather'); // Fetch data from backend
+            const data = await response.json(); // Convert response to JSON
+            
+            if (Array.isArray(data)) {
+                indexData.push(...data); // ✅ Spread syntax to add multiple items correctly
+            } else {
+                indexData.push(data); // ✅ Push single object if not an array
+            }
+
+
+            console.log("Index Data Loaded:", indexData); // Debugging (Optional)
+            
+            
+        } catch (error) {
+            console.error("Error loading quiz data:", error );
+        }
+        }
+        function populateUserCount(){
+            $(".userCount").html(indexData[0].userCount + "+");
+        }
+        function populate(){
+            console.log(indexData[0]);
+            
+            if(indexData[1].weather){
+                
+                if (indexData[1].weather.weather.icon && indexData[1].weather.weather.icon.url) {
+                    console.log("ma da");
+                    $(".weatherImg").attr("src", indexData[1].weather.weather.icon.url);
+                    $(".weatherImg").attr("alt", indexData[1].weather.weather.description);
+                }
+                else{
+                    $(".weatherMain").append("<p>Nije dostupna ikona da opiše trenutno vreme</p>");
+                }
+                
+                $(".weatherMain").append(`
+                    <p><span>Temperatura:</span>  ${indexData[1].weather.weather.temp && indexData[1].weather.weather.temp.cur ? indexData[1].weather.weather.temp.cur : 'N/A'} °C</p> 
+                    <p><span>Subjektivni osećaj:</span>  ${indexData[1].weather.weather.feelsLike && indexData[1].weather.weather.feelsLike.cur ? indexData[1].weather.weather.feelsLike.cur : 'N/A'} °C</p>
+                    <p><span>Vlažnost vazduha:</span>  ${indexData[1].weather.weather.humidity !== undefined ? indexData[1].weather.weather.humidity : 'N/A'} %</p>
+                    <p><span>Pritisak:</span> ${indexData[1].weather.weather.pressure !== undefined ? indexData[1].weather.weather.pressure : 'N/A' } hPa</p>
+                    <p><span>Brzina vetra:</span>  ${indexData[1].weather.weather.wind && indexData[1].weather.weather.wind.speed ? indexData[1].weather.weather.wind.speed : 'N/A' } m/s</p>
+                    <p><span>Vidljivost:</span>  ${indexData[1].weather.weather.visibility ? indexData[1].weather.weather.visibility / 1000 : 'N/A' } km</p>`
+                );
+            } else {
+                $(".weatherMain").append(`<p>Trenutno ne možemo prikazati podatke o vremenu.</p>`);
+            }
+            
+        }
+        async function init(){
+            $(document).ready(async () => {
+                await userCount();
+                populateUserCount();
+                await index();
+                populate();
+            });
+            
+        }
+        init();
+    </script>
 <body class="HomePage">
 
     <section class="HeroSection">
@@ -9,11 +86,11 @@
                 <%- include("./partials/nav.ejs") %>
             </header>
             <div class="container text-center HeroItems">
-                <img src="images/Logo.png" alt="GeoQuest">
+                <img src="images/Logo.png" alt="GeoQuest" loading="lazy">
                 <h1>Koliko dobro poznaješ geografiju?</h1>
                 <p>GeoQuest je edukativna aplikacija koja nudi interaktivne kvizove o geografiji. Testirajte svoje znanje o zemljama sveta, njihovim glavnim gradovima, zastavama i mnogim drugim geografski relevantnim temama. Pridružite se izazovu, proširite svoje geografsko znanje i zabavite se sa prijateljima!</p>
                 <p class="HeroCTA">Izazovi sebe, dokaži da si geo ekspert i zauzmi prvo mesto!</p>
-                <p>Pridruži se preko <span><%= userCount %>+</span> takmičara širom Balkana!</p>
+                <p>Pridruži se preko <span class="userCount"></span> takmičara širom Balkana!</p>
                 <a href="/kviz-stranica" class="a-dugme">
                     <button type="button" class="btn dugme">Kreni kviz</button>
                 </a>
@@ -92,26 +169,21 @@
     
     <section class="col-12 text-center Vreme">
         <h2 class="mb-1">Vreme u <%= city.original %></h2>
-        <% if (weather) { %>
-            <div>
-                <% if (weather.weather.icon && weather.weather.icon.url) { %>
+        
+            <div class="weatherMain">
+                
                     <div>
-                        <img src="<%= weather.weather.icon.url %>" alt="<%= weather.weather.description || 'N/A' %>">
+                        <img class="weatherImg" src="" alt="">
                     </div>
-                <% } else { %>
-                    <p>Nije dostupna ikona da opiše trenutno vreme</p>
-                <% } %>
+                
+                    
+                
 
-                <p><span>Temperatura:</span> <%= weather.weather.temp && weather.weather.temp.cur ? weather.weather.temp.cur : 'N/A' %>°C</p>
-                <p><span>Subjektivni osećaj:</span> <%= weather.weather.feelsLike && weather.weather.feelsLike.cur ? weather.weather.feelsLike.cur : 'N/A' %>°C</p>
-                <p><span>Vlažnost vazduha:</span> <%= weather.weather.humidity !== undefined ? weather.weather.humidity : 'N/A' %>%</p>
-                <p><span>Pritisak:</span> <%= weather.weather.pressure !== undefined ? weather.weather.pressure : 'N/A' %> hPa</p>
-                <p><span>Brzina vetra:</span> <%= weather.weather.wind && weather.weather.wind.speed ? weather.weather.wind.speed : 'N/A' %> m/s</p>
-                <p><span>Vidljivost:</span> <%= weather.weather.visibility ? weather.weather.visibility / 1000 : 'N/A' %> km</p>
+                
             </div>
-        <% } else { %>
-            <p>Trenutno ne možemo prikazati podatke o vremenu.</p>
-        <% } %>
+        
+            
+        
     </section>
 
     <section class="container FAQ">
@@ -183,7 +255,7 @@
             </div>
         </div>
     </section>
-
+    
     <%- include("./partials/footer.ejs") %>
 </body>
 </html>

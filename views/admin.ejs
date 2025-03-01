@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include("./partials/head.ejs") %>
-<script src="jquery-3.7.1.min.js"></script>
 <body>
     <header>
         <%- include("./partials/nav.ejs") %>
@@ -163,6 +162,7 @@
 </body>
 <script>
     const arrayPitanja = [];
+    const arrayDrzava = [];
     function populateCombo() {
         let br=0;
         for (const pitanje of arrayPitanja) {
