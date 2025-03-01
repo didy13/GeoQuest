@@ -5,7 +5,7 @@ const router = express.Router();
 const connection = require("../controller/config");
 const bcrypt = require("bcrypt");
 const Korisnik = require("../models/Korisnik");
-const registerValidation = require("../public/registerValidation");
+const registerValidation = require("../public/js/registerValidation");
 const { validationResult } = require('express-validator');
 const axios = require('axios');
 const { OpenWeatherAPI } = require("openweather-api-node")
@@ -76,6 +76,7 @@ router.get("/", isAuthenticated, async (req, res) => {
         res.status(500).send("Internal server error");
     }
 });
+
 
 router.get("/user-count", async(req,res) => {
     try{
@@ -713,7 +714,7 @@ router.post('/adminInsertQuestion', async (req, res) => {
         
 
         // Delete the user
-        const deleteQuery = "INSERT INTO Pitanje(tekstPitanja, tipPitanja, tezina, DrzavaID) VALUES (?,?,?,(SELECT DrzavaID FROM Drzava WHERE naziv like ? LIMIT 1))";
+        const deleteQuery = "INSERT INTO Pitanje(tekstPitanja, tipPitanja, tezina, DrzavaID) VALUES (?,?,?,?)";
         await new Promise((resolve, reject) => {
             connection.query(deleteQuery, [tekstPitanja, tipPitanja, tezina, imeDrzave], (err, results) => {
                 if (err) return reject(err);
@@ -747,7 +748,7 @@ router.post('/adminInsertQuestion', async (req, res) => {
 });
 
 router.post('/adminUpdateQuestion', async (req, res) => {
-    const { tekstPitanja, tezina, imeDrzave, tipPitanja } = req.body;
+    const { tekstPitanja, tezina, imeDrzave, tipPitanja, ID } = req.body;
 
     if (!imeDrzave || !tipPitanja) {
         return res.send(`
@@ -766,11 +767,10 @@ router.post('/adminUpdateQuestion', async (req, res) => {
         if (tekstPitanja) {
             updateQuery = `
                 UPDATE Pitanje AS p
-                JOIN Drzava AS d ON p.DrzavaID = d.DrzavaID
                 SET tekstPitanja = ?
-                WHERE d.naziv = ? AND p.tipPitanja = ?
+                WHERE p.PitanjeID = ?
             `;
-            updateValues = [tekstPitanja, imeDrzave, tipPitanja];
+            updateValues = [tekstPitanja, ID];
             await executeUpdateQuery(updateQuery, updateValues);
         }
 
@@ -778,13 +778,23 @@ router.post('/adminUpdateQuestion', async (req, res) => {
         if (tezina) {
             updateQuery = `
                 UPDATE Pitanje AS p
-                JOIN Drzava AS d ON p.DrzavaID = d.DrzavaID
                 SET tezina = ?
-                WHERE d.naziv = ? AND p.tipPitanja = ?
+                WHERE p.PitanjeID = ?
             `;
-            updateValues = [tezina, imeDrzave, tipPitanja];
+            updateValues = [tezina, ID];
             await executeUpdateQuery(updateQuery, updateValues);
         }
+
+        if (imeDrzave) {
+            updateQuery = `
+                UPDATE Pitanje AS p
+                SET DrzavaID = ?
+                WHERE p.PitanjeID = ?
+            `;
+            updateValues = [imeDrzave, ID];
+            await executeUpdateQuery(updateQuery, updateValues);
+        }
+
 
         // Update the correct answer if provided
         

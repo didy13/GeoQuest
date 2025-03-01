@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include("./partials/head.ejs") %>
+<script src="js/admin.js"></script>
 <body>
     <header>
         <%- include("./partials/nav.ejs") %>
@@ -65,7 +66,7 @@
             <h2>Promeni pitanje</h2>
             <form action="/adminUpdateQuestion" method="POST">
                 <label for="ID" class="mb-1">Izaberite pitanje za izmenu:</label>
-                <select id="pitanja2" name="ID" class="form-control mb-4">
+                <select id="updatePitanja" name="ID" class="form-control mb-4">
                     
                 </select>
                 <div class="row mb-4">
@@ -88,7 +89,7 @@
                 <div class="row">
                     <div class="col-12 col-sm-6">
                         <label for="NazivDržave" class="mb-1">Naziv države:</label>
-                        <input id="updateImeDrzave" type="text" name="imeDrzave" placeholder="Unesite naziv države..." class="form-control">
+                        <select id="updateImeDrzave" name="imeDrzave" class="form-control"></select>
                        
                     </div>
                     <div class="col-12 col-sm-6 topMarginSmall">
@@ -129,7 +130,7 @@
                 <div class="row">
                     <div class="col-12 col-sm-6">
                         <label for="NazivDržave" class="mb-1">Naziv države:</label>
-                        <input id="insertImeDrzave" type="text" name="imeDrzave" placeholder="Unesite naziv države..." class="form-control">
+                        <select id="insertImeDrzave" name="imeDrzave" class="form-control"></select>
                     </div>
                     <div class="col-12 col-sm-6 topMarginSmall">
                         <label for="TipPitanja" class="mb-1">Tip pitanja:</label>
@@ -150,7 +151,7 @@
             <h2>Obriši pitanje</h2>
             <form action="/adminDeleteQuestion" method="POST">
                 <label for="ID" class="mb-1">Izaberite pitanje za brisanje:</label>
-                <select id="pitanja1" name="ID" class="form-control mb-4">
+                <select id="deletePitanja" name="ID" class="form-control mb-4">
                     
                 </select>
                 <input type="submit" class="btn dugme mt-4" value="Obriši">
@@ -160,70 +161,5 @@
     
     <%- include("./partials/footer.ejs") %>
 </body>
-<script>
-    const arrayPitanja = [];
-    const arrayDrzava = [];
-    function populateCombo() {
-        let br=0;
-        for (const pitanje of arrayPitanja) {
-            
-            $("#pitanja1").append(`<option id="${br}" value="${pitanje.PitanjeID}"> ${pitanje.PitanjeID} - ${pitanje.tekstPitanja} </option>`);
-            $("#pitanja2").append(`<option id="${br}" value="${pitanje.PitanjeID}"> ${pitanje.PitanjeID} - ${pitanje.tekstPitanja} </option>`);
-            br=br+1;
-        }
-    }
-    function populateInputs(){
-        $("#pitanja2").change(() => {
-            console.log(arrayPitanja[$("#pitanja2 option:selected").index()].tekstPitanja);
-            $("#updateTekstPitanja").val(arrayPitanja[$("#pitanja2 option:selected").index()].tekstPitanja);
-            
-            $("#updateTezina").val(arrayPitanja[$("#pitanja2 option:selected").index()].tezina);
-            $("#updateImeDrzave").val(arrayPitanja[$("#pitanja2 option:selected").index()].imeDrzave);
-            $("#updateTipPitanja").val(arrayPitanja[$("#pitanja2 option:selected").index()].tipPitanja);
-        })
-    }
-    async function cmon() {
-        await pitanja();
-        populateCombo();
-        populateInputs();
-    }
-    
-    
-    async function pitanja() {
-        try {
-            const response = await fetch('/pitanja'); // Fetch data from backend
-            const data = await response.json(); // Convert response to JSON
-            if (Array.isArray(data)) {
-                arrayPitanja.push(...data); // ✅ Spread syntax to add multiple items correctly
-            } else {
-                arrayPitanja.push(data); // ✅ Push single object if not an array
-            }
 
-
-            console.log("Questions Loaded:", arrayPitanja); // Debugging (Optional)
-            
-        } catch (error) {
-            console.error("Error loading quiz data:", error );
-        }
-        }
-
-        async function drzava() {
-        try {
-            const response = await fetch('/drzava'); // Fetch data from backend
-            const data = await response.json(); // Convert response to JSON
-            if (Array.isArray(data)) {
-                arrayPitanja.push(...data); // ✅ Spread syntax to add multiple items correctly
-            } else {
-                arrayPitanja.push(data); // ✅ Push single object if not an array
-            }
-
-
-            console.log("Questions Loaded:", arrayPitanja); // Debugging (Optional)
-            
-        } catch (error) {
-            console.error("Error loading quiz data:", error );
-        }
-        }
-        cmon();
-</script>
 </html>
