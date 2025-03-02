@@ -12,7 +12,7 @@ dotenv.config()
     port: process.env.DB_PORT,
     ssl: {
       rejectUnauthorized: true,
-      ca: fs.readFileSync("./controller/ca.pem").toString(),
+      ca: fs.readFileSync("./ca.pem").toString(),
     },
 })
 
