@@ -67,16 +67,15 @@
             <form action="/adminUpdateQuestion" method="POST">
                 <label for="ID" class="mb-1">Izaberite pitanje za izmenu:</label>
                 <select id="updatePitanja" name="ID" class="form-control mb-4">
-                    
+
                 </select>
                 <div class="row mb-4">
                     <div class="col-12 col-sm-6">
                         <label for="TekstPitanja" class="mb-1">Tekst pitanja:</label>
                         <input id="updateTekstPitanja" type="text" name="tekstPitanja" placeholder="Unesite tekst pitanja..." class="form-control">
-                        
                     </div>
                     <div class="col-12 col-sm-6 topMarginSmall">
-                        <label for="Težina" class="mb-1">Težina pitanja:</label>
+                        <label for="Težina" class="mb-1 LabelMargin">Težina pitanja:</label>
                         <select id="updateTezina" class="form-control">
                             <option default hidden></option>
                             <option value="Lako">Lako</option>
@@ -93,7 +92,7 @@
                        
                     </div>
                     <div class="col-12 col-sm-6 topMarginSmall">
-                        <label for="TipPitanja" class="mb-1">Tip pitanja:</label>
+                        <label for="TipPitanja" class="mb-1 LabelMargin">Tip pitanja:</label>
                         <select id="updateTipPitanja" name="tipPitanja" class="form-control">
                             <option default hidden></option>
                             <option value="Glavni grad">Glavni grad</option>
@@ -118,7 +117,7 @@
                         <input id="insertTekstPitanja" type="text" name="tekstPitanja" placeholder="Unesite tekst pitanja..." class="form-control">
                     </div>
                     <div class="col-12 col-sm-6 topMarginSmall">
-                        <label for="Težina" class="mb-1">Težina pitanja:</label>
+                        <label for="Težina" class="mb-1 LabelMargin">Težina pitanja:</label>
                         <select id="insertTezina" name="tezina" class="form-control">
                             <option default hidden></option>
                             <option value="Lako">Lako</option>
@@ -133,7 +132,7 @@
                         <select id="insertImeDrzave" name="imeDrzave" class="form-control"></select>
                     </div>
                     <div class="col-12 col-sm-6 topMarginSmall">
-                        <label for="TipPitanja" class="mb-1">Tip pitanja:</label>
+                        <label for="TipPitanja" class="mb-1 LabelMargin">Tip pitanja:</label>
                         <select id="insertTipPitanja" name="tipPitanja" class="form-control">
                             <option default hidden></option>
                             <option value="Glavni grad">Glavni grad</option>
@@ -154,7 +153,7 @@
                 <select id="deletePitanja" name="ID" class="form-control mb-4">
                     
                 </select>
-                <input type="submit" class="btn dugme mt-4" value="Obriši">
+                <input type="submit" class="btn dugme mt-3" value="Obriši">
             </form>
         </div>
     </section>
