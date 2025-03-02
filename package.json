@@ -5,11 +5,11 @@
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npx terser public/js/*.js -o public/js/script.min.js && npx clean-css-cli -o public/style.min.css public/style.css",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "node app.js",
-    "geoinstall": "npm install express routes bcrypt express-session axios express-validator openweather-api-node mysql2 dotenv fs pg node-cache"
+    "geoinstall": "npm install express routes bcrypt express-session axios express-validator openweather-api-node mysql2 dotenv fs pg node-cache terser clean-css-cli"
   },
   "dependencies": {
     "@iamtraction/google-translate": "github:iamtraction/google-translate",
