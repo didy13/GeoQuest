@@ -5,12 +5,12 @@ const registerValidation = [
   // Validation for username
   body('ime')
     .notEmpty().withMessage(' Ime je obavezno polje')
-    .isAlpha().withMessage('Molim Vas unesite validno ime'),
+    .matches(/^[a-zA-ZčćžšđČĆŽŠĐ ]+$/).withMessage('Molim Vas unesite validno ime'),
 
   // Validation for surname
   body('prezime')
     .notEmpty().withMessage('Prezime je obavezno polje')
-    .isAlpha().withMessage('Molim Vas unesite validno prezime'),
+    .matches(/^[a-zA-ZčćžšđČĆŽŠĐ ]+$/).withMessage('Molim Vas unesite validno prezime'),
 
   // Validation for email
   body('email')
