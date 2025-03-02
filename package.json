@@ -34,7 +34,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "routes": "^2.1.0",
-    "translate-api": "^0.3.18"
+    "translate-api": "^0.3.18",
+    "vercel": "^41.3.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
