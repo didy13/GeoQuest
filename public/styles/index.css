@@ -198,7 +198,7 @@ footer img {
 
 /* Pocetna */
 .HeroSection {
-    background-image: url("images/Background.png");
+    background-image: url("../images/Background.png");
     background-position: center center;
     background-size: cover;
     min-height: 100vh;
